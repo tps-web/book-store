@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="contention">
     <headerNav title="我的地址"/>
      <div class="box" v-for="(item,index) in list" :key="index">
      	<div class="name">
@@ -11,10 +11,11 @@
      		{{item.address}}
      	</div>
      	<div class="btn">
-     		<van-button  size="small" type="default">删除</van-button>
-     		<van-button  size="small" type="default">编辑</van-button>
+     		<van-button  size="small" type="default" @click="onDelete(item)">删除</van-button>
+     		<van-button  size="small" type="default" @click="onEdit(item,index)">编辑</van-button>
      	</div>
      </div>
+     <div class="add" @click="onAdd">新增地址</div>
 </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
           id: '1',
           name: '张三',
           tel: '13000000000',
-          address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室浙江省杭州市拱墅区莫干山路浙江省杭州市拱墅区莫干山路',
+          address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
           isDefault: true,
         },
         {
@@ -47,11 +48,11 @@ export default {
       this.$router.push('/edit')
     },
     onEdit(item, index) {
-      this.$router.push('/edit')
-      Toast('编辑地址:' + index);
+      // this.$router.push('/edit')
+      Toast('编辑地址:' + item.id);
     },
-    onSelect(item){
-        console.log(item)
+    onDelete(item){
+      Toast('删除地址:' + item.id);
     }
   },
 };
@@ -59,9 +60,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .box{
-	width: 92%;
-	margin: 16px auto;
+	width: 90%;
+	margin: 20px auto;
 	height: 204px; 
     font-size: 16px;
 	padding: 30px 20px;
@@ -100,6 +102,20 @@ export default {
 .van-button--small{
 	width: 66px;
     border-radius: 10px;
+}
+.add{
+	width:100%;
+	position: absolute;
+	bottom:0;
+	border-radius: 50px;
+	height:98px;
+	line-height: 98px;
+	background:rgba(255,205,1,1);
+	/*background:#ee0a24;*/
+	font-weight:500;
+    /*color:#fff;*/
+    color:rgba(34,34,34,1);
+    font-size: 16px;
 }
 </style>
 

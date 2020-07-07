@@ -1,16 +1,14 @@
 <template>
   <div class="">
-     <headerNav title="修改地址"/>
+     <headerNav title="新增地址"/>
      <van-address-edit
         :area-list="areaList"
         show-postal
-        show-delete
         show-set-default
         show-search-result
         :search-result="searchResult"
         :area-columns-placeholder="['请选择', '请选择', '请选择']"
         @save="onSave"
-        @delete="onDelete"
         @change-detail="onChangeDetail"
       />
   </div>
@@ -32,9 +30,6 @@ export default {
     onSave() {
       Toast('save');
     },
-    onDelete() {
-      Toast('delete');
-    },
     onChangeDetail(val) {
     	console.log(1)
       //修改详细地址时触发
@@ -54,7 +49,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style  scoped>
+ /deep/  .van-button--danger{
+    color: #fff;
+    background-color: rgba(255,205,1,1)!important;
+    border: 1px solid rgba(255,205,1,1)!important;
+}
 
 </style>
 
