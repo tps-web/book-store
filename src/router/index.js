@@ -35,7 +35,38 @@ export default new Router({
       name: 'edit',
        component: () =>
             import ('@/pages/me/address/edit'),
+    },
+    {
+      path: '/wallet',
+      name: 'wallet',
+       component: () =>
+            import ('@/pages/me/wallet/index'),
+    },
+    {
+      path: '/coupon',
+      name: 'coupon',
+       component: () =>
+            import ('@/pages/me/coupon/index'),
+    },
+    {
+      path: '/convert',
+      name: 'convert',
+       component: () =>
+            import ('@/pages/me/convert/index'),
+    },
+    {
+      path: '/category',
+      name: 'category',
+       component: () =>
+            import ('@/pages/category/index'),
+    },
+    {
+      path: '/search',
+      name: 'search',
+       component: () =>
+            import ('@/pages/search/index'),
     }
+    
     
   ]
 })

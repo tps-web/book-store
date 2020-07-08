@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 
 import './config/components.js'
+import './assets/js/resizing.js'
+
+
 
 import { Image as VanImage } from 'vant';
 Vue.use(VanImage);

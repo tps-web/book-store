@@ -1,6 +1,8 @@
 <template>
   <div class="contention">
     <headerNav title="我的地址"/>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <div class="bigBox">
      <div class="box" v-for="(item,index) in list" :key="index">
      	<div class="name">
      		<span class="username">{{item.name}}</span>
@@ -15,6 +17,8 @@
      		<van-button  size="small" type="default" @click="onEdit(item,index)">编辑</van-button>
      	</div>
      </div>
+    </div>
+    </van-pull-refresh>
      <div class="add" @click="onAdd">新增地址</div>
 </div>
 </template>
@@ -24,6 +28,7 @@ import { Toast } from 'vant';
 export default {
   data() {
     return {
+      isLoading:false,
       chosenAddressId: '1',
       list: [
         {
@@ -53,6 +58,12 @@ export default {
     },
     onDelete(item){
       Toast('删除地址:' + item.id);
+    },
+    onRefresh(){
+       setTimeout(() => {
+        Toast('刷新成功');
+        this.isLoading = false;
+      }, 1000);
     }
   },
 };
@@ -60,18 +71,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.bigBox{
+  width: 100%;
+  /*height:1334px;*/
+  overflow: auto;
+}
 .box{
 	width: 90%;
-	margin: 20px auto;
-	height: 204px; 
-    font-size: 16px;
-	padding: 30px 20px;
+	margin: 10px auto;
+	height: 104px; 
+  font-size: 16px;
+	padding:  10px;
 	background:rgba(255,255,255,1);
-    box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);
-    border-radius:8px;
-    text-align: left;
-    position: relative;
+  box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);
+  border-radius:8px;
+  text-align: left;
+  position: relative;
 }
 .tel{
   font-size: 14px;
@@ -84,38 +99,37 @@ export default {
 .default{
 	display: inline-block;
 	margin-left: 10px;
-	width:80px;
+	width:30px;
 	text-align: center;
 	background-color: #FFCD01;
-	padding: 8px;
+	padding: 4px;
 	border-radius: 16px;
-    height:20px;
-    font-size:10px;
-    font-weight:600;
-    line-height:20px;
+  height:10px;
+  font-size:10px;
+  font-weight:600;
+  line-height:10px;
 }
 .btn{
 	position: absolute;
 	bottom: 10px;
-	right: 20px;
+	right: 10px;
 }
 .van-button--small{
 	width: 66px;
     border-radius: 10px;
 }
 .add{
-	width:100%;
+	width:96%;
 	position: absolute;
-	bottom:0;
+	bottom:12px;
+  margin: 0 12px;
 	border-radius: 50px;
-	height:98px;
-	line-height: 98px;
+	height:44px;
+	line-height: 44px;
 	background:rgba(255,205,1,1);
-	/*background:#ee0a24;*/
 	font-weight:500;
-    /*color:#fff;*/
-    color:rgba(34,34,34,1);
-    font-size: 16px;
+  color:rgba(34,34,34,1);
+  font-size: 16px;
 }
 </style>
 
