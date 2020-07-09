@@ -4,8 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
+const router=new Router({
+   routes: [
     {
       path: '/',
       name: 'home',
@@ -66,7 +66,14 @@ export default new Router({
        component: () =>
             import ('@/pages/search/index'),
     }
-    
-    
   ]
 })
+router.beforeEach((to,from,next)=>{
+  // console.log(to)
+  // console.log(from)
+  // console.log(window.history.length)
+  next()
+})
+
+export default  router
+
