@@ -65,15 +65,28 @@ const router=new Router({
       name: 'search',
        component: () =>
             import ('@/pages/search/index'),
+    },
+    {
+      path: '/move',
+      name: 'move',
+       component: () =>
+            import ('@/pages/move/index'),
+    },
+    {
+      path: '/goodsDetails',
+      name: 'goodsDetails',
+       component: () =>
+            import ('@/pages/goodsDetails/index'),
     }
+    
   ]
 })
-router.beforeEach((to,from,next)=>{
+// router.beforeEach((to,from,next)=>{
   // console.log(to)
   // console.log(from)
-  // console.log(window.history.length)
-  next()
-})
+  // console.log(window.history.length) 
+  // next()
+// })
 
 export default  router
 

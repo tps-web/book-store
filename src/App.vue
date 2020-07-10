@@ -22,6 +22,6 @@ export default {
   font-size: 14px;
 }
 body{
-  background:rgba(245,245,245,1);
+  /*background:rgba(245,245,245,1);*/
 }
 </style>

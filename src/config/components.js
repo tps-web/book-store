@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
 import { Button ,Tabbar, TabbarItem, Icon,Cell,CellGroup,AddressList,NavBar,AddressEdit,CouponCell,CouponList,Field,Sidebar, SidebarItem,PullRefresh,Toast,
-Swipe, SwipeItem,Search ,Grid, GridItem   } from 'vant';
+Swipe, SwipeItem,Search ,Grid, GridItem, Tab, Tabs   } from 'vant';
 
 const components=[
    Button ,Tabbar, TabbarItem,Icon,Cell,CellGroup,AddressList,NavBar,AddressEdit,CouponCell,CouponList,Field,Sidebar, SidebarItem,PullRefresh,Toast,
-   Swipe, SwipeItem,Search, Grid, GridItem
+   Swipe, SwipeItem,Search, Grid, GridItem, Tab, Tabs
 ]
 
 // Vue.use(Button);

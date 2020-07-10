@@ -2,7 +2,11 @@
   <div class="contention">
     <headerNav title="我的地址"/>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-    <div class="bigBox">
+      <div class="noData" v-if="!list.length">
+        <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
+        <div style="margin-left: 10px">暂无相关纪录~</div>
+      </div>
+    <div class="bigBox" v-else>
      <div class="box" v-for="(item,index) in list" :key="index">
      	<div class="name">
      		<span class="username">{{item.name}}</span>
@@ -71,6 +75,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.noData{
+  margin:35% auto;
+  color: rgba(153,153,153,1);
+}
 .bigBox{
   width: 100%;
   /*height:1334px;*/

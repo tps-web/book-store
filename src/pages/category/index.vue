@@ -5,7 +5,6 @@
       <van-sidebar-item title="标签名2" />
       <van-sidebar-item title="标签名3" />
     </van-sidebar>
-  
    <navigate/>
   </div>
 </template>

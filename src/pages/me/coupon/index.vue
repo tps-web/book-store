@@ -2,6 +2,11 @@
   <div class="">
      <headerNav title="优惠券"/>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <!--  <div class="noData">
+        <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
+        <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
+       </div> -->
+      <div>
       <div class="box">
         <van-image  :src="require('../../../assets/images/bg-use.png')" />
         <div class="pos">
@@ -39,7 +44,8 @@
         	</div>
         </div>
     </div>
-      </div>
+   </div>
+  </div>
     </van-pull-refresh>
   </div>
 </template>
@@ -66,6 +72,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.noData{
+  margin-top: 10%;
+}
 .box{
 	position: relative;
 }

@@ -23,7 +23,7 @@ export default {
   },
   methods:{
   	goMove(){
-       this.$toast('点击更多')
+       this.$router.push('/move')
   	}
   }
 }
