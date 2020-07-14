@@ -9,7 +9,7 @@
   />
   <div class="hotBook">
        <div class="hot">热门书籍</div>
-       <div class="" v-for="(item,index) in 6">
+       <div class="" v-for="(item,index) in 6" :key="index">
        	 <div class="hotDesc" >
        	 	<span :style="index<=2?'color:red':''">{{index+1}}</span>
        	 <span class="bookName">神奇图书馆 第二部</span></div>

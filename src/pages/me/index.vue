@@ -12,15 +12,17 @@
       </div>
     </div>
     <div class="user_group">
-      <div class="box" v-for="(item,index) in user_group" :key="index">
+      <div class="box" v-for="(item,index) in user_group" :key="index" @click="gourl(item)">
            <van-image :src="item.bgImg" class="bgImg">
              <div class="van-info">1</div>
            </van-image>
            <div class="box_name">{{item.name}}</div>
       </div>
     </div>
+     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" to="/vip" class="vip" />
+
     <div class="setting_group">
-      <!-- <van-cell  value="我的钱包"   is-link  :icon="require('../../assets/images/qb.png')" to="/wallet" /> -->
+      <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" />
       <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" />
       <van-cell  value="优惠卷"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" />
       <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" />
@@ -37,40 +39,63 @@ export default {
       user_group:[
        {
         bgImg : require('../../assets/images/qbdd.png'),
-        name:'全部订单'
+        name:'全部订单',
+        path:'1',
+        pathChildren:"1-a"
        },
        {
         bgImg:require('../../assets/images/dfk.png'),
-        name:'代付款'
+        name:'待付款',
+         path:'1',
+        pathChildren:"1-b"
        },
         {
         bgImg:require('../../assets/images/dfh.png'),
-        name:'代发货'
+        name:'待发货',
+        path:'1',
+        pathChildren:"1-c"
        },
         {
         bgImg:require('../../assets/images/dsh.png'),
-        name:'待收货'
+        name:'待收货',
+        path:'1',
+        pathChildren:"1-d"
        },
+       //借书
         {
         bgImg:require('../../assets/images/dgh.png'),
-        name:'代归还'
+        name:'待归还',
+        path:'0',
+        pathChildren:"a"
        },
         {
         bgImg:require('../../assets/images/djs.png'),
-        name:'待结算'
+        name:'待发货',
+        path:'0',
+        pathChildren:"b"
        },
-        {
+       {
         bgImg:require('../../assets/images/dpj.png'),
-        name:'待评价'
+        name:'待评价',
+        path:'0',
+        pathChildren:"c"
        },
         {
         bgImg:require('../../assets/images/tk.png'),
-        name:'退款'
+        name:'退款',
+        path:'0',
+        pathChildren:"d"
        }
       ]
     }
   },
   components:{
+  },
+  methods:{
+    gourl(item){
+      // console.log(item)
+      this.$router.push(`/bugAndRent/${item.path}/${item.pathChildren}`)
+    }
   }
 }
 </script>
@@ -137,8 +162,15 @@ export default {
 .setting_group{
   width: 90%; 
   margin: 0 auto;
-  margin-top: -30px;
   padding: 4px;
+  background:rgba(255,255,255,1);
+  box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);
+  border-radius:4px;
+}
+.vip{
+  width: 92%;
+  margin: -20px auto 16px;
+  padding: 12px;
   background:rgba(255,255,255,1);
   box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);
   border-radius:4px;

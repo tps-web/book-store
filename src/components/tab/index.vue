@@ -1,8 +1,8 @@
 
 <template>
   <div class="">
-   <van-tabs v-model="active" swipeable>
-    <van-tab v-for="(item,index) in 8" :title="'选项 ' + index" :key="index">
+   <van-tabs v-model="active" swipeable sticky>
+    <van-tab v-for="(item,index) in 12" :title="'选项 ' + index" :key="index">
     	<van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       	   <van-grid :column-num="2" :border="false">
       	   	 <van-grid-item v-for="(item,index) in 6" :key="index" @click="goDetails(index)">

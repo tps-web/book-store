@@ -14,20 +14,26 @@ Vue.use(VanImage);
 
 import navigate from './components/footer/navigate.vue'
 import headerNav from './components/header/nav.vue'
-
+import goodsItem from './components/goodsItem/item.vue'
+import headline from './components/headline/headline.vue'
 
 
 Vue.config.productionTip = false
 
-Vue.component("navigate",navigate)
-
-Vue.component("headerNav",headerNav)
+//底部导航组件
+Vue.component("navigate", navigate)
+    //商品item组件
+Vue.component("goodsItem", goodsItem)
+    // 页面标题
+Vue.component("headline", headline)
+    //顶部标题
+Vue.component("headerNav", headerNav)
 
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })

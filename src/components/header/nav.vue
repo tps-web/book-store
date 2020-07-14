@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <div class="top">
     <van-nav-bar
     :title="title"
     left-text=""
     left-arrow
+    :fixed=true
     @click-left="onBack"
     />
  </div>
@@ -23,6 +24,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.top{
+    margin-bottom: 50px;
+}
 </style>

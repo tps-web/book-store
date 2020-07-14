@@ -13,6 +13,10 @@
      </template>
     </van-swipe>
     <!-- 商品信息 -->
+    <div class="price">
+      <div class="priceNum">￥23</div>
+      <div class="vip">会员免费借书看</div>
+    </div>
     <div class="bookName">
         狐假虎威
     </div>
@@ -26,13 +30,26 @@
       	<div class="author">作者:韦达大师</div>
       	<div class="press">出版社：中山韦达技术出版社</div>
       </div>
+      <Vip />
       <!-- 租赁流程  归还流程-->
        <Rental/>
        <!-- 简介 -->
        <Introduce/>
        <!-- 评论 -->
        <Comment/>
+       <!-- 推荐 -->
+       <div class="pad">
+          <Recommend/>
+       </div>
     </div>
+   <van-goods-action>
+      <van-goods-action-icon icon="cart-o" badge="5" text="购物车" @click="onClickIcon" />
+      <van-goods-action-button
+      type="warning"
+      text="加入购物车"
+      @click="onClickButton"
+      />
+</van-goods-action>
   </div>
 </template>
 
@@ -40,13 +57,16 @@
 import Rental from './components/rental.vue'
 import Introduce from './components/introduce.vue'
 import Comment from './components/comment.vue'
-
+import Recommend from './components/recommend.vue'
+import Vip from './components/vip.vue'
 
 export default {
   components:{
   	Rental,
   	Introduce,
-  	Comment
+    Comment,
+    Recommend,
+    Vip
   },
   data () {
     return {
@@ -57,6 +77,13 @@ export default {
     onChange(index) {
       this.current = index;
     },
+    onClickIcon(){
+      this.$router.push('/cart')
+    },
+    //加入购物车
+    onClickButton(){
+     this.$toast('加入购物车')
+    }
   },
 }
 </script>
@@ -100,5 +127,26 @@ export default {
 }
 .press{
 	margin-top: 8px;
+}
+.pad{
+  margin-bottom: 50px;
+}
+.price{
+  width: 94%; 
+	margin:0 auto;
+  text-align: left;
+  display: flex;
+}
+.priceNum{
+  padding: 4px 0 0;
+  color:rgba(252,86,80,1);
+  font-size: 24px;
+}
+.vip{
+  margin-left: 6px;
+  height: 30px;
+  line-height: 40px;
+  color:rgba(153,153,153,1);
+  font-size: 12px;
 }
 </style>

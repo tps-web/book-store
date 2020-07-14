@@ -8,7 +8,7 @@
        	共1234条
        </div>
   	</div>
-  	<div class="comments">
+  	<div class="comments" v-for="(item,index) in 4" :key="index">
   		<div class="avatar"> 
   		    <van-image round width="44" height="44" src="https://img.yzcdn.cn/vant/cat.jpeg" />
   		</div>
@@ -52,7 +52,7 @@ export default {
 }
 .comments{
 	display: flex;
-	padding: 10px 0 10px 0;
+	padding: 8px 0 2px 0;
 }
 .avatar{
 	width: 16%;

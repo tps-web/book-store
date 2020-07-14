@@ -1,19 +1,6 @@
 <template>
   <div class="">
-    <div class="title">
-     <div class="left">
-      	<div style="width: 28px;height: 2px; background-color: #ccc;margin: 2px;"></div>
-     	<div style="width: 12px;height: 2px; background-color: #ccc;margin: 2px;" ></div>
-     	<div style="width: 8px;height: 2px; background-color: #ccc;margin: 2px;"></div>
-     </div>
-     <div>猜你喜欢</div>
-     <div class="rigth">
-        <div style="width: 8px;height: 2px; background-color: #ccc;margin: 2px;"></div>
-     	<div style="width: 12px;height: 2px; background-color: #ccc;margin: 2px;"></div>
-     	<div style="width: 28px;height: 2px; background-color: #ccc;margin: 2px;"></div>
-     </div>
-    </div>
-    <!-- 内容 -->
+   <headline headline="猜你喜欢" />
     <van-grid :column-num="2" :border="false">
       <van-grid-item v-for="(item,index) in 6" :key="index">
          <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HongWuXie/1590377209024_1.jpg" radius="6px" />
@@ -27,7 +14,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -39,19 +25,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.title{
-	font-size: 16px;
-	font-weight:700;
-	display: flex;
-	justify-content:center;
-}
-.left{
-	margin: auto 6px;
-	transform:rotate(180deg);
-}
-.rigth{
-	margin: auto 6px;
-}
 .storeName{
 	width: 100%;
 	font-family:PingFangSC-Regular,PingFang SC;

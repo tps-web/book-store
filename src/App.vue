@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import './assets/css/common.css';
+// import './assets/css/common.css';
 
 export default {
   name: 'App',
@@ -20,8 +20,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-size: 14px;
-}
-body{
-  /*background:rgba(245,245,245,1);*/
 }
 </style>
