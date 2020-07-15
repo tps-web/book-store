@@ -5,10 +5,10 @@
       <div class="user_mess">
          <van-image
            round
-           src="https://img.yzcdn.cn/vant/cat.jpeg"
+           :src="userInfo.userHead"
            class="avater"
          />
-       <div class="name">陈楚生</div>
+       <div class="name">{{userInfo.userNickName}}</div>
       </div>
     </div>
     <div class="user_group">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'Me',
   data () {
@@ -88,6 +89,9 @@ export default {
        }
       ]
     }
+  },
+  computed:{
+     ...mapState(['userInfo'])
   },
   components:{
   },

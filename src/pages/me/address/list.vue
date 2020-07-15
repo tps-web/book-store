@@ -1,6 +1,6 @@
 <template>
   <div class="contention">
-    <headerNav title="我的地址"/>
+    <!-- <headerNav title="我的地址"/> -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="noData" v-if="!list.length">
         <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />

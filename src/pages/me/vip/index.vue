@@ -1,6 +1,6 @@
 <template>
   <div class="">
-     <headerNav title="会员中心"/>
+     <!-- <headerNav title="会员中心"/> -->
   </div>
 </template>
 

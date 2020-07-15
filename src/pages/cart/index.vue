@@ -1,9 +1,9 @@
 <template>
-  <div class="">
+  <div class="" >
     <!-- 头部 -->
   	<van-nav-bar
       title="购物车"
-      :right-text="editor?'完成':'编辑'"
+      :right-text="isShowEmptyCart?(editor?'完成':'编辑'):''"
       @click-right="onClickRight"
     />
     <!-- 购物车为空 -->
@@ -14,47 +14,50 @@
     <!-- 购物车有数据 -->
       <div class="contentWrapper"
            v-show="isShowEmptyCart">
-        <div class="" v-for="(item,index) in 6" :key="index">
+        <div class="" v-for="(item,index) in shopCart" :key="index">
        <section>
          <div class="shopCartListCon">
             <div class="left">
                 <a href="javaScript:;"
-                  :checked="isTrue"
+                  :checked="item.checked"
                    class="cartCheckBox"
-                   @click.stop="single()"></a>
+                   @click.stop="single(item.id)"></a>
             </div>
             <div class="center">
-                <img  src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HongWuXie/1590377209024_1.jpg" width="90" height="90">
+                <img  :src="item.smallImage" width="90" height="90">
             </div>
             <div class="right">
-                <div class="bookName">红舞鞋</div>
-                <div class="bookPrice"><span style="font-size:12px;margin-right:2px">￥</span>42</div>
+                <div class="bookName">{{item.name}}</div>
+                <div class="bookPrice"><span style="font-size:12px;margin-right:2px">￥</span>{{item.price}}</div>
             </div>
          </div>
        </section>
        </div>
       </div>
     <div class="submit-bar" v-show="isShowEmptyCart">
-       <div class="checkBox">
+       <div class="checkBox" style="margin:auto 20px">
             <van-checkbox v-model="isCheckedAll"
                         checked-color='#45c763'>全选</van-checkbox>
        </div>
        <div class="select">
-         <span>已选: <span style="color:rgba(255,205,1,1);">1</span> 件</span>
+         <span>已选: <span style="color:rgba(255,205,1,1);">{{checkedNum}}</span> 件</span>
        </div>
        <div class="submit">
-         <div class="rent">会员租书</div>
-         <div class="bug" @click="goBug">立即购买</div>
+         <div class="rent" @click="goRent">会员租书</div>
+         <div class="bug" @click="goBug"><div style="color:red;margin-top: 8px;">
+           ￥{{totalPrice}}</div>
+           <div>立即购买</div>
+          </div>
        </div>
     </div>
      <!-- 编辑 -->
      <div class="submit-bar" v-show="editor">
-       <div class="checkBox">
-            <van-checkbox v-model="isCheckedAllEditor"
+       <div class="checkBox" style="margin:auto 20px">
+            <van-checkbox v-model="isCheckedAll"
                         checked-color='#45c763'>全选</van-checkbox>
        </div>
        <div class="submit">
-         <div class="del">移除</div>
+         <div class="del" @click="del()">移除</div>
        </div>
     </div>
     <navigate/>
@@ -62,14 +65,12 @@
 </template>
 
 <script>
+import { mapMutations, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'cart',
   data () {
     return {
-      totalCount:1,
-      isTrue:false,
-      isCheckedAll:false,
       editor:false,
       isCheckedAllEditor:false
     }
@@ -83,11 +84,53 @@ export default {
       }
       return isshow;
     },
+    // 2.延展出store里的shopCart的数据
+    ...mapState(['shopCart', 'userInfo']),
+    ...mapGetters(
+      { totalPrice: 'SELECTED_GOODS_PRICE'}
+    ),
+    // 3.计算shopCart的数量  这里选中的物品数量 不是根据checked 展示是否为空购物车使用 
+    totalCount () {
+      return Object.keys(this.shopCart).length;
+    },
+    // 4.是否全部选中
+    isCheckedAll: {
+      get () {
+        // console.log(this.totalCount)
+        let tag = this.totalCount > 0;
+        let shopCart = this.shopCart;
+        Object.values(shopCart).forEach(goods => {
+          if (!goods.checked) {
+            tag = false;
+          }
+        });
+        return tag;
+      },
+      set (value) {
+        // console.log(value)
+        // 改变store中的值
+        let isCheckedAll = !value;
+        this.ALL_SELECT_GOODS({ isCheckedAll });
+      }
+    },
+    //5 计算选择数目
+    checkedNum(){
+        let shopCart = this.shopCart;
+        let num=0
+        Object.values(shopCart).forEach(goods=>{
+          if(goods.checked){
+            num++
+          }
+        })
+        return num
+    }
+    
+  },
+  created(){
+    console.log(this.totalPrice)
   },
   methods:{
-    onClickLeft(){
-     history.back();
-    },
+   ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
     //编辑
     onClickRight(){
       if(!this.editor){
@@ -98,14 +141,35 @@ export default {
          this.editor=false
       }
     },
-    onSubmit(){
-      console.log("提交")
+    //点击租书
+    goRent(){
+      if(this.checkedNum){
+         this.$toast('租书')
+      }else{
+         this.$toast('没有勾选')
+      }
     },
-    single(){
-      this.isTrue=!this.isTrue
+    //点击购买按钮
+     goBug(){
+      if(this.checkedNum){
+         this.$toast('买书')
+         this.$router.push('/order')
+      }else{
+         this.$toast('没有勾选')
+      }
     },
-    goBug(){
-      this.$router.push('/order')
+    //单个选中
+    single(goodsId){
+      this.SINGLE_SELECT_GOODS({goodsId})
+    },
+    //删除
+    del(){
+       if(this.checkedNum){
+         this.$toast('删除')
+        this.DELETE_SELECT_GOODS()
+      }else{
+         this.$toast('没有勾选')
+      }
     }
 
   }
@@ -121,7 +185,7 @@ export default {
   left: 0;
 }
 .emptyCart{
-  margin: 40px auto;
+  margin: 120px auto;
 }
 .emptyText{
   color: #999;
@@ -132,7 +196,7 @@ export default {
 }
 section {
    width: 92%;
-   margin: 10px auto 0;
+   margin: 14px auto 0;
    padding: 6px;
    box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);
    border-radius:8px;
@@ -186,37 +250,40 @@ section {
 }
 .submit-bar{
   width: 100%;
-  height: 50px;
+  height: 55px;
   position: fixed;
   background:rgba(255,255,255,1);
   box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);
-  bottom: 50px;
+  bottom: 49PX;
   right: 0;
   display: flex;
 }
 .checkbox{
   display:inline-block;
+  height: 55px;
+  width: 100%;
 }
-.van-checkbox{
-  margin: 15px 6px 0px 20px;
+.van-checkbox__icon{
+ font-size: 18px;
 }
 .select{
-  margin: 16px 6px 0px 10px;
+   margin: auto 10px;
 }
 .submit{
   display: flex;
   position: absolute;
   right:0;
   height:100%;
-  line-height: 50px;
+
 }
 .rent{
   padding: 0 16px;
   background:rgba(34,34,34,1);
   color: #ff1;
+  line-height: 55px;
 }
 .bug{
-   padding: 0 16px;
+  padding: 0 16px;
   background:rgba(255,205,1,1);
   color: #000;
 }

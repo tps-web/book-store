@@ -2,9 +2,9 @@
   <div class="">
    <headline headline="猜你喜欢" />
     <van-grid :column-num="2" :border="false">
-      <van-grid-item v-for="(item,index) in 6" :key="index">
-         <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HongWuXie/1590377209024_1.jpg" radius="6px" />
-         <div class="storeName">红舞鞋</div>
+      <van-grid-item v-for="(item,index) in bookList" :key="index" @click="goToGoodsDetail(item)">
+         <van-image :src="item.squareImage" radius="6px" />
+         <div class="storeName">{{item.storyName}}</div>
          <div class="category" >
          	<div v-for="(item,index) in 2" :key="index" :style="{background:color[index].bg}" class="one"><span style="color:#000; opacity: 1">0-3岁</span></div>
          </div>
@@ -15,10 +15,34 @@
 
 <script>
 export default {
+  props:{
+    bookList:{
+      type:Array,
+    }
+  },
   data () {
     return {
     	color:[{bg:'rgba(0,114,255,1)'},{bg:'rgba(255,205,1,1)'}]
     }
+  },
+  created(){
+  },
+  methods:{
+    goToGoodsDetail(item){
+        console.log(item)
+          this.$router.push({
+            name: "goodsDetails",
+            query: {
+              id: item.sid,
+              storyName:item.storyName,
+              bgImage:item.squareImage,
+              images: item.images,
+              storyCategoryName:item.storyCategoryName,
+              price:item.price,
+              introduction:item.introduction
+          }
+        })
+    },
   }
 }
 </script>

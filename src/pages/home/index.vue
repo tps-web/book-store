@@ -15,7 +15,7 @@
       <!-- 书单 -->
       <BookList/>
       <!-- 猜你喜欢 -->
-      <Related/>
+      <Related :bookList="bookList"/>
      </van-pull-refresh>
    </div>
     <!-- 底部导航     -->
@@ -32,8 +32,7 @@ import Search from './components/search.vue'
 import BookList from './components/booklist.vue'
 import Related from './components/related.vue'
 import Skeleton from './components/skeleton.vue'
-
-
+import {getBookList} from '@/api'
 export default {
   name: 'home',
   components:{
@@ -49,14 +48,19 @@ export default {
     return {
       isShowLoading:true,
       isLoading:false,
+      bookList:[]
     }
   },
   created(){
-    setTimeout(()=>{
-       this.isShowLoading=false
-    },800)
+    this._initData()
   },
    methods: {
+     _initData(){
+        getBookList().then(res=>{
+          this.isShowLoading=false
+          this.bookList=res.data.records
+        })
+     },
     onRefresh() {
       setTimeout(() => {
         this.$toast('刷新成功');

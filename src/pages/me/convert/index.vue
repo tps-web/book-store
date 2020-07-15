@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-     <headerNav title="兑换中心"/>
+     <!-- <headerNav title="兑换中心"/> -->
       <div class="box"> 
       	     <div style="width: 70%;margin: 0 auto;">
       	     	<div class="smBox">

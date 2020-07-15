@@ -1,6 +1,6 @@
 <template>
   <div class="">
-     <headerNav title="新增地址"/>
+     <!-- <headerNav title="新增地址"/> -->
      <van-address-edit
         :area-list="areaList"
         show-postal
@@ -50,7 +50,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped>
- /deep/  .van-button--danger{
+ .van-button--danger{
     color: #000;
     background-color: rgba(255,205,1,1)!important;
     border: 1px solid rgba(255,205,1,1)!important;

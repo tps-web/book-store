@@ -32,12 +32,13 @@ import {
     CheckboxGroup,
     ContactCard,
     ContactList,
-    ContactEdit
+    ContactEdit,
+    Tag
 } from 'vant';
 
 const components = [
     Button, Tabbar, TabbarItem, Icon, Cell, CellGroup, AddressList, NavBar, AddressEdit, CouponCell, CouponList, Field, Sidebar, SidebarItem, PullRefresh, Toast,
-    Swipe, SwipeItem, Search, Grid, GridItem, Tab, Tabs, GoodsAction, GoodsActionIcon, GoodsActionButton, SubmitBar, Checkbox, CheckboxGroup, ContactCard, ContactList, ContactEdit
+    Swipe, SwipeItem, Search, Grid, GridItem, Tab, Tabs, GoodsAction, GoodsActionIcon, GoodsActionButton, SubmitBar, Checkbox, CheckboxGroup, ContactCard, ContactList, ContactEdit, Tag
 ]
 
 // Vue.use(Button);

@@ -8,6 +8,7 @@ import './config/components.js'
 import './assets/js/resizing.js'
 
 
+import store from './store'
 
 import { Image as VanImage } from 'vant';
 Vue.use(VanImage);
@@ -34,6 +35,7 @@ Vue.component("headerNav", headerNav)
 new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>'
 })

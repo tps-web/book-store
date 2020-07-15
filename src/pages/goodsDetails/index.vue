@@ -1,24 +1,24 @@
 <template>
   <div class="content">
-     <headerNav title="商品详情"/>
+     <!-- <headerNav title="商品详情"/> -->
       <!-- 商品轮播 -->
      <van-swipe @change="onChange">
-       <van-swipe-item v-for="(item,index) in 4" :key="index">
-       	<van-image width="96%" radius="6px" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HuJiaHuWei/1591174173759_2.jpg" />
+       <van-swipe-item v-for="(item,index) in goodsInfo.images" :key="index">
+       	<van-image width="96%" radius="6px" :src="item" />
        </van-swipe-item>
        <template #indicator>
          <div class="custom-indicator">
-         {{ current + 1 }}/4
+         {{ current + 1 }}/{{goodsInfo.images.length}}
        </div>
      </template>
     </van-swipe>
     <!-- 商品信息 -->
     <div class="price">
-      <div class="priceNum">￥23</div>
+      <div class="priceNum">￥{{goodsInfo.price}}</div>
       <div class="vip">会员免费借书看</div>
     </div>
     <div class="bookName">
-        狐假虎威
+        {{goodsInfo.storyName}}
     </div>
     <div class="storeDesc">
       <div class="desc">
@@ -43,7 +43,7 @@
        </div>
     </div>
    <van-goods-action>
-      <van-goods-action-icon icon="cart-o" badge="5" text="购物车" @click="onClickIcon" />
+      <van-goods-action-icon icon="cart-o" :badge="goodsNum" text="购物车" @click="onClickIcon" />
       <van-goods-action-button
       type="warning"
       text="加入购物车"
@@ -59,6 +59,7 @@ import Introduce from './components/introduce.vue'
 import Comment from './components/comment.vue'
 import Recommend from './components/recommend.vue'
 import Vip from './components/vip.vue'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   components:{
@@ -71,9 +72,23 @@ export default {
   data () {
     return {
        current: 0,
+       goodsInfo: this.$route.query,
     }
   },
+  computed:{
+    ...mapState(['shopCart']),
+    goodsNum(){
+      let num = Object.keys(this.shopCart).length
+      if(num>=1){
+        return num
+      }
+    }
+  },
+  created(){
+    console.log(this.$route.query)
+  },
    methods: {
+     ...mapMutations(['ADD_TO_CART']),
     onChange(index) {
       this.current = index;
     },
@@ -82,7 +97,8 @@ export default {
     },
     //加入购物车
     onClickButton(){
-     this.$toast('加入购物车')
+      this.$toast('加入购物车')
+      this.ADD_TO_CART(this.goodsInfo);
     }
   },
 }
@@ -96,7 +112,9 @@ export default {
     bottom: 5px;
     padding: 2px 5px;
     font-size: 12px;
-    background: rgba(0, 0, 0, 0.1);
+    background: #ff1;
+    color: #000;
+    border-radius: 6px;
 }
 .bookName{
 	width: 94%;

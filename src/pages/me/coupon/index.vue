@@ -1,6 +1,6 @@
 <template>
   <div class="">
-     <headerNav title="优惠券"/>
+     <!-- <headerNav title="优惠券"/> -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <!--  <div class="noData">
         <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />

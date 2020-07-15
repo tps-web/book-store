@@ -1,6 +1,6 @@
 <template>
       <div class="header">
-        <van-icon name="arrow-left" size="30" class="icon_back"/>
+        <!-- <van-icon name="arrow-left" size="30" class="icon_back"/> -->
         <div class="search" @click="()=>{this.$router.push('/search')}"><span class="placeholder"><van-icon name="search" style="top: 2px;margin-right: 6px;" />搜索喜爱的书籍</span></div>
     </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   text-align: center;
 }
 .search{
-  width: 86%;
+  width: 96%;
   margin: 0 auto; 
   height: 32px;
   /*padding: 2px;*/

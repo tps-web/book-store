@@ -1,7 +1,7 @@
 <template>
   <div class="">
       <div class="top">
-         <van-icon name="arrow-left" size="30" class="icon_back" @click="goBack"/>
+         <!-- <van-icon name="arrow-left" size="30" class="icon_back" @click="goBack"/> -->
         <div class="tabs_content">
         <van-tabs v-model="activeItem" sticky>
             <van-tab title="借书" name="0">
