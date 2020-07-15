@@ -127,7 +127,6 @@ export default {
     
   },
   created(){
-    console.log(this.totalPrice)
   },
   methods:{
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),

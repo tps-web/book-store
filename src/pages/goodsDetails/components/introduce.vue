@@ -2,7 +2,7 @@
   <div class="content">
     <div class="title">商品简介</div>
     <div class="desc">
-    	《金奖儿童文学绘本:怕冷的恐龙》讲述了大家想出各种办法帮怕冷的大恐龙取暖，最后，大恐龙和小朋友们一起跳来跳去。
+      {{introduction}}
     </div>
     <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HuJiaHuWei/1591174173759_1.jpg" />
   </div>
@@ -11,9 +11,16 @@
 <script>
 
 export default {
+  props:{
+    introduction:{
+      type:String,
+    }
+  },
   data () {
     return {
     }
+  },
+  created(){
   }
 }
 </script>

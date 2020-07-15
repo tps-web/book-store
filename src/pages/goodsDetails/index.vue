@@ -34,7 +34,7 @@
       <!-- 租赁流程  归还流程-->
        <Rental/>
        <!-- 简介 -->
-       <Introduce/>
+       <Introduce  :introduction="goodsInfo.introduction"/>
        <!-- 评论 -->
        <Comment/>
        <!-- 推荐 -->
@@ -85,7 +85,7 @@ export default {
     }
   },
   created(){
-    console.log(this.$route.query)
+    // console.log(this.$route.query.introduction)
   },
    methods: {
      ...mapMutations(['ADD_TO_CART']),

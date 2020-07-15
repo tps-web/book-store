@@ -2,7 +2,6 @@ export default {
     SELECTED_GOODS_PRICE(state) {
         let totalPrice = 0;
         Object.values(state.shopCart).forEach((goods, index) => {
-            console.log(555)
             if (goods.checked) {
                 totalPrice += goods.price
             }
