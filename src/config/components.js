@@ -33,12 +33,16 @@ import {
     ContactCard,
     ContactList,
     ContactEdit,
-    Tag
+    Tag,
+    Popup,
+    Calendar,
+    Picker
 } from 'vant';
 
 const components = [
     Button, Tabbar, TabbarItem, Icon, Cell, CellGroup, AddressList, NavBar, AddressEdit, CouponCell, CouponList, Field, Sidebar, SidebarItem, PullRefresh, Toast,
-    Swipe, SwipeItem, Search, Grid, GridItem, Tab, Tabs, GoodsAction, GoodsActionIcon, GoodsActionButton, SubmitBar, Checkbox, CheckboxGroup, ContactCard, ContactList, ContactEdit, Tag
+    Swipe, SwipeItem, Search, Grid, GridItem, Tab, Tabs, GoodsAction, GoodsActionIcon, GoodsActionButton, SubmitBar, Checkbox, CheckboxGroup, ContactCard, ContactList, ContactEdit, Tag, Popup,
+    Calendar, Picker
 ]
 
 // Vue.use(Button);

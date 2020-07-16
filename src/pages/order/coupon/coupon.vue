@@ -1,13 +1,14 @@
 <template>
-  <div class="">
+  <div class="contentBox">
      <!-- <headerNav title="优惠券"/> -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-       <div class="noData" v-show="couponList.usableArr.length==0&&couponList.disabledArr.length==0">
+       <div class="noData" v-show="usableArr.length==0&&disabledArr.length==0">
         <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
         <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
        </div>
       <div>
-      <div class="box" v-for="(item,index) in couponList.usableArr" :key="index">
+        <!-- 有优惠券 -->
+      <div class="box" v-for="(item,index) in usableArr" :key="index" @click="selectItem(item)">
         <van-image  :src="require('../../../assets/images/bg-use.png')" />
         <div class="pos">
         <div class="content">
@@ -35,7 +36,7 @@
         </div>
       </div>
       <!-- 不可用 -->
-      <div class="box"  v-for="ele in couponList.disabledArr" :key="ele.id">
+      <div class="box"  v-for="ele in disabledArr" :key="ele.id">
         <van-image  :src="require('../../../assets/images/bg-used.png')" />
         <div class="pos">
           <div class="invalid_content">
@@ -70,19 +71,26 @@
 import {mapState} from 'vuex'
 import {compareDate,formatCoupon} from '@/utils'
 export default { 
+   props:{
+        coupon:{
+            type:Array
+        }
+   },
   data () {
     return {
     	isLoading:false,
-      couponList:''
+        usableArr:[],
+        disabledArr:[]
     }
   },
   computed:{
-    ...mapState(['coupon'])
+    // ...mapState(['coupon'])
   },
   created(){
     //  console.log(this.coupon)
-      this.couponList=formatCoupon(this.coupon)
-      console.log(this.couponList)
+      var couponList=formatCoupon(this.coupon)
+       this.disabledArr=couponList.disabledArr
+       this.usableArr=couponList.usableArr
   },
   methods:{
     onRefresh(){
@@ -90,15 +98,19 @@ export default {
        this.$toast('刷新成功')
         this.isLoading = false;
       }, 1000);
-    }
+    },
+      selectItem(item){
+      this.$emit('selectCoupon',item)
   }
+  },
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .noData{
-  margin-top: 40%;
+  margin-top: 10%;
 }
 .box{
 	position: relative;

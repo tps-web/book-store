@@ -11,7 +11,13 @@ import {
     ADD_GOODS,
     SINGLE_SELECT_GOODS,
     ALL_SELECT_GOODS,
-    DELETE_SELECT_GOODS
+    DELETE_SELECT_GOODS,
+    CHANGE_ADDRESS,
+    DEFAULT_ADDRESS,
+    ADD_ADDRESS,
+    USER_COUPON,
+    SELETE_COUPON,
+    USECOUPONTEXT
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -19,7 +25,6 @@ import { setLocalStore, } from '../utils/LocalStore'
 export default {
     //用户信息
     [USER_INFO](state, userInfo) {
-        console.log(userInfo)
         state.userInfo = userInfo
         setLocalStore('userInfo', state.userInfo)
     },
@@ -102,6 +107,40 @@ export default {
         state.shopCart = {
             ...shopCart
         };
+    },
+    //换地址
+    [CHANGE_ADDRESS](state, address) {
+        state.currentAddress = address
+    },
+    //过滤默认地址
+    [DEFAULT_ADDRESS](state, addresss) {
+        addresss.forEach((ele, index) => {
+            if (ele.isDefault) {
+                state.currentAddress = ele
+            }
+        })
+    },
+    //添加地址
+    [ADD_ADDRESS](state, address) {
+        state.shippingAddress.push(address)
+            // let shippingAddress = state.shippingAddress
+            // shippingAddress.push(address)
+            // state.shippingAddress = {
+            //     ...shippingAddress
+            // };
+            // Toast('添加成功')
+            // console.log(state.shippingAddress)
+    },
+    //用户优惠券
+    [USER_COUPON](state, coupon) {
+        state.coupon = coupon
+    },
+    //使用优惠券
+    [SELETE_COUPON](state, couponItem) {
+        state.useCoupon = couponItem
+    },
+    [USECOUPONTEXT](state, text) {
+        state.useCouponText = text
     }
 
 }

@@ -2,12 +2,12 @@
   <div class="contention">
     <!-- <headerNav title="我的地址"/> -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <div class="noData" v-if="!list.length">
+      <div class="noData" v-if="!shippingAddress.length">
         <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
         <div style="margin-left: 10px">暂无相关纪录~</div>
       </div>
     <div class="bigBox" v-else>
-     <div class="box" v-for="(item,index) in list" :key="index">
+     <div class="box" v-for="(item,index) in shippingAddress" :key="index">
      	<div class="name">
      		<span class="username">{{item.name}}</span>
      		<span class="tel">{{item.tel}}</span>
@@ -29,27 +29,16 @@
 
 <script>
 import { Toast } from 'vant';
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
       isLoading:false,
       chosenAddressId: '1',
-      list: [
-        {
-          id: '1',
-          name: '张三',
-          tel: '13000000000',
-          address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-          isDefault: true,
-        },
-        {
-          id: '2',
-          name: '李四',
-          tel: '1310000000',
-          address: '浙江省杭州市拱墅区莫干山路 50 号',
-        },
-      ],
     };
+  },
+  computed:{
+     ...mapState(['shippingAddress'])
   },
   methods: {
     onAdd() {

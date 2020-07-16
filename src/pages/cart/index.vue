@@ -2,7 +2,7 @@
   <div class="" >
     <!-- 头部 -->
   	<van-nav-bar
-      title="购物车"
+      title=""
       :right-text="isShowEmptyCart?(editor?'完成':'编辑'):''"
       @click-right="onClickRight"
     />
@@ -142,8 +142,8 @@ export default {
     },
     //点击租书
     goRent(){
-      if(this.checkedNum){
-         this.$toast('租书')
+      if(this.checkedNum&&this.checkedNum<3){
+         this.$toast('需要租3本起')
       }else{
          this.$toast('没有勾选')
       }
@@ -273,7 +273,6 @@ section {
   position: absolute;
   right:0;
   height:100%;
-
 }
 .rent{
   padding: 0 16px;
@@ -287,6 +286,7 @@ section {
   color: #000;
 }
 .del{
+  line-height: 55px;
   width: 100px;
   padding: 0 16px;
   color: #fff;

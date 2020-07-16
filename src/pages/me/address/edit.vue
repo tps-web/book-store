@@ -27,8 +27,17 @@ export default {
     };
   },
   methods: {
-    onSave() {
+    onSave(content) {
       Toast('save');
+      // console.log(content.province + content.city + content.county + content.addressDetail)
+      let address={
+        name:content.name,
+        tel:content.tel,
+        address: content.province + content.city + content.county + content.addressDetail,
+        isDefault:content.isDefault
+      }
+      this.$store.commit('ADD_ADDRESS',address)
+      this.$router.back();
     },
     onChangeDetail(val) {
     	console.log(1)

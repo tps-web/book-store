@@ -2,13 +2,13 @@
   <div class="">
       <headerNav title="添加地址" />
       <!-- 没有数据占位图 -->
-      <div class="noDataPlaceHold" v-show="list.length<1">
+      <div class="noDataPlaceHold" v-show="shippingAddress.length<1">
           <van-image width="100" height="100" :src="require('../../../assets/images/noCart.png')" />
           <div style="color:#999">还没有添加地址...</div>
       </div>
       <van-address-list
         v-model="chosenAddressId"
-        :list="list"
+        :list="shippingAddress"
         default-tag-text="默认"
         @add="onAdd"
         @edit="onEdit"
@@ -18,37 +18,29 @@
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
   data () {
     return {
         chosenAddressId:0,
-        list: [
-        {
-          id: '1',
-          name: '张三',
-          tel: '13000000000',
-          address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-          isDefault: true,
-        },
-        {
-          id: '2',
-          name: '李四',
-          tel: '1310000000',
-          address: '浙江省杭州市拱墅区莫干山路 50 号',
-        },
-      ],
     }
+  },
+  computed:{
+     ...mapState(['shippingAddress'])
+  },
+   created(){
+
   },
    methods: {
     onAdd() {
       this.$toast('新增地址');
+      this.$router.push('/edit')
     },
     onEdit(item, index) {
       this.$toast('编辑地址:' + index);
     },
     onBackAddress(item, index){
-        console.log(item)
+        this.$store.commit('CHANGE_ADDRESS',item)
         this.$router.back();
     }
   },

@@ -3,18 +3,48 @@ export default {
         let totalPrice = 0;
         Object.values(state.shopCart).forEach((goods, index) => {
             if (goods.checked) {
-                totalPrice += goods.price
+                totalPrice += goods.price * 100
             }
         })
-        return totalPrice
+        return totalPrice / 100
     },
-    DEFAULTADDRESS(state) {
-        let defaultAddress
-        state.shippingAddress.forEach((ele, index) => {
-            if (ele.isDefault) {
-                defaultAddress = ele
+    //选中的商品
+    SELECTED_GOODS(state) {
+        let goodsArray = [];
+        let shopCart = state.shopCart;
+        Object.values(shopCart).forEach((good, index) => {
+            if (good.checked) {
+                goodsArray.push(shopCart[good.id]);
             }
-        })
-        return defaultAddress
+        });
+        return goodsArray;
+    },
+    CLEARED_NUM(state) {
+        if (state.useCoupon) {
+            let totalPrice = 0;
+            Object.values(state.shopCart).forEach((goods, index) => {
+                    if (goods.checked) {
+                        totalPrice += goods.price * 100
+                    }
+                })
+                //减钱
+            if (state.useCoupon.type === 0) {
+                totalPrice = totalPrice - state.useCoupon.price * 100
+            } else if (state.useCoupon.type === 1) {
+                //折扣
+                // totalPrice = totalPrice - (totalPrice - totalPrice * (state.useCoupon.discount / 100))
+                totalPrice = totalPrice * state.useCoupon.discount / 10
+            }
+            return totalPrice / 100
+        } else {
+            let totalPrice = 0;
+            Object.values(state.shopCart).forEach((goods, index) => {
+                if (goods.checked) {
+                    totalPrice += goods.price * 100
+                }
+            })
+            return totalPrice / 100
+        }
+
     }
 }
