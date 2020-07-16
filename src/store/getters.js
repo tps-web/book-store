@@ -32,10 +32,9 @@ export default {
                 totalPrice = totalPrice - state.useCoupon.price * 100
             } else if (state.useCoupon.type === 1) {
                 //折扣
-                // totalPrice = totalPrice - (totalPrice - totalPrice * (state.useCoupon.discount / 100))
                 totalPrice = totalPrice * state.useCoupon.discount / 10
             }
-            return totalPrice / 100
+            return (totalPrice / 100).toFixed(2)
         } else {
             let totalPrice = 0;
             Object.values(state.shopCart).forEach((goods, index) => {
