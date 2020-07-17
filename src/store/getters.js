@@ -42,7 +42,7 @@ export default {
                     totalPrice += goods.price * 100
                 }
             })
-            return totalPrice / 100
+            return (totalPrice / 100).toFixed(2)
         }
 
     }

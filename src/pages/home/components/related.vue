@@ -29,7 +29,7 @@ export default {
   },
   methods:{
     goToGoodsDetail(item){
-        console.log(item)
+        // console.log(item)
           this.$router.push({
             name: "goodsDetails",
             query: {

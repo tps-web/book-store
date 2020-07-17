@@ -7,7 +7,7 @@ Vue.use(Router)
 const router = new Router({
     // 解决路由跳转页面没有置顶
     scrollBehavior(to, from, savedPosition) {
-        console.log(savedPosition)
+        // console.log(savedPosition)
         if (savedPosition) {
             return savedPosition
         } else {
@@ -157,6 +157,25 @@ const router = new Router({
                 import ('@/pages/order/address/add.vue'),
             meta: {
                 title: "添加地址"
+            }
+        },
+        {
+            path: '/orderDetails',
+            name: 'orderDetails',
+            component: () =>
+                import ('@/pages/orderDetails/orderDetails.vue'),
+            meta: {
+                title: "订单详情"
+            }
+        },
+        //租书订单
+        {
+            path: '/rentOrder',
+            name: 'rentOrder',
+            component: () =>
+                import ('@/pages/rentOrder/rentOrder.vue'),
+            meta: {
+                title: "订单详情"
             }
         },
 
