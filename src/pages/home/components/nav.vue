@@ -2,10 +2,10 @@
   <div id="wrapper">
     <van-grid :column-num="5"
               :border="false">
-      <van-grid-item v-for="(nav,index) in 5"
+      <van-grid-item v-for="(nav,index) in list"
          :key="index"
          icon="photo-o"
-         text="菜单"
+         :text="nav.nav"
          @click="gotoCategory(index)" to=""/>
     </van-grid>
   </div>
@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-
+       list:[{nav:'生理需求'},{nav:'安全需求'},{nav:'社交需求'},{nav:'尊重需求'},{nav:'自我实现'}]
     }
   },
   components: {

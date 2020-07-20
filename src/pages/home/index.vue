@@ -10,8 +10,9 @@
       <Banner/>
       <!-- nav -->
       <Nav/>
+      <WeekBook/>
        <!-- 新书上架 -->
-      <New-Book/>
+      <!-- <New-Book/> -->
       <!-- 书单 -->
       <BookList/>
       <!-- 猜你喜欢 -->
@@ -32,6 +33,8 @@ import Search from './components/search.vue'
 import BookList from './components/booklist.vue'
 import Related from './components/related.vue'
 import Skeleton from './components/skeleton.vue'
+import WeekBook from './components/weekBook.vue'
+
 import {getBookList} from '@/api'
 export default {
   name: 'home',
@@ -42,7 +45,8 @@ export default {
      Search,
      BookList,
      Related,
-     Skeleton
+     Skeleton,
+     WeekBook
   },
   data () {
     return {

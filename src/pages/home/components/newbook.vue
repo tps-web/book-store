@@ -8,7 +8,8 @@
      <van-grid-item v-for="(item,index) in 3" :key="index" to="/category" >
         <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/XiaoYaZiXueYouYong/1584007352918_0.jpg"  radius="6px" />
         <span class="name">长着驴耳朵的国王</span>
-        <span class="desc">#习惯养成、0-3岁</span>
+        <!-- <span class="desc">#习惯养成、0-3岁</span> -->
+        <span class="price">￥9.90</span>
      </van-grid-item>
    </van-grid>
   </div>
@@ -53,5 +54,11 @@ export default {
 	color:rgba(153,153,153,1);
 	margin-top: 2px;
 	text-align: left;
+}
+.price{
+  width: 100%;
+  color:rgba(252,86,80,1);
+  font-size: 14px;
+  text-align: left;
 }
 </style>

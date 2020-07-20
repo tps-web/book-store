@@ -141,13 +141,14 @@ const router = new Router({
             component: () =>
                 import ('@/pages/me/vip/index'),
         },
+        //购书
         {
             path: '/order',
             name: 'order',
             component: () =>
                 import ('@/pages/order/index'),
             meta: {
-                title: "订单"
+                title: "提交订单"
             }
         },
         {
@@ -178,7 +179,51 @@ const router = new Router({
                 title: "订单详情"
             }
         },
-
+        {
+            path: '/moveBookList',
+            name: 'moveBookList',
+            component: () =>
+                import ('@/pages/moveBookList/index.vue'),
+            meta: {
+                title: "书单列表"
+            }
+        },
+        {
+            path: '/bookList',
+            name: 'bookList',
+            component: () =>
+                import ('@/pages/bookList/bookList.vue'),
+            meta: {
+                title: "书单详情"
+            }
+        },
+        {
+            path: '/success',
+            name: 'success',
+            component: () =>
+                import ('@/pages/pay/success.vue'),
+            meta: {
+                title: "支付成功"
+            }
+        },
+        {
+            path: '/fail',
+            name: 'fail',
+            component: () =>
+                import ('@/pages/pay/fail.vue'),
+            meta: {
+                title: "支付失败"
+            }
+        },
+        {
+            path: '/logistics',
+            name: 'logistics',
+            component: () =>
+                import ('@/pages/logistics/logistics.vue'),
+            meta: {
+                title: "物流信息"
+            }
+        },
 
     ]
 })

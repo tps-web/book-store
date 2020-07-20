@@ -44,7 +44,7 @@
             <div class="expessNum">发货物流单号：2020095432239487</div>
       </div>
       <div class="bottom">
-           <van-button plain type="default" round size="small" class="btn" >查看物流</van-button>
+            <van-button plain type="default" round size="small" class="btn" @click="goExpress" >查看物流</van-button>
             <van-button plain type="danger" round size="small" class="btn">删除订单</van-button>
       </div>
   </div>
@@ -73,9 +73,12 @@ export default {
             }
             document.body.removeChild(input)
       },
-        open2() {
+      open2() {
           this.$toast('复制成功')
-        }
+      },
+      goExpress(){
+         this.$router.push('/logistics')
+      }
   }
 }
 </script>

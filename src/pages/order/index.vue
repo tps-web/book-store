@@ -75,13 +75,13 @@
            <div class="pay_num">￥ <span class="payNum">{{clearedNum}}</span></div>
            <van-radio-group v-model="radio" class="radioBtn">
              <div class="payWay">
-               <van-radio name="1" class="btn">
+               <van-radio name="wxpay" class="btn">
                  微信支付
                   <van-image :src="require('../../assets/images/wxpay.png')" class="payImg"/>
                </van-radio>
              </div>
               <div class="payWay"> 
-                  <van-radio name="2" class="btn">支付宝支付
+                  <van-radio name="zfbpay" class="btn">支付宝支付
                   <van-image :src="require('../../assets/images/zfbpay.png')"  class="payImg"/>
                   </van-radio>
               </div>
@@ -115,7 +115,7 @@ export default {
        usableArr:[],  //优惠券
        remarkValue:'', //备注
        payShow:false, //支付方式
-       radio:'1'
+       radio:'wxpay'
     }
   },
   mounted(){
@@ -165,7 +165,8 @@ export default {
   methods:{
     payBtn(){
       this.payShow=false
-      this.$toast('确定')
+      this.$toast(this.radio)
+      this.$router.replace('/success')
     },
     goDetails(item){
       console.log(item)

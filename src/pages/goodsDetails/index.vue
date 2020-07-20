@@ -97,7 +97,7 @@ export default {
     },
     //加入购物车
     onClickButton(){
-      this.$toast('加入购物车')
+      // this.$toast('加入购物车')
       this.ADD_TO_CART(this.goodsInfo);
     }
   },

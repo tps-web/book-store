@@ -3,7 +3,7 @@
     <div class="nodata">
       <Nodata v-show="false"/>
     </div>
-   <div class="bugAll" v-for="(item,index) in 10" :key="index">
+   <div class="bugAll" v-for="(item,index) in 10" :key="index" @click="goDetails">
     <div class="title">
         <div class="left">购书订单</div>
         <div class="right">待发货</div>
@@ -35,6 +35,11 @@ export default {
   },
   data () {
     return {
+    }
+  },
+  methods:{
+    goDetails(){
+      this.$router.push('/orderDetails')
     }
   }
 }
