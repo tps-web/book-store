@@ -7,6 +7,9 @@
 <script>
 
 export default {
+    props:{
+        lnglat:Array
+    },
   name: 'HelloWorld',
   data () {
     return {
@@ -19,9 +22,12 @@ export default {
   
     },
     mounted() {
-    this.map = new AMap.Map('i-map');//加载地图
+    this.map = new AMap.Map('i-map',{
+        zoom: 12,
+    });//加载地图
 //  let mainPointArr = item.routes;//关键点的数组，其中包括起点和终点，也有可能包含途径点。
- let mainPointArr=[[113.434576,22.54775],[115.656561,22.940998]]
+//  let mainPointArr=[[113.434576,22.54775],[115.656561,22.940998]]
+ let mainPointArr=this.lnglat
 let that = this;
 let waysLngLatObj = [];
 this.map.plugin('AMap.Driving', function () {
@@ -44,7 +50,7 @@ this.map.plugin('AMap.Driving', function () {
 <style scoped>
 .map{
   width:100%;
-  height: 240px;
+  height: 220px;
 }
 .amap-logo {
         right: 0 !important;

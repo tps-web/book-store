@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <Map/>
+    <Map :lnglat='lnglat'/>
     <!-- <div class="logistics"></div> -->
     <div class="box">
         <div class="top">
@@ -50,6 +50,7 @@ export default {
   },
   data () {
     return {
+      lnglat:[[113.434576,23.208843],[113.389257,22.515404]]
     }
   }
 }
