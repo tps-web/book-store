@@ -1,6 +1,7 @@
 <template>
   <div class="">
-    <div class="logistics"></div>
+    <Map/>
+    <!-- <div class="logistics"></div> -->
     <div class="box">
         <div class="top">
           <div class="company">发货物流公司：顺丰快递</div>
@@ -42,8 +43,11 @@
 </template>
 
 <script>
-
+import Map from '@/components/map/map.vue'
 export default {
+  components:{
+    Map
+  },
   data () {
     return {
     }
@@ -81,5 +85,4 @@ export default {
 .top div:first-child{
     margin-top: 10px ;
 }
-
 </style>

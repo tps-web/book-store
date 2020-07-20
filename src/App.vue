@@ -28,4 +28,15 @@ export default {
   color: #2c3e50;
   font-size: 14px;
 }
+.amap-logo {
+        right: 0 !important;
+        left: auto !important;
+        display: none !important;
+    }
+    
+.amap-copyright {
+        right: 70px !important;
+        left: auto !important;
+        opacity:0 !important;
+ }
 </style>
