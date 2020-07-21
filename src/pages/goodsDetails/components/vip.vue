@@ -2,7 +2,7 @@
   <div class="vip">
       <div class="content">
         <div class="join">加入会员</div>
-        <div class="enjoy">往返免运费 免租金 免押金</div>
+        <span class="enjoy">往返免运费 免租金 免押金</span>
         <img src="../../../assets/images/VIP.png" alt="" class="icon_vip">
       </div>
   </div>
@@ -36,20 +36,25 @@ export default {
     color: black;
     padding-left: 25px;
     position: relative;
+    top: 0;
+    left: 0;
 }
 .join{
     font-size: 17px;
-    font-weight:600;
+    font-weight:700;
     color:rgba(34,34,34,1);
 }
 .enjoy{
-    /* margin-top: -10px; */
+    position: relative;
+    top: -4px;
+    font-size: 14px;
+    display: inline-block;
     color:rgba(34,34,34,1);
 }
 .icon_vip{
     width: 102px;
     position:absolute;
-    bottom: 0;
+    bottom: 0px;
     right: 10px;
 }
 </style>

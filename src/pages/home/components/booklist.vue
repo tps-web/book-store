@@ -5,7 +5,7 @@
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
     <van-grid :border="false" :column-num="3" class="box">
-     <van-grid-item v-for="(item,index) in 3" :key="index"  >
+     <van-grid-item v-for="(item,index) in 3" :key="index" @click="goUrl()" >
        <div class="small_box">
           <van-image :src="require('../../../assets/images/store.png')" />
        	 <!-- <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/MangRenMoXiang/1590389448790_2.jpg" width="44" height="44" radius="4px"/>
@@ -31,7 +31,10 @@ export default {
   	goMove(){
        this.$toast('点击更多')
        this.$router.push('/moveBookList')
-  	}
+    },
+    goUrl(){
+      this.$router.push('/bookList')
+    }
   }
 }
 </script>

@@ -11,7 +11,7 @@
          </div>
       </div>
       <div class="content_box">
-          <div class="store_box">
+          <div class="store_box" v-for="(item,index) in 6" :key="index">
             <van-image class="store_boxImg" radius="4px" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/CaiZhouMianBaoZouDeNvHai/1583999060949_1.jpg" />
             <div class="store_box_content">
                 <div class="title">驮盐的驴子</div>
@@ -58,12 +58,11 @@ export default {
 }
 .descBox{
     position: relative;
-    padding: 6px;
+    padding: 16px 10px;
     border-radius:8px;
-    width: 85%;
+    width: 86%;
     top: -50px;
     margin: 0px auto;
-    height: 100px;
     background:rgba(255,255,255,1);
     z-index: 2;
     box-shadow:0px 1px 4px 0px rgba(0,0,0,0.1);
@@ -74,8 +73,7 @@ export default {
 }
 .tit{
     text-align: left;
-    margin: 4px 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 .desc{
     margin-top: 6px;
@@ -87,33 +85,32 @@ export default {
     width: 94%;
     margin: 0 auto;
     position: relative;
-    top: -30px;
-    height: 200px;
+    top: -45px;
 }
 .store_box{
   display: flex;
   justify-content: space-between;
-  width: 96%;
-  margin: 0 auto;
-  box-shadow:1px 1px 4px 0px rgba(0,0,0,0.1);
-  padding: 6px;
+  width: 90%;
+  margin: 14px auto;
+  box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.1);
+  padding: 12px 10px;
   border-radius:8px;
 }
 .store_boxImg{
-    width: 60px;
-    height: 80px;
+    width: 70px;
+    height: 90px;
 }
 .store_box_content{
     flex: 6;
-    margin-left: 16px;
+    margin-left: 12px;
     text-align: left;
 }
 .title{
-    margin-top: 6px;
+    margin-top: 5px;
 }
 .author{
     color: #999;
-    margin: 6px 0;
+    margin: 10px 0;
 }
 .price{
     margin: 6px 0;
@@ -126,7 +123,7 @@ export default {
     font-size: 16px;
 }
 .store_box_right{
-    flex: 3;
+    flex: 4;
     margin: auto 0;
     color: #999;
     font-size: 10px;

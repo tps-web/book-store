@@ -11,28 +11,28 @@
          <div class="content">
         <van-steps direction="vertical" :active="0" style="width:86%;margin:0 auto; text-align: left;" >
             <van-step>
-                 <div>您的订单已到达了广东中山【中山分拣中心】送往【中山石岐营业部】</div>
-                 <div>2016-07-13 12:40</div>
+                 <div class="address">您的订单已到达了广东中山【中山分拣中心】送往【中山石岐营业部】</div>
+                 <div class="date">2016-07-13 12:40</div>
             </van-step>
             <van-step>
-                 <div>送往【中山分拣中心】</div>
-                 <div>2016-07-11 12:40</div>
+                 <div class="address">送往【中山分拣中心】</div>
+                 <div class="date">2016-07-11 12:40</div>
             </van-step>
              <van-step>
-                 <div>送往【中山】</div>
-                 <div>2016-07-11 12:40</div>
+                 <div class="address">送往【中山】</div>
+                 <div class="date">2016-07-11 12:40</div>
             </van-step>
              <van-step>
-                 <div>送往【广州分拣中心】</div>
-                 <div>2016-07-11 12:40</div>
+                 <div class="address">送往【广州分拣中心】</div>
+                 <div class="date">2016-07-11 12:40</div>
             </van-step>
             <van-step>
-                <div>快件已发货</div>
-                 <div>2016-07-11 15:30</div>
+                <div class="address">快件已发货</div>
+                 <div class="date">2016-07-11 15:30</div>
             </van-step>
             <van-step>
-                 <div>仓库处理中</div>
-                 <div>2016-07-11 12:40</div>
+                 <div class="address">仓库处理中</div>
+                 <div class="date">2016-07-11 12:40</div>
             </van-step>
            
         </van-steps>
@@ -85,5 +85,11 @@ export default {
 }
 .top div:first-child{
     margin-top: 10px ;
+}
+.address{
+  font-size: 12px;
+}
+.date{
+  font-size: 12px;
 }
 </style>
