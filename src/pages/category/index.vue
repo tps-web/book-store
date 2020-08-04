@@ -10,7 +10,7 @@
           <li class="categoryItem"
               v-for="(cate, index) in categoriesData"
               :class="{ selected: currentIndex === index }"
-              @click="clickLeftLi(index)"
+              @click="clickLeftLi(cate,index)"
               :key="cate.id"
               ref="menuList">
             <span class="textWrapper">{{ cate.name }}</span>
@@ -19,7 +19,7 @@
       </div>
       <!-- 右边 -->
       <div class="rightWrapper">
-        <ContentView   :list="currentIndex" />
+        <ContentView   :list="currentIndex" :data="data" />
       </div>
     </div>
     </div>
@@ -31,8 +31,7 @@
 <script>
 import Search from './components/search.vue'
 import ContentView from './components/contentView.vue'
-
-import cate from './data/index'
+import {getCategory} from '@/api'
 // 2. 引入滚动组件
 import BScroll from 'better-scroll'
 export default { 
@@ -45,17 +44,23 @@ export default {
       categoriesData:[],
       // 左边item选中与否
       currentIndex: 0,
+      cateLeft:'',
+      data:[]
     }
   },
   created(){
-    
+   
   },
   mounted(){
-    this._initData()
+     getCategory().then(res=>{
+      this.cateLeft=res.data.items
+      this.data = this.cateLeft[0].storyCategoryTypeList
+      this._initData()
+    })
   },
   methods: {
     _initData(){
-     this.categoriesData=cate
+     this.categoriesData= this.cateLeft
       // 1.4.初始化滚动视图
        if (!this.leftScroll) {
       this.$nextTick(() => {
@@ -71,8 +76,10 @@ export default {
           this.leftScroll.refresh()
       }
    },
-   clickLeftLi(index){
+   clickLeftLi(cate,index){
+      this.data=cate.storyCategoryTypeList
       this.currentIndex = index
+      // this.currentIndex = cate.storyCategoryTypeList
       setTimeout(() => {
         let menuLists = this.$refs.menuList
         let el = menuLists[index]
@@ -102,8 +109,8 @@ export default {
 }
 .leftWrapper {
   background-color: #f4f4f4;
-  width: 20%;
-  flex: 0 0 100px;
+  width: 18%;
+  flex: 0 0 95px;
   height: 100%;
 }
 
@@ -133,7 +140,7 @@ export default {
   color: #333333;
 }
 .rightWrapper{
-  width: 80%;
+  width: 82%;
 }
 .box{
   width: 33%;

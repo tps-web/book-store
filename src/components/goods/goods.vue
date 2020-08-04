@@ -6,7 +6,7 @@
              <van-image class="goodsImg" :src="item.smallImage" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
            </div>
          </div>
-          <div class="goods_right">
+          <div class="goods_right" @click="goTotal()">
             共{{totalNum}}件商品<van-icon name="arrow" class="right_icon" />
           </div>
        </div>
@@ -26,6 +26,15 @@ export default {
     totalNum(){
       return this.goods.length 
     },
+  },
+  methods:{
+    goDetails(item){
+      // console.log(item)
+      this.$router.push(`/goodsDetails/${item.id}`)
+    },
+    goTotal(){
+      this.$router.push(`/goodsList`)
+    }
   }
 }
 </script>

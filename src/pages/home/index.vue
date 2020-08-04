@@ -7,16 +7,17 @@
       <!-- 刷新 -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <!-- 轮播图 -->
-      <Banner/>
+      <Banner :bannerItem="bannerItem"/>
       <!-- nav -->
-      <Nav/>
-      <WeekBook/>
+      <Nav :navItem="navItem"/>
+      <!-- 本周新书 -->
+      <WeekBook :weekItem="weekItem"/>
        <!-- 新书上架 -->
       <!-- <New-Book/> -->
       <!-- 书单 -->
-      <BookList/>
+      <BookList :bookItem="bookItem"/>
       <!-- 猜你喜欢 -->
-      <Related :bookList="bookList"/>
+      <Related :listItem="listItem"/>
      </van-pull-refresh>
    </div>
     <!-- 底部导航     -->
@@ -35,7 +36,7 @@ import Related from './components/related.vue'
 import Skeleton from './components/skeleton.vue'
 import WeekBook from './components/weekBook.vue'
 
-import {getBookList} from '@/api'
+import {getBookList,index} from '@/api'
 export default {
   name: 'home',
   components:{
@@ -52,7 +53,11 @@ export default {
     return {
       isShowLoading:true,
       isLoading:false,
-      bookList:[]
+      bookList:[],
+      bannerItem:"",
+      navItem:"",
+      weekItem:"",
+      bookItem:""
     }
   },
   created(){
@@ -60,16 +65,23 @@ export default {
   },
    methods: {
      _initData(){
-        getBookList().then(res=>{
+        index().then(res=>{
+          // console.log(res.data.items)
+          this.bannerItem=res.data.items[0]
+          this.navItem=res.data.items[1]
+          this.weekItem=res.data.items[2]
+          this.bookItem=res.data.items[3]
+          this.listItem=res.data.items[4]
           this.isShowLoading=false
-          this.bookList=res.data.records
+          // console.log(res)
         })
      },
     onRefresh() {
       setTimeout(() => {
+        this._initData()
         this.$toast('刷新成功');
         this.isLoading = false;
-      }, 1000);
+      }, 800);
     },
   },
 }

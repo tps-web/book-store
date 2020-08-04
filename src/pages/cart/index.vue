@@ -14,7 +14,7 @@
     <!-- 购物车有数据 -->
       <div class="contentWrapper"
            v-show="isShowEmptyCart">
-        <div class="" v-for="(item,index) in shopCart" :key="index">
+        <div class="" v-for="(item,index) in getShopCart" :key="index">
        <section>
          <div class="shopCartListCon">
             <div class="left">
@@ -23,10 +23,10 @@
                    class="cartCheckBox"
                    @click.stop="single(item.id)"></a>
             </div>
-            <div class="center">
+            <div class="center" @click="godesc(item)">
                 <img  :src="item.smallImage" width="90" height="90">
             </div>
-            <div class="right">
+            <div class="right" @click="godesc(item)">
                 <div class="bookName">{{item.name}}</div>
                 <div class="bookPrice"><span style="font-size:12px;margin-right:2px">￥</span>{{item.price}}</div>
             </div>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex'
+import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'cart',
@@ -87,18 +87,18 @@ export default {
     // 2.延展出store里的shopCart的数据
     ...mapState(['shopCart', 'userInfo']),
     ...mapGetters(
-      { totalPrice: 'SELECTED_GOODS_PRICE'}
+      { totalPrice: 'SELECTED_GOODS_PRICE',getShopCart:'getShopCart'}
     ),
     // 3.计算shopCart的数量  这里选中的物品数量 不是根据checked 展示是否为空购物车使用 
     totalCount () {
-      return Object.keys(this.shopCart).length;
+      return Object.keys(this.getShopCart).length;
     },
     // 4.是否全部选中
     isCheckedAll: {
       get () {
         // console.log(this.totalCount)
         let tag = this.totalCount > 0;
-        let shopCart = this.shopCart;
+        let shopCart = this.getShopCart;
         Object.values(shopCart).forEach(goods => {
           if (!goods.checked) {
             tag = false;
@@ -115,7 +115,7 @@ export default {
     },
     //5 计算选择数目
     checkedNum(){
-        let shopCart = this.shopCart;
+        let shopCart = this.getShopCart;
         let num=0
         Object.values(shopCart).forEach(goods=>{
           if(goods.checked){
@@ -130,6 +130,11 @@ export default {
   },
   methods:{
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
+   ...mapActions(['deleteGoods']),
+    godesc(item){
+      // console.log(item)
+      this.$router.push(`/goodsDetails/${item.id}`)
+    },
     //编辑
     onClickRight(){
       if(!this.editor){
@@ -168,8 +173,20 @@ export default {
     //删除
     del(){
        if(this.checkedNum){
-         this.$toast('删除')
-        this.DELETE_SELECT_GOODS()
+         this.$dialog.alert({
+         message: "是否确定删除？", //改变弹出框的内容
+         showCancelButton: true //展示取水按钮
+        })
+        .then(() => { //点击确认按钮后的调用
+          //  console.log("点击了确认按钮噢")
+            this.deleteGoods()
+        })
+        .catch(() => { //点击取消按钮后的调用
+            console.log("点击了取消按钮")
+        })
+        //  this.$toast('删除')
+        //  console.log(this.checkedNum)
+        // this.DELETE_SELECT_GOODS() 
       }else{
          this.$toast('没有勾选')
       }

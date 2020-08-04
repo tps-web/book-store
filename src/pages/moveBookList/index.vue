@@ -1,52 +1,88 @@
 <template>
   <div class="">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-     <div class="box">
-          <van-image :src="require('../../assets/images/store.png')" class="box_left" />
+        <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+       >
+     <div class="box" v-for="(item,index) in list" :key="index" @click="goBookLiST(item.id)">
+          <van-image :src="item.listImage" class="box_left" />
           <div class="box_right"> 
               <div class="title">
-                  获奖作品
+                  {{item.listName}}
               </div>
               <div class="desc">
-                  生活中，不难发现某种情况下情商重 要性大于智商，良好的修养可以展…
+                  {{item.listDescribe|testfilter(30)}}
               </div>
-              <div class="total">共5本</div>
+              <div class="total">共{{item.listCount || 0}}本</div>
           </div>
      </div>
-
-     <div class="box" @click="goUrl()">
-          <van-image :src="require('../../assets/images/store.png')" class="box_left" />
-          <div class="box_right"> 
-              <div class="title">
-                  2020届优秀作品集
-              </div>
-              <div class="desc">
-                  精选2020年度最优秀的10部作品，希 望大家喜欢…
-              </div>
-              <div class="total">共10本</div>
-          </div>
-     </div>
-     </van-pull-refresh>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 
 <script>
-
+import {getList} from '@/api'
+var that
 export default {
   data () {
     return {
-      isLoading:false
+       isLoading:false, //上拉
+       finished:false, //是否加载完
+       loading:false,  //下拉
+       curPage:1, //当前页面
+       pageRows:10, //请求一页有多少数据
+       list:[],  
+       total:''
     }
   },
+  created(){
+     that=this
+     this.getBookPage()
+  },
   methods:{
+      goBookLiST(id){
+         this.$router.push(`/bookList/${id}`)
+      },
+      getBookPage(){
+        let op={curPage:that.curPage,pageRows:that.pageRows}
+        getList(op).then(res=>{
+            // console.log(res.data.rows)
+            this.total=res.data.total 
+            if(this.curPage==1){
+                this.list=res.data.rows
+            }else{
+               this.list = this.list.concat(res.data.rows)
+            }
+        })
+    },
       onRefresh(){
-         setTimeout(() => {
-          this.$toast('刷新成功');
-           this.isLoading = false;
-         }, 1000);
+        // 清空列表数据
+        this.finished = false;
+        // 重新加载数据
+        // 将 loading 设置为 true，表示处于加载状态
+        this.loading = true;
+        this.onLoad();
      },
      goUrl(){
          this.$router.push('/bookList')
+     },
+     //下拉刷新
+     onLoad(){
+          setTimeout(() => {
+            if (this.isLoading) {
+                 this.isLoading = false;
+            }
+            this.curPage++
+            this.getBookPage()
+            this.loading = false;
+            if (this.list.length >= this.total) {
+               this.finished = true;
+            }
+        }, 1000);
      }
   }
 }

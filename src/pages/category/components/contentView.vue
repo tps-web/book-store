@@ -1,13 +1,12 @@
 <template>
   <div class="warp" ref="warp">
     <div class="warp_box">
-     <div class="box" v-for="(item,index) in 100" :key="index" ref="good">
+     <div class="box" v-for="(item,index) in data" :key="index" ref="good" @click="goUrl(item)">
            <van-image
-              width="66px"
-              height="66px"
-             src="https://img.yzcdn.cn/vant/cat.jpeg"
+             class="img"
+             :src="item.image"
            />
-           <div>{{list}}</div>
+           <div class="name">{{item.name}}</div>
      </div>
    </div>
  </div>
@@ -19,12 +18,17 @@ import BScroll from 'better-scroll'
 export default {
    props:{
      list:Number, 
+     data:Array
    },
   data () {
     return {
     }
   },
+  created(){
+  
+  },
   mounted(){
+    console.log(this.data)
       this._initData()
   },
   watch: {
@@ -36,6 +40,10 @@ export default {
     }
   },
   methods:{
+    goUrl(item){
+      console.log(item)
+      this.$router.push(`categoryItem/${item.id}`)
+    },
       // 1.4.初始化滚动视图
      _initData(){
       if (!this.rightScroll) {
@@ -47,7 +55,7 @@ export default {
       })
       } else {
           this.rightScroll.refresh()
-            // 2.1 进入默认商品列表滚到顶部
+          // 2.1 进入默认商品列表滚到顶部
           this.rightScroll.scrollToElement(this.$refs.good[0], 10, 0, 0);
       }
    }
@@ -62,13 +70,23 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+.img{
+  width: 66px;
+  height: 66px;
+}
 .warp_box{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content:space-around; */
+  justify-self: start;
 }
 .box{
-  /* margin: 0 6px; */
-  padding: 6px;
+  border-radius: 5px;
+  box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);
+  margin: 6px 4px;
+  padding: 8px;
+}
+.name{
+  width: 66px;
 }
 </style>

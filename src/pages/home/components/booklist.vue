@@ -4,15 +4,13 @@
     	<span class="tit_left">精选书单</span>
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
-    <van-grid :border="false" :column-num="3" class="box">
-     <van-grid-item v-for="(item,index) in 3" :key="index" @click="goUrl()" >
-       <div class="small_box">
-          <van-image :src="require('../../../assets/images/store.png')" />
-       	 <!-- <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/MangRenMoXiang/1590389448790_2.jpg" width="44" height="44" radius="4px"/>
-         <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/ChangChuJinYuMaoDeTianE/1590456814104_2.jpg" width="44" height="44" radius="4px"/>
-       	 <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HongWuXie/1590377209024_1.jpg" width="44" height="44" radius="4px"/> -->
-       </div>
-        <span class="name">获奖作品</span>
+    <van-grid :border="false" :column-num="3" class="box" >
+     <van-grid-item v-for="(item,index) in bookItem.data"  :key="index" @click="goUrl(item)" 
+     style="border-radius:6px;">
+       <!-- <div class="small_box"> -->
+          <van-image :src="item.listImage" class="listImage"/>
+       <!-- </div> -->
+        <span class="name">{{item.listName}}</span>
      </van-grid-item>
    </van-grid>
   </div>
@@ -22,18 +20,23 @@
 
 export default {
   props: {
+    bookItem:Object
   },
   data () {
     return {
     }
   },
+  created(){
+    // console.log(this.bookItem.data)
+  },
   methods:{
   	goMove(){
-       this.$toast('点击更多')
+      //  this.$toast('点击更多')
        this.$router.push('/moveBookList')
     },
-    goUrl(){
-      this.$router.push('/bookList')
+    goUrl(item){
+      //  console.log(item.id)
+      this.$router.push(`/bookList/${item.id}`)
     }
   }
 }
@@ -59,11 +62,11 @@ export default {
   width: 94%;
   margin: 10px auto;
   font-size: 12px;
-  box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);
 }
+
 .name{
   width: 100%;
-	margin:4px 0;
+	margin: 6px 0;
   text-align: left;
 }
 .desc{
@@ -71,4 +74,12 @@ export default {
 	color:rgba(153,153,153,1);
 	margin-top: 2px;
 }
+.listImage{
+  width: 100px;
+  height: 80px;
+}
+/* /deep/ .van-grid-item__content{
+  padding: 8px 6px;
+  margin-right: 4px;
+} */
 </style>

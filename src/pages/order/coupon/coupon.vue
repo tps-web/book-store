@@ -1,116 +1,138 @@
 <template>
-  <div class="contentBox">
+  <div class="">
      <!-- <headerNav title="优惠券"/> -->
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-       <div class="noData" v-show="usableArr.length==0&&disabledArr.length==0">
-        <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
+  <van-pull-refresh v-model="loading" @refresh="onRefresh">
+      <van-list  
+        v-model="isLoading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+       >
+       <div class="noData" v-show="finished&&getCouponTotal==0">
+        <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
         <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
        </div>
       <div>
-        <!-- 有优惠券 -->
-      <div class="box" v-for="(item,index) in usableArr" :key="index" @click="selectItem(item)">
-        <van-image  :src="require('../../../assets/images/bg-use.png')" />
-        <div class="pos">
-        <div class="content">
-        	<div class="num" v-show="item.type=='0'">
-               ￥<span class="useNum">{{item.price}}</span>
+      <div class="box" v-for="(item,index) in getCouponList" :key="index" @click="selectItem(item)">
+        <van-image  :src="require('../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
+         <van-image  :src="require('../../../assets/images/bg-used.png')" class="bg" v-else/>
+        <div class="pos"> 
+        <div :class="[item.useStatus==0 ? 'content':'invalid_content']">
+        	<div class="num" >
+               ￥<span class="useNum">{{item.amount}}</span>
         	</div>
-        	<div class="num" v-show="item.type=='1'">
+        	<!-- <div class="num" v-show="item.type=='1'">
                <span class="useNum">{{item.discount}}</span>折
-        	</div>
+        	</div> -->
         	<div class="boxNum">
         	 <div class="canNum">
-               <div class="bg_fill">满{{item.useNum}}元使用</div>
-               <div>{{item.desc}}</div>
+               <!-- <div :class="[item.useStatus==0 ?'bg_fill':'invalid_bg_fill']">满{{item.useNum}}元使用</div> -->
+               <div>{{item.name}}</div>
         	 </div>
         	</div>
-        	<div class="useBtn">
-        		<div class="btn_content"><span class="use_font">立即<br/>使用</span></div>
+        	<div class="useBtn" >
+        		<div :class="[item.useStatus==0 ?'btn_content':'invalid_btn_content']"><span class="use_font" v-html="$options.filters.format(item.useStatus)"></span></div>
         	</div>
         </div>
-        <div class="date">
-          <span  class="xian" style="background-image: linear-gradient(to right, #fff,red );"></span>
-           有效期：{{item.useDay}}
-          <span  class="xian" style="background-image: linear-gradient(to right, red, #fff);"></span>
+        <div :class="item.useStatus==0?'date':'invalid_date'">
+          <span  :class="item.useStatus==0?'xian':'invalid_xian'" ></span>
+           有效期：{{item.endTime}}
+          <span  :class="item.useStatus==0?'xian_right':'invalid_xian_right'" ></span>
         </div>
         </div>
       </div>
-      <!-- 不可用 -->
-      <div class="box"  v-for="ele in disabledArr" :key="ele.id">
-        <van-image  :src="require('../../../assets/images/bg-used.png')" />
-        <div class="pos">
-          <div class="invalid_content">
-        	<div class="invalid_num" v-show="ele.type==0">
-               ￥<span class="useNum">{{ele.price}}</span>
-        	</div>
-          <div class="invalid_num" v-show="ele.type==1">
-               <span class="useNum">{{ele.discount}}</span>折
-        	</div>
-          <div class="invalid_num" v-show="ele.type==2">
-               <div v-if="ele.discount!=0"><span class="useNum" >{{ele.discount}}</span>折</div>
-               <div v-else>￥<span class="useNum" >{{ele.price}}</span></div>     
-        	</div>
-        	<div class="boxNum">
-        	 <div class="canNum">
-               <div class="invalid_bg_fill">满{{ele.useNum}}元使用</div>
-               <div>{{ele.desc}}</div>
-        	 </div>
-            </div>
-        	<div class="useBtn">
-        		<div class="invalid_btn_content"><span class="used_font">{{ele.descTest}}</span></div>
-        	</div>
-        </div>
-    </div>
-   </div>
   </div>
-    </van-pull-refresh>
+    </van-list>
+    </van-pull-refresh> 
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState,mapActions, mapGetters} from 'vuex'
 import {compareDate,formatCoupon} from '@/utils'
+var that
 export default { 
-   props:{
-        coupon:{
-            type:Array
-        }
-   },
   data () {
     return {
-    	isLoading:false,
-        usableArr:[],
-        disabledArr:[]
+       isLoading:false, //上拉
+       finished:false, //是否加载完
+       loading:false,  //下拉
+       curPage:1, //当前页面
+       pageRows:6, //请求一页有多少数据
+       list:[],  
+       total:0,
     }
   },
   computed:{
-    // ...mapState(['coupon'])
+    // ...mapState(['coupon']),
+    ...mapGetters(['getCouponList','getCouponTotal']),
   },
   created(){
-    //  console.log(this.coupon)
-      var couponList=formatCoupon(this.coupon)
-       this.disabledArr=couponList.disabledArr
-       this.usableArr=couponList.usableArr
+     that=this
+      // this.couponList=formatCoupon(this.coupon)
+       this.getFollowPage()
+  },
+  mounted(){
   },
   methods:{
-    onRefresh(){
-      setTimeout(() => {
-       this.$toast('刷新成功')
-        this.isLoading = false;
-      }, 1000);
+    selectItem(item){
+      if(item.useStatus==0){
+        //  console.log('选中优惠券')
+        this.$emit('selectCoupon',item)
+      }
     },
-      selectItem(item){
-      this.$emit('selectCoupon',item)
-  }
+    getFollowPage(){
+        let op={
+            curPage:that.curPage,
+            pageRows:that.pageRows
+        }
+        this.$store.dispatch('couponHistory',op)
+     },
+    onLoad() {
+        setTimeout(() => {
+            if (this.refreshing) {
+               this.refreshing = false;
+            }
+            this.curPage++
+            this.getFollowPage()
+            this.loading = false;
+            if (this.getCouponList.length >= this.getCouponTotal) {
+              this.finished = true;
+            }
+        }, 800);
+       },
+       //刷新
+     onRefresh() {
+            // 清空列表数据
+            this.finished = false;
+            // 重新加载数据
+            // 将 loading 设置为 true，表示处于加载状态
+            this.loading = true;
+            this.onLoad();
+     },
   },
-
+  filters:{
+    format(data){
+      switch (data) {
+        case 0:
+          return `立即<br/>使用`
+          break;
+       case 1:
+          return `已<br/>使用`
+         break;
+        default:
+          return `已<br/>过期`
+          break;
+      }
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .noData{
-  margin-top: 10%;
+  margin-top: 40%;
 }
 .box{
 	position: relative;
@@ -123,7 +145,7 @@ export default {
 }
 .content{
 	display: flex;
-  	color: rgba(255,0,85,1);
+  color: rgba(255,0,85,1);
 }
 .num{
   /* flex:1; */
@@ -215,12 +237,48 @@ export default {
   color: rgba(255,0,85,1);
   text-align: left;
 }
+.invalid_date{
+  color:  rgba(221,221,221,1);
+  text-align: left;
+}
 .xian{
   display:inline-block;
   margin:0 2px;
   width:26px;
   height:1px;
   position: relative;
-  top:-3px
+  top:-3px;
+  background-image: linear-gradient(to right, #fff,red )
+}
+.invalid_xian{
+  display:inline-block;
+  margin:0 2px;
+  width:26px;
+  height:1px;
+  position: relative;
+  top:-3px;
+  background-image: linear-gradient(to right, #fff, rgba(221,221,221,1) )
+}
+.xian_right{
+  display:inline-block;
+  margin:0 2px;
+  width:26px;
+  height:1px;
+  position: relative;
+  top:-3px;
+  background-image: linear-gradient(to right, red, #fff)
+}
+.invalid_xian_right{
+  display:inline-block;
+  margin:0 2px;
+  width:26px;
+  height:1px;
+  position: relative;
+  top:-3px;
+  background-image: linear-gradient(to right, rgba(221,221,221,1), #fff)
+}
+.bg{
+  width: 100%;
+  height: 166px;
 }
 </style>

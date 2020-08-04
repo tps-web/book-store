@@ -1,8 +1,8 @@
 <template>
   <div class="banner">
        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-             <van-swipe-item  v-for="(item,index) in 4" :key="index">
-               <van-image width="96%" radius="6px" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HuJiaHuWei/1591174173759_2.jpg" />
+             <van-swipe-item  v-for="(item,index) in bannerList" :key="index">
+                 <van-image width="96%" radius="6px" :src="item.imageUrl"/>
              </van-swipe-item>
        </van-swipe>
   </div>
@@ -11,9 +11,18 @@
 <script>
 
 export default {
+   props:{
+    bannerItem:{
+       type:Object
+    }
+  },
   data () {
     return {
+      bannerList:[]
     }
+  },
+  created(){
+    this.bannerList=this.bannerItem.data
   }
 }
 </script>

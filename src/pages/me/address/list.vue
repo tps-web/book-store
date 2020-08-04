@@ -29,7 +29,8 @@
 
 <script>
 import { Toast } from 'vant';
-import {mapState} from 'vuex'
+import {mapState,mapActions} from 'vuex'
+import {removeAddress} from '@/api'
 export default {
   data() {
     return {
@@ -38,19 +39,25 @@ export default {
     };
   },
   computed:{
-     ...mapState(['shippingAddress'])
+     ...mapState(['shippingAddress']),      
   },
   methods: {
+    ...mapActions(['getALLAddressList']),
     onAdd() {
       Toast('新增地址');
       this.$router.push('/edit')
     },
     onEdit(item, index) {
-      // this.$router.push('/edit')
-      Toast('编辑地址:' + item.id);
+      this.$router.push(`/edit/${item.id}`)
+      // Toast('编辑地址:' + item.id);
     },
     onDelete(item){
-      Toast('删除地址:' + item.id);
+      // Toast('删除地址:' + item.id);
+      removeAddress(item.id).then(res=>{
+        console.log(res)
+        this.$toast('删除成功')
+         this.getALLAddressList()
+      })
     },
     onRefresh(){
        setTimeout(() => {
@@ -85,12 +92,15 @@ export default {
   text-align: left;
   position: relative;
 }
+.box:last-child{
+  margin-bottom: 50px;
+}
 .tel{
   font-size: 14px;
   color: #999;
 }
 .address{
-	margin-top: 20px;
+	  margin-top: 20px;
     font-size: 12px;
 }
 .default{
@@ -117,9 +127,9 @@ export default {
 }
 .add{
 	width:96%;
-	position: absolute;
-	bottom:12px;
-  margin: 0 12px;
+	position: fixed;
+	bottom: 2px;
+  margin: 0 8px;
 	border-radius: 50px;
 	height:44px;
 	line-height: 44px;

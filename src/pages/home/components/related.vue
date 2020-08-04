@@ -1,33 +1,38 @@
 <template>
   <div class="content">
    <headline headline="猜你喜欢" />
-    <van-grid :column-num="2" :border="false">
-      <van-grid-item v-for="(item,index) in bookList" :key="index" class="grid_item">
-         <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" />
-         <div class="storeName">{{item.storyName}}</div>
+     <goodsItem :listItem="listItem.data" />
+    <!-- <van-grid :column-num="2" :border="false">
+      <van-grid-item v-for="(item,index) in listItem.data" :key="index" class="grid_item">
+         <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" class="img"/>
+         <div class="storeName">{{item.title}}</div>
          <div class="category" >
-         	<div v-for="(item,index) in 2" :key="index" :style="{background:color[index].bg}" class="one">
-             <span style="color:#000; opacity: 1">0-3岁</span></div>
+         	<div v-for="(type,index) in item.categoryName" :key="index" :style="{background:color[index].bg}" class="one">
+             <span style="color:#000; opacity: 1">{{type}}</span></div>
          </div>
          <div class="price">
            <div class="left">
-              <span>￥</span><span class="num">19.90</span>
+              <span>￥</span><span class="num">{{item.price}}</span>
            </div>
            <div class="right">
               <van-image :src="require('../../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
            </div>
          </div>
       </van-grid-item>
-    </van-grid>
+    </van-grid> -->
   </div>
 </template>
 
 <script>
 import {mapMutations} from 'vuex'
+import  goodsItem from '@/components/goodsItem/item'
 export default {
+  components:{
+    goodsItem
+  },
   props:{
-    bookList:{
-      type:Array,
+    listItem:{
+      type:Object,
     }
   },
   data () {
@@ -39,32 +44,16 @@ export default {
   },
   methods:{
     goToGoodsDetail(item){
-        // console.log(item)
-          this.$router.push({
-            name: "goodsDetails",
-            query: {
-              id: item.sid,
-              storyName:item.storyName,
-              bgImage:item.squareImage,
-              images: item.images,
-              storyCategoryName:item.storyCategoryName,
-              price:item.price,
-              introduction:item.introduction
-          }
-        })
+          this.$router.push(`/goodsDetails/${item.id}`)
+          // this.$router.push({
+          //   name: "goodsDetails",
+          //   query: {
+          //     id: item.id}
+          // })
     },
-     ...mapMutations(['ADD_TO_CART']),
+    //  ...mapMutations(['ADD_TO_CART']),
     goCart(item){
-      let op = {
-              id: item.sid,
-              storyName:item.storyName,
-              bgImage:item.squareImage,
-              images: item.images,
-              storyCategoryName:item.storyCategoryName,
-              price:item.price,
-              introduction:item.introduction
-          }
-        this.ADD_TO_CART(op);
+      //  this.ADD_TO_CART(item);
     }
   }
 }
@@ -103,6 +92,10 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.img{
+  width: 150px;
+  height: 200px;
+}
 .cart_img{
   width: 18px;
   height: 18px;
@@ -110,11 +103,5 @@ export default {
 .num{
   font-size: 16px;
 }
-/* .grid_item{
-  box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);
-} */
-/* /deep/ .van-grid-item__content{
-  padding: 0 !important;
-  margin: 6px 4px;
-} */
+
 </style>

@@ -12,15 +12,38 @@
       </div>
     </div>
     <div class="user_group">
-      <div class="box" v-for="(item,index) in user_group" :key="index" @click="gourl(item)">
+      <div class="all" @click="gourl('0/1-a')">全部订单 <span style="float:right"><van-icon name="arrow" size="16"/></span></div>
+      <div class="box">
+        <div @click="gourl('0/1-b')">
+            <van-image :src="require('../../assets/images/dfk.png')" class="bgImg" />
+            <div class="box_name">待付款</div>
+        </div>
+          <div  @click="gourl('0/1-c')">
+            <van-image :src="require('../../assets/images/dfh.png')" class="bgImg" />
+            <div class="box_name">待发货</div>
+        </div>
+         <div  @click="gourl('0/1-d')">
+            <van-image :src="require('../../assets/images/dsh.png')" class="bgImg" />
+            <div class="box_name">待收货</div>
+        </div>
+         <div  @click="gourl('1/b')">
+            <van-image :src="require('../../assets/images/dgh.png')" class="bgImg" />
+            <div class="box_name">待归还</div>
+        </div>
+         <div  @click="gourl('0/1-e')">
+            <van-image :src="require('../../assets/images/dpj.png')" class="bgImg" />
+            <div class="box_name">待评价</div>
+        </div>
+          
+      </div>
+      <!-- <div class="box" v-for="(item,index) in user_group" :key="index" @click="gourl(item)">
            <van-image :src="item.bgImg" class="bgImg">
              <div class="van-info">1</div>
            </van-image>
            <div class="box_name">{{item.name}}</div>
-      </div>
+      </div> -->
     </div>
      <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" to="/vip" class="vip" />
-
     <div class="setting_group">
       <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" />
       <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" />
@@ -98,7 +121,7 @@ export default {
   methods:{
     gourl(item){
       // console.log(item)
-      this.$router.push(`/bugAndRent/${item.path}/${item.pathChildren}`)
+      this.$router.push(`/bugAndRent/${item}`)
     }
   }
 }
@@ -140,21 +163,26 @@ export default {
   line-height: 80px;
 }
 .user_group{
-  position: relative;
-  top: -40px;
-  width: 87%;
+   position: relative;
+   top: -40px;
+   width: 86%;
+   margin: 0 auto;
+   padding: 18px 10px;
+   background:rgba(255,255,255,1);
+   box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);
+   border-radius:8px;
+}
+.all{
+  width: 94%;
   margin: 0 auto;
-  height: 130px;
-  padding: 18px 10px;
-  background:rgba(255,255,255,1);
-  box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);
-  border-radius:8px;
-  display: grid;
-  grid-template-columns: repeat(4, 23%);
-  grid-row-gap: 16px;
-  grid-column-gap: 10px;
+  text-align: left;
 }
 .box{
+  width: 92%;
+  margin: 10px auto 0;
+  padding: 8px 4px 0px;
+  display: flex;
+  justify-content: space-between;
   font-size: 12px;
 }
 .bgImg{

@@ -2,9 +2,9 @@
   <div class="content">
     <div class="title">商品简介</div>
     <div class="desc">
-      {{introduction}}
+      {{introduction.introduction}}
     </div>
-    <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HuJiaHuWei/1591174173759_1.jpg" />
+    <van-image :src="introduction.squareImage" />
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 export default {
   props:{
     introduction:{
-      type:String,
+      type:Object,
     }
   },
   data () {
@@ -28,20 +28,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .content{
-	width: 94%; 
-	margin: 0 auto;
+	width: 92%; 
+	margin: 20px auto 8px;
 }
 .title{
-	font-size:14px;
+	  font-size:16px;
     color:rgba(34,34,34,1);
-    font-weight:600;
+    font-weight:700;
     text-align: left;
 }
 .desc{
-	margin: 10px 0;
-	text-align:left;
+  	margin: 10px 0;
+  	text-align:left;
     font-size:12px;
-    font-family:PingFangSC-Regular,PingFang SC;
     font-weight:400;
     color:rgba(34,34,34,1);
 }

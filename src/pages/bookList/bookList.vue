@@ -1,50 +1,126 @@
 <template>
   <div class="">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-image class="topImg" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/CaiZhouMianBaoZouDeNvHai/1583999065013_2.jpg" />
+      <van-image class="topImg" :src="topBg.listImage" />
       <div class="descBox">
           <div class="small_box"> 
-            <div class="tit">2020年度荟声评选10大精选作品</div>
+            <div class="tit">{{topBg.listName}}</div>
             <div class="desc">
-                生活中，不难发现某种情况下情商重要性大于智商，良好 的修养可以展现你整体的素养。今天为大家推荐5本大幅 提高修养和情商的5本好书。
+               {{topBg.listDescribe}}
             </div>
          </div>
       </div>
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+         <img src="../../assets/images/nodata.png" alt="" width="88"  style="margin-top:50px" v-if="list.length==0&&finished">
+       <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+       >
       <div class="content_box">
-          <div class="store_box" v-for="(item,index) in 6" :key="index">
-            <van-image class="store_boxImg" radius="4px" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/CaiZhouMianBaoZouDeNvHai/1583999060949_1.jpg" />
-            <div class="store_box_content">
-                <div class="title">驮盐的驴子</div>
-                <div class="author">作者：荟声</div>
+          <div class="store_box" v-for="(item,index) in list" :key="index">
+            <van-image class="store_boxImg" radius="4px" :src="item.verticalImage" @click="goDesc(item.id)"/>
+            <div class="store_box_content" @click="goDesc(item.id)">
+                <div class="title">{{item.title}}</div>
+                <div class="author">作者：{{item.author}}</div>
                 <div class="price">
                     <span class="fh">￥</span>
-                    <span class="priceNum">42.00</span>
+                    <span class="priceNum">{{item.price}}</span>
                 </div>
             </div>
-            <div class="store_box_right">
+            <div class="store_box_right" @click="goCart(item)">
               <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img"/><span class="font">加入购物车</span>  
             </div>
           </div>
       </div>
+       </van-list>
       </van-pull-refresh>
   </div>
 </template>
 
 <script>
-
+import {getListItem} from '@/api'
+import {mapMutations,mapActions} from 'vuex'
+import  nodata from '@/components/nodata'
+var that 
 export default {
+  components:{
+      nodata
+  },
   data () {
     return {
-        isLoading:false
+       isLoading:false, //上拉
+       finished:false, //是否加载完
+       loading:false,  //下拉
+       curPage:1, //当前页面
+       pageRows:6, //请求一页有多少数据
+       list:[],  
+       total:0,
+       topBg:{
+         listImage:'',
+         listName:'',
+         listDescribe:''
+       }
     }
   },
+  created(){
+      that=this
+    //   console.log(this.$route.params.id)
+      this.getItem()
+  },
   methods:{
-     onRefresh(){
-         setTimeout(() => {
-          this.$toast('刷新成功');
-           this.isLoading = false;
-         }, 1000);
+    //  ...mapMutations(['ADD_TO_CART']),
+     ...mapActions(['addCart']),
+     //跳转详情页面
+     goDesc(id){
+        // console.log(id)
+        this.$router.push(`/goodsDetails/${id}`)
      },
+     //加入购物车
+      goCart(item){
+        this.addCart(item);
+        // this.ADD_TO_CART(item)
+      },
+    getItem(){
+       let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
+        getListItem(op).then(res=>{
+            // console.log(res)
+            this.total=res.data.item.listCount
+            this.topBg.listImage=res.data.item.listImage
+            this.topBg.listName=res.data.item.listName
+            this.topBg.listDescribe=res.data.item.listDescribe
+            if(this.curPage==1){
+                this.list=res.data.item.list
+            }else{ 
+                this.list = this.list.concat(res.data.item.list)
+            }
+        })
+    },
+     onRefresh(){
+        // 清空列表数据
+        this.finished = false;
+        // 重新加载数据
+        // 将 loading 设置为 true，表示处于加载状态
+        this.loading = true;
+        this.onLoad();
+     },
+    //下拉刷新
+     onLoad(){
+          setTimeout(() => {
+            if (this.isLoading) {
+                 this.isLoading = false;
+            }
+            this.curPage++
+            this.getItem()
+            this.loading = false;
+             if (!this.total) {
+               this.finished = true;
+            }
+            // if (this.list.length >= this.total) {
+            //    this.finished = true;
+            // }
+        }, 1000);
+     }
   }
 }
 </script>
@@ -53,6 +129,7 @@ export default {
 <style scoped>
 .topImg{
     width: 100%;
+    height: 240px;
     background:rgba(0,0,0,1);
     opacity:0.85;
 }
@@ -61,8 +138,8 @@ export default {
     padding: 16px 10px;
     border-radius:8px;
     width: 86%;
-    top: -50px;
     margin: 0px auto;
+    margin-top: -50px;
     background:rgba(255,255,255,1);
     z-index: 2;
     box-shadow:0px 1px 4px 0px rgba(0,0,0,0.1);
@@ -84,14 +161,14 @@ export default {
 .content_box{
     width: 94%;
     margin: 0 auto;
-    position: relative;
-    top: -45px;
+    /* position: relative;
+    top: -40px; */
 }
 .store_box{
   display: flex;
   justify-content: space-between;
   width: 90%;
-  margin: 14px auto;
+  margin: 12px auto;
   box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.1);
   padding: 12px 10px;
   border-radius:8px;

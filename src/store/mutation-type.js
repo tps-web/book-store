@@ -19,3 +19,7 @@ export const USER_COUPON = 'USER_COUPON';
 export const SELETE_COUPON = 'SELETE_COUPON';
 
 export const USECOUPONTEXT = 'USECOUPONTEXT';
+
+export const ALL_CART = 'ALL_CART';
+
+export const COUPON_TOTAL = 'COUPON_TOTAL';

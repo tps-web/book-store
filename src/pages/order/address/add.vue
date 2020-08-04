@@ -31,13 +31,13 @@ export default {
    created(){
     // console.log(this.currentAddress)
   },
-   methods: {
+   methods: { 
     onAdd() {
-      this.$toast('新增地址');
       this.$router.push('/edit')
     },
     onEdit(item, index) {
-      this.$toast('编辑地址:' + index);
+      // this.$toast('编辑地址:' + item.id);
+      this.$router.push(`/edit/${item.id}`)
     },
     onBackAddress(item, index){
         this.$store.commit('CHANGE_ADDRESS',item)

@@ -19,6 +19,48 @@ import goodsItem from './components/goodsItem/item.vue'
 import headline from './components/headline/headline.vue'
 
 
+//过滤器
+Vue.filter('testfilter', function(value, num) {
+    // 返回处理后的值
+    if (value.length < num) {
+        return value.substring(0, num)
+    } else {
+        return value.substring(0, num) + '...'
+    }
+})
+
+Vue.filter('orderStatus', function(id) {
+    var obj = {
+        '-1': '全部订单',
+        '0': '待付款',
+        '1': '待发货',
+        '2': '待收货',
+        '3': '待评价',
+        '4': '已关闭',
+        '5': '无效订单'
+    }
+    for (var key in obj) {
+        if (key == id) {
+            return obj[key]
+        }
+    }
+})
+Vue.filter('btnText', function(id) {
+    let obj = {
+        '0': '待付款',
+        '1': '待发货',
+        '2': '查看物流',
+        '3': '待评价',
+        '4': '删除订单',
+        '5': '无效订单'
+    }
+    for (var key in obj) {
+        if (key == id) {
+            return obj[key]
+        }
+    }
+})
+
 Vue.config.productionTip = false
 
 //底部导航组件

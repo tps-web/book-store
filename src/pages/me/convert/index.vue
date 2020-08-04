@@ -19,7 +19,7 @@
 </template>
 
 <script>
-
+import {getCouponByCode} from '@/api'
 export default { 
   data () {
     return {
@@ -28,7 +28,13 @@ export default {
   },
   methods:{
   	onConvent(){
-  		console.log(this.code)
+      if(!this.code){
+        this.$toast('请输入领劵码')
+      }else{
+         getCouponByCode(this.code).then(res=>{
+           this.$toast('兑换成功！')
+         })
+      }
   	}
   }
 }

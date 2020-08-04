@@ -9,9 +9,16 @@ export default {
     currentAddress: '',
     //优惠券
     coupon: [],
+    couponTotal: '',
     //使用优惠券
     useCoupon: '',
     //使用优惠券文本
     useCouponText: '',
+    //购物车总数
+    CartTotal: 0,
+    //购物车数组数据
+    allCartArr: [],
+    addressTotal: '',
+    addresssNum: 1
 
 }

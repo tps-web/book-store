@@ -1,23 +1,63 @@
 <template>
-  <div class="">
-    <van-grid :border="false" :column-num="2" style="font-size: 12px">
-      <van-grid-item v-for="(item,index) in list" :key="index" to="" >
-        <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/XiaoYaZiXueYouYong/1584007352918_0.jpg"  radius="6px" />
-        <span class="name">长着驴耳朵的国王</span>
-        <span class="desc">#习惯养成、0-3岁</span>
-     </van-grid-item>
-   </van-grid>
+  <div class="content">
+    <van-grid :column-num="2" :border="false">
+      <van-grid-item v-for="(item,index) in listItem" :key="index" class="grid_item">
+         <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" class="img"/>
+         <div class="storeName">{{item.title}}</div>
+         <div class="category" v-if="item.categoryName&&item.categoryName.length>0">
+         	<div v-for="(type,index) in item.categoryName.slice(0,2)" :key="index" :style="{background:color[index].bg}" class="one">
+             <span style="color:#000; opacity: 1">{{type}}</span></div>
+         </div>
+         <div style="height:23px" v-else>
+         </div>
+         <div class="price">
+           <div class="left">
+              <span>￥</span><span class="num">{{item.price}}</span>
+           </div>
+           <div class="right">
+              <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
+           </div>
+         </div>
+      </van-grid-item>
+    </van-grid>
   </div>
 </template>
 
 <script>
-
+import {mapMutations,mapActions} from 'vuex'
 export default {
-   props:{
-       list:Number, 
-   },
+  inject: ["reload"], //注入reload方法
+  props:{
+    listItem:{
+      type:Array,
+    }
+  },
   data () {
     return {
+      color:[{bg:'#EDE9E0'},{bg:'rgba(255,205,1,1)'}],
+      cateType:[]
+    }
+  },
+  created(){
+    // console.log(this.listItem)
+  },
+  methods:{
+    goToGoodsDetail(item){
+          // this.$router.push(`/goodsDetails/${item.id}`)
+          this.$router.replace({
+              path:`/goodsDetails/${item.id}`
+          },()=>{
+             this.reload(); //此处刷新页面
+            // window.location.reload()
+            // this.$router.go(0)
+          })
+    },
+    //  ...mapMutations(['ADD_TO_CART']),
+     ...mapActions(['addCart']),
+    goCart(item){
+      // console.log(item)
+      //  this.ADD_TO_CART(item);
+       this.addCart(item)
     }
   }
 }
@@ -25,13 +65,48 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.name{
-	margin:4px 0;
+.content{
+  width: 97%;
+  margin: 0 auto;
 }
-.desc{
+.storeName{
+	width: 100%;
+  text-align: left;
+  margin-left: 8px;
+	padding: 6px 8px;
+}
+.category{
+	width: 100%; 
 	font-size: 10px;
-	color:rgba(153,153,153,1);
-	margin-top: 2px;
-	text-align: left;
+	display: flex;
+}
+.one{
+	opacity:0.7;
+	padding:3px;
+	border-radius: 4px;
+	margin:0 4px;
+}
+.price{
+  margin-top: 4px;
+  padding: 6px;
+  width: 94%;
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px;
+  text-align: left;
+  color: rgba(252,86,80,1);
+  display: flex;
+  justify-content: space-between;
+}
+.img{
+  width: 100%;
+  height: 200px;
+}
+.cart_img{
+  width: 18px;
+  height: 18px;
+}
+.num{
+  font-size: 16px;
 }
 </style>

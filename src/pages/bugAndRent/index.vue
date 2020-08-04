@@ -4,24 +4,48 @@
          <!-- <van-icon name="arrow-left" size="30" class="icon_back" @click="goBack"/> -->
         <div class="tabs_content">
         <van-tabs v-model="activeItem" sticky>
-            <van-tab title="借书" name="0">
+            <van-tab title="借书" name="1">
                 <van-tabs v-model="rentActive" swipeable sticky>
                   <van-tab title="全部订单" name="a">
+                   <RentAll/>
                   </van-tab>
-                  <van-tab title="待归还" name="b">待归还</van-tab>
-                  <van-tab title="待评价" name="c">待评价</van-tab>
-                  <van-tab title="已取消" name="d">已取消</van-tab>
+                  <van-tab title="待归还" name="b">
+                    <delayPayment/>
+                  </van-tab>
+                  <van-tab title="待发货" name="c">
+                    <delayShipments/>
+                  </van-tab>
+                  <van-tab title="待收货" name="d">
+                    <delayTake/>
+                  </van-tab>
+                  <van-tab title="待评价" name="e">
+                    <delayComment/>
+                  </van-tab>
+                  <van-tab title="已取消" name="f">
+                    <cancelBox />
+                  </van-tab>
                 </van-tabs>
             </van-tab>
-            <van-tab title="购买" name="1">
+            <van-tab title="购买" name="0">
                 <van-tabs v-model="bugActive" swipeable sticky>
                   <van-tab title="全部订单" name="1-a">
                     <BugAll/>
                   </van-tab>
-                  <van-tab title="待付款" name="1-b">待付款</van-tab>
-                  <van-tab title="待发货" name="1-c">待发货</van-tab>
-                  <van-tab title="待收货" name="1-d">待收货</van-tab>
-                  <van-tab title="待评价" name="1-e">待评价 </van-tab>
+                  <van-tab title="待付款" name="1-b">
+                    <Payment/>
+                  </van-tab>
+                  <van-tab title="待发货" name="1-c">
+                    <Shipments />
+                  </van-tab>
+                  <van-tab title="待收货" name="1-d">
+                    <Take/>
+                  </van-tab>
+                  <van-tab title="待评价" name="1-e">
+                    <Comment/>  
+                  </van-tab>
+                   <van-tab title="已取消" name="1-f">
+                    <cancelView/>  
+                  </van-tab>
                 </van-tabs>
             </van-tab>
          </van-tabs>
@@ -34,13 +58,35 @@
 import Bug from './tabItem/bug'
 import Rent from './tabItem/rent'
 import BugAll from './bug/all'
+import RentAll from './rent/all'
+import delayPayment from './rent/delayPayment'
+import delayShipments from './rent/delayShipments'
+import delayTake from './rent/delayTake'
+import delayComment from  './rent/delayComment'
+import cancelBox from './rent/cancelBox'
 
+import Payment from './bug/delayPayment'
+import Shipments from './bug/delayShipments'
+import Take from './bug/delayTake'
+import Comment from  './bug/delayComment'
+import cancelView from './bug/cancelBox'
 
 export default {
   components:{
     Bug,
     Rent,
-    BugAll
+    BugAll,
+    RentAll,
+    delayPayment,
+    delayShipments,
+    delayTake,
+    delayComment,
+    cancelBox,
+    Payment,
+    Shipments,
+    Take,
+    Comment,
+    cancelView
   },
   data () {
     return {

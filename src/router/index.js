@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import store from '@/store'
 Vue.use(Router)
+import { setToken } from '@/utils/authcookie'
 
 const router = new Router({
     // 解决路由跳转页面没有置顶
@@ -55,6 +56,15 @@ const router = new Router({
         },
         {
             path: '/edit',
+            name: 'edit',
+            component: () =>
+                import ('@/pages/me/address/edit'),
+            meta: {
+                title: "编辑地址"
+            }
+        },
+        {
+            path: '/edit/:id',
             name: 'edit',
             component: () =>
                 import ('@/pages/me/address/edit'),
@@ -118,7 +128,16 @@ const router = new Router({
             }
         },
         {
-            path: '/goodsDetails',
+            path: '/goodsDetails/:id',
+            name: 'goodsDetails',
+            component: () =>
+                import ('@/pages/goodsDetails/index'),
+            meta: {
+                title: "绘本详情"
+            }
+        },
+        {
+            path: '/goodsDetails/:id/:searchHot',
             name: 'goodsDetails',
             component: () =>
                 import ('@/pages/goodsDetails/index'),
@@ -189,7 +208,7 @@ const router = new Router({
             }
         },
         {
-            path: '/bookList',
+            path: '/bookList/:id',
             name: 'bookList',
             component: () =>
                 import ('@/pages/bookList/bookList.vue'),
@@ -224,14 +243,122 @@ const router = new Router({
                 title: "物流信息"
             }
         },
+        {
+            path: '/weekBook',
+            name: 'weekBook',
+            component: () =>
+                import ('@/pages/weekBook/weekBook.vue'),
+            meta: {
+                title: "本周新书"
+            }
+        },
+        {
+            path: '/comment/:id',
+            name: 'comment',
+            component: () =>
+                import ('@/pages/comment/comment.vue'),
+            meta: {
+                title: "评论"
+            }
+        },
+        {
+            path: '/goodsList',
+            name: 'goodsList',
+            component: () =>
+                import ('@/components/goodsList/goodsList'),
+            meta: {
+                title: "订单详情"
+            }
+        },
+        {
+            path: '/categoryItem/:id',
+            name: 'categoryItem',
+            component: () =>
+                import ('@/pages/categoryItem/categoryItem'),
+            meta: {
+                title: "故事列表"
+            }
+        },
+        {
+            path: '/rentPay/succesc',
+            name: 'success',
+            component: () =>
+                import ('@/pages/rentPay/success'),
+            meta: {
+                title: "提交成功"
+            }
+        },
+        {
+            path: '/orderList/goodsList/:id',
+            name: 'success',
+            component: () =>
+                import ('@/components/orderList/goodsList'),
+            meta: {
+                title: "商品列表"
+            }
+        },
+        {
+            path: '/commetOrder',
+            name: 'success',
+            component: () =>
+                import ('@/pages/comment/commetOrder'),
+            meta: {
+                title: "评论"
+            }
+        },
 
     ]
 })
+var info = {
+    "code": "1",
+    "data": {
+        "userId": 169,
+        "userCode": "",
+        "userTelphone": "18813580769",
+        "userRegistDatetime": "2020-04-07 10:30:55",
+        "regId": "",
+        "alias": "uid_169",
+        "tag": "",
+        "birthday": "",
+        "hasBindQq": 0,
+        "hasBindWeixin": 0,
+        "hasBindApple": 0,
+        "isThreeLogin": 0,
+        "myqrcode": "",
+        "phoneDeviceCode": "null",
+        "phoneDeviceName": "vivo V1824BA",
+        "phoneDeviceType": "android",
+        "sex": 0,
+        "status": 1,
+        "area": "",
+        "userEmail": "",
+        "userHead": "http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png",
+        "userNickName": "ps",
+        "userSign": "",
+        "longitude": 0,
+        "latitude": 0,
+        "loginStatus": 1,
+        "updateTime": "2020-05-02 02:51:03",
+        "isRealUser": 1,
+        "background": "",
+        "soundType": 0,
+        "isFollow": 0,
+        "wxNickName": "",
+        "wxUserHead": "",
+        "qqNickName": "",
+        "qqUserHead": "",
+        "worksCount": 0,
+        "type": 0
+    },
+    "msg": "登录成功",
+    "serializeNulls": false
+}
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
     if (!store.state.userInfo) {
+        setToken(info)
         store.dispatch('getUserInfo')
     }
     next()

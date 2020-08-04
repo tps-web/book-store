@@ -1,45 +1,44 @@
 <template>
   <div class="content">
      <!-- <headerNav title="商品详情"/> -->
-      <!-- 商品轮播 -->
-     <van-swipe @change="onChange">
-       <van-swipe-item v-for="(item,index) in goodsInfo.images" :key="index">
-       	<van-image width="96%" radius="6px" :src="item" />
-       </van-swipe-item>
-       <template #indicator>
-         <div class="custom-indicator">
-         {{ current + 1 }}/{{goodsInfo.images.length}}
-       </div>
-     </template>
-    </van-swipe>
+      <!-- 商品图片 -->
+      <div class="top">
+          <div class="top_left">
+              <van-image class="bookImg"  radius="6px"  :src="goodsInfo.squareImage" />
+          </div>   
+         <div class="top_right">
+            <div class="title">{{goodsInfo.title}}</div>
+             <div class="book_press">
+                <div class="author">作者:{{goodsInfo.author}}</div>
+                <div class="press">出版社：中山韦达技术出版社</div>
+             </div>
+             <div class="type">
+                <div class="desc"  v-for="(type,index) in goodsInfo.categoryName" :key="index" >
+                    <div class="box">
+                        {{type}}
+                    </div>
+                </div>
+             </div>
+              <div class="price">
+               <span class="fh">￥</span>
+               <span class="priceNum">{{goodsInfo.price}}</span>
+                <!-- <div class="vip">会员免费借书看</div> -->
+              </div>
+              <div class="remark">已有{{goodsInfo.lendCount}}会员免费借阅</div>   
+         </div>
+      </div>
     <!-- 商品信息 -->
-    <div class="price">
-      <div class="priceNum">￥{{goodsInfo.price}}</div>
-      <div class="vip">会员免费借书看</div>
-    </div>
-    <div class="bookName">
-        {{goodsInfo.storyName}}
-    </div>
     <div class="storeDesc">
-      <div class="desc">
-    	<div class="box" v-for="(item,index) in 4" :key="index">
-    		习惯养成
-    	</div>
-      </div>
-      <div class="book_press">
-      	<div class="author">作者:韦达大师</div>
-      	<div class="press">出版社：中山韦达技术出版社</div>
-      </div>
       <Vip />
       <!-- 租赁流程  归还流程-->
        <Rental/>
        <!-- 简介 -->
-       <Introduce  :introduction="goodsInfo.introduction"/>
+       <Introduce  :introduction="introduction" v-if="introduction.introduction"/>
        <!-- 评论 -->
-       <Comment/>
+       <Comment :commentList="commentList" :bookId="bookId"  v-if="commentList"/>
        <!-- 推荐 -->
        <div class="pad">
-          <Recommend/>
+          <Recommend  :recommendlist="recommendlist" v-if="recommendlist.length>0"/>
        </div>
     </div>
    <van-goods-action>
@@ -59,8 +58,8 @@ import Introduce from './components/introduce.vue'
 import Comment from './components/comment.vue'
 import Recommend from './components/recommend.vue'
 import Vip from './components/vip.vue'
-import { mapState, mapMutations } from 'vuex'
-
+import { mapState, mapMutations,mapActions } from 'vuex'
+import {getBookDesc} from '@/api'
 export default {
   components:{
   	Rental,
@@ -72,7 +71,11 @@ export default {
   data () {
     return {
        current: 0,
-       goodsInfo: this.$route.query,
+       goodsInfo:"",
+       recommendlist:[],
+       introduction:{},
+       commentList:"",
+       bookId:''
     }
   },
   computed:{
@@ -84,11 +87,24 @@ export default {
       }
     }
   },
-  created(){
-    // console.log(this.$route.query.introduction)
+   created(){
+    //获取绘本信息
+      let op ={ id : this.$route.params.id , curPage:1, pageRows :4}
+      getBookDesc(op).then(res=>{
+        // console.log(res.data)
+        this.recommendlist=res.data.acviseBook.records
+        this.goodsInfo=res.data.book
+        this.introduction.squareImage=res.data.book.squareImage
+        this.introduction.introduction=res.data.book.introduction
+        this.commentList=res.data.commentList
+        this.bookId=res.data.book.id
+      })
+  },
+  mounted(){
   },
    methods: {
-     ...mapMutations(['ADD_TO_CART']),
+     ...mapActions(['addCart']),
+    //  ...mapMutations(['ADD_TO_CART']),
     onChange(index) {
       this.current = index;
     },
@@ -98,7 +114,8 @@ export default {
     //加入购物车
     onClickButton(){
       // this.$toast('加入购物车')
-      this.ADD_TO_CART(this.goodsInfo);
+      // this.ADD_TO_CART(this.goodsInfo);
+      this.addCart(this.goodsInfo)
     }
   },
 }
@@ -106,6 +123,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.top{
+    width: 94%;
+    margin: 10px auto;
+    display: flex;
+    padding: 4px;
+}
+.top_left{
+    width: 40%;
+}
+.bookImg{
+    width: 100%;
+    height: 170px;
+}
+.top_right{
+    width: 60%;
+    margin-left: 10px;
+	text-align: left;
+}
+.title{
+    font-size: 17px;
+    font-weight: 600;
+}
 .custom-indicator {
     position: absolute;
     right: 8px;
@@ -124,40 +163,59 @@ export default {
     margin:10px 12px;
 	text-align: left;
 }
+.remark{
+  color:rgba(153,153,153,1);
+  margin-top: 6px;
+  font-size: 12px;
+}
+.type{
+    display:flex;
+    overflow-x:auto;
+    overflow-y:hidden;
+    /* justify-self: start; */
+}
 .desc{
-	width: 94%; 
-	margin:0 auto;
-	display: flex;
-	font-size: 10px;
+    display:flex;
+    justify-self: start;
+	  font-size: 10px;
+    /* flex-wrap: wrap; */
 }
 .box{
-	margin-right:10px;
+    width: 50px;
+	  margin: 4px 8px 0 0;
+    text-align: center;
     background:rgba(245,245,245,1);
     color:rgba(153,153,153,1);
-    border-radius:10px;
+    border-radius:8px;
     padding: 6px;
 }
 .book_press{
-	width: 91%;
-	margin:14px auto;
+	width: 100%;
+	margin: 10px 0 6px;
+  color:rgba(153,153,153,1);
 	font-size: 12px;
 	text-align: left;
 }
 .press{
-	margin-top: 8px;
+	margin-top: 4px;
 }
 .pad{
   margin-bottom: 50px;
 }
 .price{
-  width: 94%; 
-	margin:0 auto;
+  width: 100%; 
+  margin-top: 4px;
+  color:rgba(252,86,80,1);
   text-align: left;
   display: flex;
 }
+.fh{
+  height: 32px;
+  font-size: 16px;
+  line-height: 40px;
+}
 .priceNum{
   padding: 4px 0 0;
-  color:rgba(252,86,80,1);
   font-size: 24px;
 }
 .vip{

@@ -2,31 +2,45 @@
   <div class="content">
   	<div class="top">
   	   <div class="title">
-     	  评论
+     	  评论 （{{commentList.total}}）
        </div>
-       <div class="tit_right">
-       	共1234条
+       <div class="tit_right" @click="goMove" v-show="commentList.total>4">
+       	查看全部
        </div>
   	</div>
-  	<div class="comments" v-for="(item,index) in 4" :key="index">
-  		<div class="avatar"> 
-  		    <van-image round width="44" height="44" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-  		</div>
-  		<div class="comments_contents">
-  			<div class="username">詹姆斯</div>
-  			<div class="date">2020-7-10 18:02</div>
-  			<div class="comments_desc">语速适中，适合小朋友听！</div>
-  		</div>
-  	</div>
+	  <div v-if="commentList.total>0">
+		<div class="comments" v-for="(item,index) in commentList.records" :key="index">
+			<div class="avatar"> 
+				<van-image round width="44" height="44" :src="item.userHead" />
+			</div>
+			<div class="comments_contents">
+				<div class="username">{{item.userNickName}}</div>
+				<div class="date">{{item.createTime}}</div>
+				<div class="comments_desc">{{item.content}}</div>
+			</div>
+		</div>
+	  </div>
+	  <div class="nodata" v-else>
+		  暂无评论
+	  </div>
   </div>
 </template>
 
 <script>
 
 export default {
+   props:["commentList","bookId"],
   data () {
     return {
     }
+  },
+  created(){
+	//   console.log(this.bookId)
+  },
+  methods:{
+	  goMove(){
+		  this.$router.push(`/comment/${this.bookId}`)
+	  }
   }
 }
 </script>
@@ -34,12 +48,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .content{
-	width: 94%;
+	width: 90%;
 	margin: 10px auto;
+	padding: 1px 8px 8px;
+	box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.1)
 }
 .top{
- display: flex;
- justify-content: space-between;
+	margin: 20px auto 8px;
+    display: flex;
+    justify-content: space-between;
 }
 .title{
 	font-size:14px;
@@ -75,5 +92,9 @@ export default {
 }
 .comments_desc{
 	padding: 6px 0 8px;
+}
+.nodata{
+	padding: 10px;
+	color: #999;
 }
 </style>

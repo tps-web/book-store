@@ -25,7 +25,7 @@ export default {
 <style scoped>
 .vip{
  width: 96%;
- margin: 10px auto;
+ margin: 20px auto;
  height: 80px ;
  background:linear-gradient(90deg,rgba(255,188,1,1) 0%,rgba(255,205,1,1) 100%);
  box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);

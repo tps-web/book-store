@@ -1,6 +1,6 @@
 <template>
   <div class="">
-       <div class="top">
+       <div class="top"  style="margin: 20px auto 10px">
        	 <div class="tit">租赁流程</div>
        	 <div class="more" @click="goMore">更多</div>
        </div>
@@ -11,7 +11,7 @@
        	 </div>
        	  <div class="box">
        	 	  <van-image width="40"  :src="require('../../../assets/images/zfzyj.png')" />
-       	 	  <div>支付租押金</div>
+       	 	  <div>提交订单</div>
        	 </div>
        	  <div class="box">
        	 	  <van-image width="40"  :src="require('../../../assets/images/shty.png')" />
@@ -22,7 +22,7 @@
        	 	  <div>预约归还</div>
        	 </div>
        </div>
-        <div class="top"  style="margin-top: 20px">
+        <div class="top"  style="margin: 20px auto 10px">
        	 <div class="tit">归还须知</div>
        	 <div class="more">更多</div>
        </div>
