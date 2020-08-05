@@ -12,7 +12,8 @@
          </div>
          <div class="price">
            <div class="left">
-              <span>￥</span><span class="num">{{item.price}}</span>
+              <span>￥</span><span class="num" v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
+              <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount}}</span></div>
            </div>
            <div class="right">
               <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
@@ -109,4 +110,13 @@ export default {
 .num{
   font-size: 16px;
 }
+.grid_item{
+  margin: 4px 0;
+}
+/* /deep/ .van-grid-item__content{
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+  padding: 2px 6px;
+  margin: 4px;
+  border-radius: 6px;
+} */
 </style>

@@ -26,7 +26,7 @@
         	</div> -->
         	<div class="boxNum">
         	 <div class="canNum">
-               <!-- <div :class="[item.useStatus==0 ?'bg_fill':'invalid_bg_fill']">满{{item.useNum}}元使用</div> -->
+               <div :class="[item.useStatus==0 ?'bg_fill':'invalid_bg_fill']">满{{item.minPoint}}元使用</div>
                <div>{{item.name}}</div>
         	 </div>
         	</div>

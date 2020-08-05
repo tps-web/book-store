@@ -40,15 +40,30 @@ export default {
     }
   },
   computed:{
-    //   ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM'}),
+    //...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM'}),
    },
 created(){
     that=this
     this.getItem()
 },
+mounted(){
+  if (window.history && window.history.pushState) {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', this.goBack, false);
+  }
+},
+destroyed(){
+  window.removeEventListener('popstate', this.goBack, false);
+},
 methods:{
+   goBack(){
+    var path=sessionStorage.getItem('path')
+    var pathChildren= sessionStorage.getItem('pathChildren')
+    this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
+    //replace替换原路由，作用是避免回退死循环
+  },
   godesc(item){
-    this.$router.push(`/goodsDetails/${item.bookId}`)
+    this.$router.replace(`/goodsDetails/${item.bookId}`)
   },
      getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,orderSn:this.$route.params.id}

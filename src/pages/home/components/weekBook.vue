@@ -15,7 +15,10 @@
                  <div class="line" >
                    <span v-for="(category,index1) in  item.categoryName.slice(0,2)" :key="index1">{{category}}</span>
                  </div>
-                 <div class="price"><span class="fh">￥</span><span class="num">{{item.price}}</span></div>
+                 <div class="price">
+                   <span class="fh">￥</span><span class="num"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
+                   <span class="fh" style=" margin-left: 6px;" v-if="item.promotionAmount">￥</span><span class="promotionAmount" v-if="item.promotionAmount">{{item.promotionAmount}}</span>
+                   </div>
               </div>
             </div>
         </van-swipe-item>
@@ -108,6 +111,9 @@ export default {
     color: #FC5650;
 }
 .num{
-    font-size: 18px;
+    font-size: 16px;
+}
+.promotionAmount{
+  font-size: 18px;
 }
 </style>

@@ -89,20 +89,8 @@ export function getHotBookItem() {
 
 
 //保存购物车  /order/cart/save
-export function saveCart(op) {
+export function saveCart(data) {
     var info = JSON.parse(getToken())
-    let data = {
-        "bookId": op.id,
-        "bookIsbn": op.isbn,
-        "bookName": op.title,
-        "bookPic": op.minImage || op.squareImage,
-        "price": op.price,
-        "quantity": 1,
-        "book_category_id": op.categoryId,
-        "book_press": op.press,
-        "userId": info.userId,
-        "userNickName": info.userNickName
-    }
     return request({
         url: `/order/cart/save`,
         method: 'post',
@@ -268,5 +256,14 @@ export function getCoupan(id) {
     return request({
         url: `/book/coupon/get/${id}`,
         method: 'get',
+    })
+}
+
+
+// /book-type/listByParentId/{parentId}  查询大类下的所有子类
+export function listByParentId(id) {
+    return request({
+        url: `/book-type/listByParentId/${id}`,
+        method: 'get'
     })
 }

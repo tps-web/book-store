@@ -22,7 +22,7 @@ export default {
        finished:false, //是否加载完
        loading:false,  //下拉
        curPage:1, //当前页面
-       pageRows:10, //请求一页有多少数据
+       pageRows:6, //请求一页有多少数据
        list:[],  
        total:'',
     }
@@ -36,7 +36,7 @@ export default {
        getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
         getBookDesc(op).then(res=>{
-            console.log(res.data.commentList)
+            // console.log(res.data.commentList)
             this.total=res.data.commentList.total
             if(this.curPage==1){
                 this.list=res.data.commentList.records

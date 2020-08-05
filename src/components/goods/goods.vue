@@ -54,13 +54,13 @@ export default {
 }
 .goods_right{
   position:absolute;
-  right: 10px;
-  top: 40px;
-  /* margin: auto 0; */
-  /* flex: 1.5; */
+  right: 2px;
+  top: 38px;
+  /* width: 25%; */
 }
 .bigBox{
-  width: 270px;
+  /* width: 270px; */
+  width: 75%;
   overflow-x: auto;
   display: flex;
 }

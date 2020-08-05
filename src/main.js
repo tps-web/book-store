@@ -18,7 +18,7 @@ import headerNav from './components/header/nav.vue'
 import goodsItem from './components/goodsItem/item.vue'
 import headline from './components/headline/headline.vue'
 
-
+import Back from './back.js'
 //过滤器
 Vue.filter('testfilter', function(value, num) {
     // 返回处理后的值
@@ -76,6 +76,7 @@ Vue.component("headerNav", headerNav)
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
+    Back,
     router,
     store,
     components: { App },

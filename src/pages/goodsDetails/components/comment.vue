@@ -4,7 +4,7 @@
   	   <div class="title">
      	  评论 （{{commentList.total}}）
        </div>
-       <div class="tit_right" @click="goMove" v-show="commentList.total>4">
+       <div class="tit_right" @click="goMove" v-show="commentList.total>=4">
        	查看全部
        </div>
   	</div>
@@ -51,7 +51,7 @@ export default {
 	width: 90%;
 	margin: 10px auto;
 	padding: 1px 8px 8px;
-	box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.1)
+	/* box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.1) */
 }
 .top{
 	margin: 20px auto 8px;

@@ -13,7 +13,7 @@
         <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
        </div>
       <div>
-      <div class="box" v-for="(item,index) in getCouponList" :key="index" @click="selectItem(item)">
+      <div class="box" v-for="(item,index) in formatCoupon" :key="index" @click="selectItem(item)">
         <van-image  :src="require('../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
          <van-image  :src="require('../../../assets/images/bg-used.png')" class="bg" v-else/>
         <div class="pos"> 
@@ -26,7 +26,7 @@
         	</div> -->
         	<div class="boxNum">
         	 <div class="canNum">
-               <!-- <div :class="[item.useStatus==0 ?'bg_fill':'invalid_bg_fill']">满{{item.useNum}}元使用</div> -->
+               <div :class="[item.useStatus==0 ?'bg_fill':'invalid_bg_fill']">满{{item.minPoint}}元使用</div>
                <div>{{item.name}}</div>
         	 </div>
         	</div>
@@ -44,7 +44,7 @@
   </div>
     </van-list>
     </van-pull-refresh> 
-  </div>
+   </div>
 </template>
 
 <script>
@@ -52,6 +52,7 @@ import {mapState,mapActions, mapGetters} from 'vuex'
 import {compareDate,formatCoupon} from '@/utils'
 var that
 export default { 
+  props:['coupon'],
   data () {
     return {
        isLoading:false, //上拉
@@ -64,13 +65,39 @@ export default {
     }
   },
   computed:{
-    // ...mapState(['coupon']),
-    ...mapGetters(['getCouponList','getCouponTotal']),
+    ...mapGetters(['getCouponList','getCouponTotal','SELECTED_GOODS_PRICE']),
+    formatCoupon(){
+       var newData = []
+      this.coupon.map(function(ele,index,array){
+            if(ele.minPoint<that.SELECTED_GOODS_PRICE){
+               newData.push(ele)
+            }else{
+               ele.useStatus=3
+               newData.push(ele)
+            }
+      })
+      return newData
+    },
+   formatGoods(list) {
+    var newData = []
+    list.map((ele) => {
+        newData.push({
+            bookId: ele.id,
+            cartItemId: ele.cartId,
+            bookIsbn: ele.bookIsbn,
+            bookName: ele.name,
+            bookPic: ele.smallImage,
+            bookPrice: ele.price,
+            bookQuantity: ele.bookQuantity
+        })
+    })
+    return newData
+}
   },
   created(){
      that=this
       // this.couponList=formatCoupon(this.coupon)
-       this.getFollowPage()
+      this.getFollowPage()
   },
   mounted(){
   },
@@ -120,6 +147,9 @@ export default {
        case 1:
           return `已<br/>使用`
          break;
+       case 3:
+          return `不<br/>可用`
+        break;
         default:
           return `已<br/>过期`
           break;

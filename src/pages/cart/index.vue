@@ -54,7 +54,7 @@
      <div class="submit-bar" v-show="editor">
        <div class="checkBox" style="margin:auto 20px">
             <van-checkbox v-model="isCheckedAll"
-                        checked-color='#629357'>全选</van-checkbox>
+                        checked-color="#629357">全选</van-checkbox>
        </div>
        <div class="submit">
          <div class="del" @click="del()">移除</div>
@@ -150,17 +150,17 @@ export default {
       if(this.checkedNum&&this.checkedNum<3){
          this.$toast('需要租3本起')
       }else if(!this.checkedNum){
-        console.log(this.checkedNum)
          this.$toast('没有勾选商品')
+      }else if(this.checkedNum&&this.checkedNum>6){
+        this.$toast('租借不能超过6本')
       }else{
-        // console.log(this.checkedNum)
         this.$router.push('/rentOrder')
       }
     },
     //点击购买按钮
      goBug(){
       if(this.checkedNum){
-         this.$toast('买书')
+        //  this.$toast('买书')
          this.$router.push('/order')
       }else{
          this.$toast('没有勾选')

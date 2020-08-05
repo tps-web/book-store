@@ -28,7 +28,7 @@ export default {
   
   },
   mounted(){
-    console.log(this.data)
+    // console.log(this.data)
       this._initData()
   },
   watch: {
@@ -88,5 +88,7 @@ export default {
 }
 .name{
   width: 66px;
+  font-size: 12px;
+  margin-top: 2px;
 }
 </style>

@@ -9,6 +9,7 @@ export default {
     currentAddress: '',
     //优惠券
     coupon: [],
+    //优惠券数量
     couponTotal: '',
     //使用优惠券
     useCoupon: '',
@@ -19,6 +20,6 @@ export default {
     //购物车数组数据
     allCartArr: [],
     addressTotal: '',
-    addresssNum: 1
-
+    addresssNum: 1,
+    allTotal: 0
 }

@@ -6,7 +6,7 @@
          :key="index"
          icon="photo-o"
          :text="nav.name"
-         @click="gotoCategory(index)" to=""/>
+         @click="gotoCategory(nav)" to=""/>
     </van-grid>
   </div>
 </template>
@@ -33,7 +33,9 @@ export default {
 
   },
   methods: {
-    gotoCategory (index) {
+    gotoCategory (item) {
+      // console.log(item)
+      this.$router.push(`/move/${item.id}`)
       // this.$router.push({ name: 'category', params: { currentIndex: index } })
     }
   }

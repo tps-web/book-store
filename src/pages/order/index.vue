@@ -96,13 +96,14 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex'
+import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
 import addAddress from '@/components/addAddress/addAddress'
 import Coupon from './coupon/coupon'
 import goods from '@/components/goods/goods'
 import express from '@/components/express/express'
 import {formatCoupon,formatGoods,add} from '@/utils'
 import { getToken } from '@/utils/authcookie'
+import {postOrder} from '@/api'
 
 var that
 export default {
@@ -152,7 +153,7 @@ export default {
   },
   computed:{
     ...mapState(['currentAddress','shopCart','coupon','useCoupon','useCouponText']),
-    ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList'}),
+    ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE'}),
     showGoods(){
       let goodsArr=[]
       for(let i =0; i<3;i++){
@@ -166,18 +167,31 @@ export default {
     totalNum(){
       return this.goods.length 
     },
-   
+    //能使用的优惠券
+    // canCouponList(){
+    //   // return this.priceTotal
+    //   return this.coupon
+    // },
     //优惠券选择提示
     // couponTest(){
     //   return this.usableArr.length>0?'选择优惠券':'无可用优惠券'
     // },
   },
   methods:{
+    ...mapActions(['getCartList']),
     //取消支付
     payCancel(){
       this.payList.payType=0  //支付方式：0->未支付；1->支付宝；2->微信
       this.payList.status=0,   //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
       console.log(this.payList)
+      postOrder(this.payList).then(res=>{
+          console.log(res)
+          this.$toast('已取消支付，请尽快支付')
+          this.getCartList()
+        this.$store.commit('SELETE_COUPON','')
+        this.$store.commit('USECOUPONTEXT','')
+        history.back();
+      })
     },
     //支付
     payBtn(){
@@ -279,7 +293,6 @@ export default {
     // console.log(this.clearedNum)
     // this.usableArr=couponList.usableArr
   },
-
 }
 </script>
 

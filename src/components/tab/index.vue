@@ -1,20 +1,29 @@
 
 <template>
   <div class="">
-   <van-tabs v-model="active" swipeable sticky>
-    <van-tab v-for="(item,index) in 12" :title="'选项 ' + index" :key="index">
+   <van-tabs v-model="activeName" swipeable sticky @change="onChange">
+    <van-tab v-for="(item,index) in tabNameList" :title="item.name" :key="index" :name="item.id">
     	<van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      	   <van-grid :column-num="2" :border="false">
-      	   	 <van-grid-item v-for="(item,index) in 6" :key="index" @click="goDetails(index)">
-              <van-image src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/HongWuXie/1590377209024_1.jpg" radius="6px" />
-                <div class="storeName">红舞鞋</div>
+              <van-image :src="require('../../assets/images/nodata.png')" radius="6px" v-if="finished&&total===0" class="nodata"/>
+			  <van-list
+				v-model="loading"
+				:finished="finished"
+				finished-text="没有更多了"
+				@load="onLoad"
+      		  >
+				<goods :listItem="list"/>
+      	   <!-- <van-grid :column-num="2" :border="false">
+      	   	 <van-grid-item v-for="(item,index1) in list" :key="index1" @click="goDetails(index1)">
+              <van-image :src="item.verticalImage" radius="6px" class="goodsImg"/>
+                <div class="storeName">{{item.title}}</div>
                    <div class="category" >
-                      <div v-for="(item,index) in 2" :key="index" :style="{background:color[index].bg}" class="one">
+                      <div v-for="(item,index2) in 2" :key="index2" :style="{background:color[index2].bg}" class="one">
          	              <span style="color:#000; opacity: 1">0-3岁</span>
                       </div>
                   </div>
               </van-grid-item>
-      	    </van-grid>
+      	     </van-grid> -->
+			</van-list>
       	  </van-pull-refresh>
     </van-tab>
   </van-tabs>
@@ -23,26 +32,86 @@
 </template>
 
 <script>
+import {getChildCategoryBookList} from '@/api'
+import goods from '@/components/goodsItem/item'
 
+var that
 export default {
+  props:['tabNameList'],
+  components:{
+	  goods
+  },
   data () {
     return {
-    	isLoading:false,
-    	active:0,
-    	color:[{bg:'rgba(0,114,255,1)'},{bg:'rgba(255,205,1,1)'}]
+    	activeName:'',
+		color:[{bg:'rgba(0,114,255,1)'},{bg:'rgba(255,205,1,1)'}],
+		isLoading:false, //上拉
+		finished:false, //是否加载完
+		loading:false,  //下拉
+		curPage:0, //当前页面
+		pageRows:6, //请求一页有多少数据
+		list:[],  
+		total:0,
+		itemId:''
     }
   },
+  watch:{
+	  tabNameList(newVal,oldVal){
+		 if(newVal){
+			that.activeName=newVal[0].id
+			// this.getItem()
+		 }
+	  },
+  },
   methods:{
+	onChange(active){
+		// console.log(active)
+		this.curPage=0
+	    this.onLoad();
+	},
+	getItem(){
+		// console.log(that.activeName)
+       let op={curPage:that.curPage,pageRows:that.pageRows,categoryId:that.activeName}
+        getChildCategoryBookList(op).then(res=>{
+			// console.log(res.data)
+            this.total=res.data.total
+            if(this.curPage==1){
+                this.list=res.data.rows
+            }else{ 
+                this.list = this.list.concat(res.data.rows)
+            }
+        })
+	},
+	 onRefresh(){
+        // 清空列表数据
+        this.finished = false;
+        // 重新加载数据
+        // 将 loading 设置为 true，表示处于加载状态
+		this.loading = true;
+        this.onLoad();
+     },
+    //下拉刷新
+     onLoad(){
+          setTimeout(() => {
+            if (this.isLoading) {
+                 this.isLoading = false;
+            }
+            this.curPage++
+			this.getItem()
+            this.loading = false;
+           if (this.list.length >= this.total) {
+               this.finished = true;
+            }
+        }, 500);
+     },
   	goDetails(id){
-  		console.log(id)
   		this.$router.push('/goodsDetails')
   	},
-  	onRefresh(){
-       setTimeout(() => {
-  	      this.$toast('刷新成功')
-  	      this.isLoading=false
-  	  },1000)
-  	}
+  },
+  created(){
+	  that=this
+  },
+  mounted(){
   }
 }
 </script>
@@ -66,5 +135,12 @@ export default {
 	border-radius: 4px;
 	margin:0 4px;
 }
-
+.nodata{
+	margin-top:60px;
+	width: 108px;
+}
+.goodsImg{
+	width: 160px;
+	height: 200px;
+}
 </style>

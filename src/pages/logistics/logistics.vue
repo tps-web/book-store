@@ -52,7 +52,24 @@ export default {
     return {
       lnglat:[[113.434576,23.208843],[113.389257,22.515404]]
     }
+  },
+  mounted(){
+  if (window.history && window.history.pushState) {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', this.goBack, false);
   }
+},
+destroyed(){
+  window.removeEventListener('popstate', this.goBack, false);
+},
+methods:{
+   goBack(){
+    var path=sessionStorage.getItem('path')
+    var pathChildren= sessionStorage.getItem('pathChildren')
+    this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
+    //replace替换原路由，作用是避免回退死循环
+  }
+}
 }
 </script>
 

@@ -119,12 +119,12 @@ const router = new Router({
             }
         },
         {
-            path: '/move',
+            path: '/move/:id',
             name: 'move',
             component: () =>
                 import ('@/pages/move/index'),
             meta: {
-                title: "更多"
+                title: "分类故事"
             }
         },
         {

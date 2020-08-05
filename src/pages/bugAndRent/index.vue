@@ -3,9 +3,9 @@
       <div class="top">
          <!-- <van-icon name="arrow-left" size="30" class="icon_back" @click="goBack"/> -->
         <div class="tabs_content">
-        <van-tabs v-model="activeItem" sticky>
+        <van-tabs v-model="activeItem" sticky @change="onChange">
             <van-tab title="借书" name="1">
-                <van-tabs v-model="rentActive" swipeable sticky>
+                <van-tabs v-model="rentActive" swipeable sticky @change="rentChange">
                   <van-tab title="全部订单" name="a">
                    <RentAll/>
                   </van-tab>
@@ -27,7 +27,7 @@
                 </van-tabs>
             </van-tab>
             <van-tab title="购买" name="0">
-                <van-tabs v-model="bugActive" swipeable sticky>
+                <van-tabs v-model="bugActive" swipeable sticky @change="bugChange">
                   <van-tab title="全部订单" name="1-a">
                     <BugAll/>
                   </van-tab>
@@ -96,7 +96,8 @@ export default {
     }
   },
   created(){
-   
+   sessionStorage.setItem('path',this.$route.params.path)
+   sessionStorage.setItem('pathChildren',this.$route.params.pathChildren)
   },
   watch:{
   
@@ -104,8 +105,17 @@ export default {
   mounted(){
   },
   methods:{
-      goBack(){
-           history.back();
+      // goBack(){
+      //      history.back();
+      // },
+      onChange(activeItem){
+        sessionStorage.setItem('path',activeItem)
+      },
+      rentChange(rentActive){
+        sessionStorage.setItem('pathChildren',rentActive)
+      },
+      bugChange(bugActive){
+        sessionStorage.setItem('pathChildren',bugActive)
       }
   }
 }

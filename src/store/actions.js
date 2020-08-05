@@ -65,20 +65,19 @@ export default {
                 console.log('购物车已有此书')
                 Toast('购物车已有此书')
             } else {
-                // console.log(goods)
                 let op = {
-                    bookCategoryId: goods.categoryId,
-                    bookId: goods.id,
-                    bookIsbn: goods.isbn,
-                    bookName: goods.title,
-                    bookPic: goods.minImage || goods.squareImage,
-                    bookPressL: goods.press,
-                    price: goods.price,
-                    quantity: 1,
-                    userId: info.userId,
-                    userNickName: info.userNickName
+                    "bookId": goods.id,
+                    "bookIsbn": goods.isbn,
+                    "bookName": goods.title,
+                    "bookPic": goods.minImage || goods.squareImage,
+                    "price": goods.promotionAmount ? goods.promotionAmount : goods.price,
+                    "quantity": 1,
+                    "book_category_id": goods.categoryId,
+                    "book_press": goods.press,
+                    "userId": info.userId,
+                    "userNickName": info.userNickName
                 }
-                saveCart(goods).then(res => {
+                saveCart(op).then(res => {
                     Toast('加入购物车成功！')
                         // console.log(res)
                         // commit('ADD_TO_CART', goods, 1)

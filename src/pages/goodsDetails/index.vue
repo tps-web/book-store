@@ -21,7 +21,8 @@
              </div>
               <div class="price">
                <span class="fh">￥</span>
-               <span class="priceNum">{{goodsInfo.price}}</span>
+               <span class="priceNum"  v-bind:style="{'text-decoration':goodsInfo.promotionAmount ? 'line-through':'none'}" >{{goodsInfo.price}}</span>
+                <span class="fh" style="margin-left: 8px;"  v-show="goodsInfo.promotionAmount">￥</span> <span class="promotionAmount" v-show="goodsInfo.promotionAmount">{{goodsInfo.promotionAmount}}</span>
                 <!-- <div class="vip">会员免费借书看</div> -->
               </div>
               <div class="remark">已有{{goodsInfo.lendCount}}会员免费借阅</div>   
@@ -215,8 +216,10 @@ export default {
   line-height: 40px;
 }
 .priceNum{
+  height: 35px;
+  line-height: 32px;
   padding: 4px 0 0;
-  font-size: 24px;
+  font-size: 16px;
 }
 .vip{
   margin-left: 6px;
@@ -224,5 +227,10 @@ export default {
   line-height: 40px;
   color:rgba(153,153,153,1);
   font-size: 12px;
+}
+.promotionAmount{
+  height: 35px;
+  font-size: 18px;
+  line-height: 38px;
 }
 </style>

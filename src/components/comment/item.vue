@@ -8,21 +8,39 @@
 				<div class="username">{{item.userNickName}}</div>
 				<div class="date">{{item.createTime}}</div>
 				<div class="comments_desc">{{item.content}}</div>
+				<div class="pic" v-show="item.pics">
+				   <van-image  width="66" height="66" :src="pic" v-for="(pic,index1) in item.pics.split(',')" :key="index1" style="margin:4px" @click="viewPic(item.pics,index1)"/>
+				</div>
 			</div>
 		</div>
   </div>
 </template>
 
 <script>
-
+import {ImagePreview} from 'vant'
 export default {
   props:["commentList"],
   data () {
     return {
+		active_:'',
+        instance_before:'',
+        instance_after:'',
     }
   },
   created(){
-	  console.log(this.commentList)
+	//   console.log(this.commentList)
+  },
+   methods: {
+	//图片预览
+	viewPic(img,index){
+      ImagePreview({
+		  images:img.split(','),
+		  showIndex:true,
+		  loop:false,
+		  startPosition:index,
+		  closeOnPopstate:true,
+	  })
+	}
   }
 }
 </script>
@@ -31,8 +49,8 @@ export default {
 <style scoped>
 .comments{
 	display: flex;
-	padding: 8px 0 2px 0;
-	box-shadow: 0 0 4px rgba(0,0,0,0.1);;
+	padding: 8px 0 4px 0;
+    border-bottom: 1px solid #f5f5f5;
 }
 .avatar{
 	width: 16%;

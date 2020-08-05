@@ -12,10 +12,11 @@ export default {
     SELECTED_GOODS_PRICE(state) {
         let totalPrice = 0;
         Object.values(state.shopCart).forEach((goods, index) => {
-            if (goods.checked) {
-                totalPrice += goods.price * 100
-            }
-        })
+                if (goods.checked) {
+                    totalPrice += goods.price * 100
+                }
+            })
+            // state.allTotal = totalPrice / 100
         return totalPrice / 100
     },
     //选中的商品
@@ -56,5 +57,5 @@ export default {
             })
             return (totalPrice / 100).toFixed(2)
         }
-    }
+    },
 }

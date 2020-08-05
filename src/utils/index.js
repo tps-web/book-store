@@ -111,3 +111,14 @@ export function add(arg1, arg2) {
     m = Math.pow(10, Math.max(r1, r2))
     return ((arg1 * m + newArg2 * m) / m).toFixed(2)
 }
+
+export function jian(arg1, arg2) {
+    var newArg2 = arg2 == undefined ? 0 : arg2
+    var r1, r2, m;
+    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+    try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+    m = Math.pow(10, Math.max(r1, r2))
+    let num1 = Math.max(arg1, arg2)
+    let num2 = Math.min(arg1, arg2)
+    return ((num1 * m - num2 * m) / m).toFixed(2)
+}

@@ -24,8 +24,10 @@
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>
                 <div class="price">
-                    <span class="fh">￥</span>
-                    <span class="priceNum">{{item.price}}</span>
+                    <!-- <span class="fh">￥</span>
+                    <span class="priceNum">{{item.price}}</span> -->
+                     <span class="fh">￥</span><span class="priceNum"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
+                     <span class="fh" style=" margin-left: 6px;" v-show="item.promotionAmount">￥</span><span class="promotionAmount" v-show="item.promotionAmount">{{item.promotionAmount}}</span>
                 </div>
             </div>
             <div class="store_box_right" @click="goCart(item)">
@@ -216,5 +218,8 @@ export default {
     display: inline-block;
     height: 28px;
     line-height: 28px;
+}
+.promotionAmount{
+  font-size: 18px;
 }
 </style>

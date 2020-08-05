@@ -74,12 +74,12 @@ export default {
             case 2:
               //查看物流
                console.log('查看物流')
-               this.$router.push('/logistics')
+               this.$router.replace('/logistics')
             break;
              case 3:
                console.log('待评价')
-            //    console.log(item)
-               this.$router.push('/commetOrder')
+               console.log(item)
+              //  this.$router.replace('/commetOrder')
             break;
               case 4:
                console.log('删除订单')
@@ -162,7 +162,7 @@ export default {
         })
    },
    goDetails(id){
-      this.$router.push(`/orderList/goodsList/${id}`)
+      this.$router.replace(`/orderList/goodsList/${id}`)
     },
      onRefresh(){
         // 清空列表数据
