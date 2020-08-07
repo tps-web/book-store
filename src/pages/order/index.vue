@@ -3,61 +3,21 @@
       <!-- <headerNav title="订单" /> -->
       <!-- 选择收货地址-->
        <addAddress ref="currentAddress"/>
-      <!-- <div class="address" v-if="currentAddress===''">
-          <div class="addIcon" @click="selectAddress">
-            <van-image :src="require('../../assets/images/address.png')" width="26" height="26" style="margin-top:14px"/>
-            <div>添加收件人信息</div>
-          </div>
-      <div class="line"></div>
-      </div>
-      <div class="currentAddress" v-else @click="changeAddress">
-        <div class="left">
-          <van-icon name="location" size="40" color="#FFCD01" />
-        </div>
-        <div class="content"> 
-            <div class="defaultName">{{currentAddress.name}}<span class="tel">{{currentAddress.tel}}</span> <span v-show="currentAddress.isDefault"><van-tag round type="primary">默认</van-tag></span></div>
-            <div style="margin-top:4px">{{currentAddress.address}}</div>
-        </div>
-        <div class="right">
-            <van-icon name="arrow" size="20" />
-        </div>
-        <div class="line"></div>
-      </div> -->
       <!-- 商品列表-->
           <goods ref="goods"/>
-       <!-- <div class="goods">
-         <div class="bigBox">
-           <div class="box" v-for="(item,index) in goods" :key="index" @click='goDetails(item)'>
-             <van-image class="goodsImg" :src="item.smallImage" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
-           </div>
-         </div>
-          <div class="goods_right">
-            共{{totalNum}}件商品<van-icon name="arrow" class="right_icon" />
-          </div>
-       </div> -->
+         <!-- <express ref="express" style=" width: 95%;margin: 10px auto;box-shadow:0px -2px 8px 0px rgba(0,0,0,0.1);"/> -->
        <!-- 发货信息 -->
        <div class="deliver_msg">
-         <!-- 发货快递 -->
-           <express ref="express"/>
-          <!-- <van-cell title="选择快递" is-link :value="expressValue"  title-style="text-align: left;"  @click="showExpress=true"/>
-          <van-popup v-model="showExpress"  position="bottom" >
-            <van-picker
-              title="选择快递"
-              show-toolbar
-              :default-index="0"
-              :columns="columns"
-              @confirm="expressConfirm"
-              @cancel="onCancel"
-           />
-          </van-popup> -->
-          <!-- 发货时间 -->
-          <!-- <van-cell title="发货时间" is-link :value="date||selectDate"  title-style="text-align: left;" @click="dateShow = true"/> -->
-          <!-- <van-calendar v-model="dateShow" @confirm="onConfirm" /> -->
+          <van-cell title="商品金额"  :value="allTotal"  title-style="text-align: left;" />
+          <van-cell title="立减"      :value="all_discounts"  title-style="text-align: left;" />
           <!-- 优惠券 -->
           <van-cell title="优惠券" is-link :value="useCouponText"  title-style="text-align: left;" @click="showCoupon = true"/>
            <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round closeable>
              <Coupon  :coupon='getCouponList' @selectCoupon="selectCoupon" />
           </van-popup>
+          <!-- 发货时间 -->
+          <!-- <van-cell title="发货时间" is-link :value="date||selectDate"  title-style="text-align: left;" @click="dateShow = true"/> -->
+          <!-- <van-calendar v-model="dateShow" @confirm="onConfirm" /> -->
        </div>
        <!-- 备注 -->
        <div class="remark">
@@ -73,7 +33,7 @@
          </div>
        </div>
        <!-- 支付方式 -->
-         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '50%' }">
+         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '330px' }">
            <div class="pay_title">支付方式</div>
            <div class="pay_num">￥ <span class="payNum">{{clearedNum}}</span></div>
            <van-radio-group v-model="radio" class="radioBtn">
@@ -100,7 +60,7 @@ import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
 import addAddress from '@/components/addAddress/addAddress'
 import Coupon from './coupon/coupon'
 import goods from '@/components/goods/goods'
-import express from '@/components/express/express'
+// import express from '@/components/express/express'
 import {formatCoupon,formatGoods,add} from '@/utils'
 import { getToken } from '@/utils/authcookie'
 import {postOrder} from '@/api'
@@ -110,7 +70,7 @@ export default {
   components:{
     Coupon,
     goods,
-    express,
+    // express,
     addAddress
   },
   data () {
@@ -153,29 +113,7 @@ export default {
   },
   computed:{
     ...mapState(['currentAddress','shopCart','coupon','useCoupon','useCouponText']),
-    ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE'}),
-    showGoods(){
-      let goodsArr=[]
-      for(let i =0; i<3;i++){
-        if(this.goods[i]){
-           goodsArr.push(this.goods[i])
-        }
-      }
-      return goodsArr
-    },
-    //商品总数
-    totalNum(){
-      return this.goods.length 
-    },
-    //能使用的优惠券
-    // canCouponList(){
-    //   // return this.priceTotal
-    //   return this.coupon
-    // },
-    //优惠券选择提示
-    // couponTest(){
-    //   return this.usableArr.length>0?'选择优惠券':'无可用优惠券'
-    // },
+    ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
   methods:{
     ...mapActions(['getCartList']),
@@ -183,9 +121,9 @@ export default {
     payCancel(){
       this.payList.payType=0  //支付方式：0->未支付；1->支付宝；2->微信
       this.payList.status=0,   //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
-      console.log(this.payList)
+      // console.log(this.payList)
       postOrder(this.payList).then(res=>{
-          console.log(res)
+          // console.log(res)
           this.$toast('已取消支付，请尽快支付')
           this.getCartList()
         this.$store.commit('SELETE_COUPON','')
@@ -214,41 +152,44 @@ export default {
          let op={
             currentAddress:this.$refs.currentAddress.currentAddress,
             goods:this.$refs.goods.goods,
-            expressValue:this.$refs.express.expressValue,
+            // expressValue:this.$refs.express.expressValue,
             remarkValue:this.remarkValue
         }
         this.formatGoods(op.goods)
        
-       if(!op.currentAddress){
-           this.$toast('请填写地址')
-       }else{
+      //  if(!op.currentAddress){
+      //      this.$toast('请填写地址')
+      //  }else{
           var info = JSON.parse(getToken())
             // console.log(this.useCoupon)  //couponHistoryId  amount
             this.payList={
-              "deliveryCompany": op.expressValue.expressName, // 物流名
+              // "deliveryCompany": op.expressValue.expressName, // 物流名
               "confirmStatus":"0", // 确定收货
               "orderType": 0,   //订单类型 1 为借阅 0 为购书
+              //地址信息
               "receiverCity": op.currentAddress.city,   
               "receiverDetailAddress": op.currentAddress.address,
               "receiverName": op.currentAddress.name,
               "receiverPhone": op.currentAddress.tel,
               "receiverPostCode": op.currentAddress.postCode,
               "receiverProvince": op.currentAddress.province,
-              "receiverRegion": op.currentAddress.region,
-              "remark": op.remarkValue,
-              "sourceType": 1,
-              "userId": info.userId,
-              "userNickName": info.userNickName,
-
-              "couponSn": this.useCoupon.couponHistoryId,
+              "receiverRegion": op.currentAddress.region, 
+              "remark": op.remarkValue,  //备注
+              "sourceType": 1,  //	订单来源：0->PC订单；1->app订单
+              "userId": info.userId,   //用户id
+              "userNickName": info.userNickName,  //用户名
+              "couponSn": this.useCoupon.couponHistoryId,  //优惠券编码
               "couponAmount": this.useCoupon.amount,  //优惠券抵扣金额
               "payAmount": this.clearedNum,  //应付金额（实际支付金额）
-              "totalAmount": add(this.clearedNum,this.useCoupon.amount) ,  //订单总金额 parseInt(this.clearedNum)  + 0 ||parseInt(this.useCoupon.amount)
+              "totalAmount": this.allTotal ,  //订单总金额 
+              
+              "promotionAmount":0,
+              "integration":0,    //可以获得的积分
+              "integrationAmount":0, //积分抵扣金额 
              }
             this.payList.list=this.newList     
             this.payShow=true    
-        }  
-        
+        // }  
     },
   
     //选择优惠券
@@ -278,14 +219,6 @@ export default {
       var day=this.formatDate(date);
       this.date=day
   },
-  expressConfirm(value, index){
-    console.log(value)
-    this.expressValue=value
-    this.showExpress=false
-  },
-    onCancel() {
-      this.showExpress=false
-    },
   },
   created(){
     that=this

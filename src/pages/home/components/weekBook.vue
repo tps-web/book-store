@@ -16,8 +16,10 @@
                    <span v-for="(category,index1) in  item.categoryName.slice(0,2)" :key="index1">{{category}}</span>
                  </div>
                  <div class="price">
-                   <span class="fh">￥</span><span class="num"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
-                   <span class="fh" style=" margin-left: 6px;" v-if="item.promotionAmount">￥</span><span class="promotionAmount" v-if="item.promotionAmount">{{item.promotionAmount}}</span>
+                     <div style="display:inline-block;margin-right:4px" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
+                     <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+                        <span>￥{{item.price|decimals}}</span>
+                     </div>
                    </div>
               </div>
             </div>
@@ -115,5 +117,14 @@ export default {
 }
 .promotionAmount{
   font-size: 18px;
+}
+.show_decoration{
+  color: #ccc;
+  font-size: 10px!important;
+  display:inline-block;
+  text-decoration:line-through;
+}
+.noshow{
+  font-size: 14px;
 }
 </style>

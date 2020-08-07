@@ -47,7 +47,11 @@ export default {
                 //     //折扣
                 //     totalPrice = totalPrice * state.useCoupon.discount / 10
                 // }
-            return (totalPrice / 100).toFixed(2)
+            var total = (totalPrice / 100).toFixed(2)
+                // if (state.freight) {
+                //     total = totalPrice / 100 + state.freight
+                // }
+            return total
         } else {
             let totalPrice = 0;
             Object.values(state.shopCart).forEach((goods, index) => {
@@ -55,7 +59,31 @@ export default {
                     totalPrice += goods.price * 100
                 }
             })
-            return (totalPrice / 100).toFixed(2)
+            var total = (totalPrice / 100).toFixed(2)
+                // if (state.freight) {
+                //     total = totalPrice / 100 + state.freight
+                // }
+            return total
         }
+    },
+    //商品金额
+    SELECTED_GOODS_TOTAL(state) {
+        let tatal = 0;
+        Object.values(state.shopCart).forEach((good, index) => {
+            if (good.checked) {
+                tatal += good.allPrice * 100
+            }
+        });
+        return (tatal / 100).toFixed(2);
+    },
+    //总优惠
+    ALL_DISCOUNTS(state) {
+        let tatal = 0;
+        Object.values(state.shopCart).forEach((good, index) => {
+            if (good.checked) {
+                tatal += good.discountsNum * 100
+            }
+        });
+        return (tatal / 100).toFixed(2);
     },
 }

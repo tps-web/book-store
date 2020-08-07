@@ -15,6 +15,7 @@
               @cancel="onCancel"
            />
         </van-popup>
+         <van-cell title="运费"  :value="freight"  title-style="text-align: left;" />
           <!-- 发货时间 -->
           <!-- <van-cell title="发货时间" is-link :value="date||selectDate"  title-style="text-align: left;" @click="dateShow = true"/>
           <van-calendar v-model="dateShow" @confirm="onConfirm" /> -->
@@ -27,6 +28,7 @@
 
 <script>
 import {expressList} from '@/api'
+import { mapMutations } from 'vuex';
 export default {
   data () {
     return {
@@ -37,6 +39,7 @@ export default {
        date:this.selectDate,  //发货时间
        dateQuantum:'', //借阅时间段
        show: false,   //借阅时间段展示
+       freight:''
     }
   },
   computed:{
@@ -50,9 +53,12 @@ export default {
     expressList().then(res=>{
       this.columns=res.data.items
       this.expressValue=res.data.items[0]
+      this.freight=res.data.items[0].freight.toFixed(2)
+      this.FREIGHT(res.data.items[0].freight)
     })
   },
   methods:{
+    ...mapMutations(['FREIGHT']),
     //借阅期间
     onDateConfirm(date) {
       const [start, end] = date; 
@@ -62,6 +68,8 @@ export default {
     //快递
    expressConfirm(value, index){
     this.expressValue=value
+    this.freight=value.freight.toFixed(2)
+    this.FREIGHT(value.freight)
     this.showExpress=false
   },
   onCancel() {

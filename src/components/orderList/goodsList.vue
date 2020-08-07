@@ -11,7 +11,7 @@
        <van-image :src="item.bookPic" class="img"  radius="6"/>
        <div class="right">
             <div class="name">{{item.bookName}}</div>
-            <div class="price"><span class="fh">￥</span><span class="num">{{item.bookPrice}}</span></div>
+            <div class="price"><span class="fh">￥</span><span class="num">{{item.bookPrice|decimals}}</span></div>
        </div>
      </div>
       </van-list>
@@ -131,7 +131,7 @@ methods:{
     margin: 10px 0;
 }
 .num{
-    font-size: 20px;
+    font-size: 16px;
 }
 
 </style>

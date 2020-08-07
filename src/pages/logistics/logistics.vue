@@ -1,40 +1,18 @@
 <template>
   <div class="">
-    <Map :lnglat='lnglat'/>
-    <!-- <div class="logistics"></div> -->
+    <Map v-if="lnglat.length!=0" :lnglat="lnglat"  :sent='sent' :receiver='receiver' />
     <div class="box">
         <div class="top">
-          <div class="company">发货物流公司：顺丰快递</div>
-          <div class="orderId">发货物流单号：2020095432239</div>
-          <div class="estimatedDate">预计送达：7月8日09:00-15:00</div>
+          <div class="company">发货物流公司：{{deliveryCompany}}</div>
+          <div class="orderId">发货物流单号：{{logisticsData.LogisticCode}}</div>
+          <div class="estimatedDate">预计送达：{{logisticsData.EstimatedDeliveryTime}}</div>
         </div>
          <div class="content">
         <van-steps direction="vertical" :active="0" style="width:86%;margin:0 auto; text-align: left;" >
-            <van-step>
-                 <div class="address">您的订单已到达了广东中山【中山分拣中心】送往【中山石岐营业部】</div>
-                 <div class="date">2016-07-13 12:40</div>
+            <van-step v-for="(item,index) in logisticsData.Traces" :key="index">
+                 <div class="address">{{item.AcceptStation}}</div>
+                 <div class="date">{{item.AcceptTime}}</div>
             </van-step>
-            <van-step>
-                 <div class="address">送往【中山分拣中心】</div>
-                 <div class="date">2016-07-11 12:40</div>
-            </van-step>
-             <van-step>
-                 <div class="address">送往【中山】</div>
-                 <div class="date">2016-07-11 12:40</div>
-            </van-step>
-             <van-step>
-                 <div class="address">送往【广州分拣中心】</div>
-                 <div class="date">2016-07-11 12:40</div>
-            </van-step>
-            <van-step>
-                <div class="address">快件已发货</div>
-                 <div class="date">2016-07-11 15:30</div>
-            </van-step>
-            <van-step>
-                 <div class="address">仓库处理中</div>
-                 <div class="date">2016-07-11 12:40</div>
-            </van-step>
-           
         </van-steps>
     </div>
     </div> 
@@ -44,14 +22,36 @@
 
 <script>
 import Map from '@/components/map/map.vue'
+import {getLogistics} from '@/api'
+import axios from 'axios'
 export default {
   components:{
     Map
   },
   data () {
     return {
-      lnglat:[[113.434576,23.208843],[113.389257,22.515404]]
+      sent:'',
+      receiver:'',
+      // lnglat:[["113.434576","23.208843"],["116.287149","39.858427"]],
+      lnglat:[],
+      logisticsData:'',
+      deliveryCompany:'' //快递名
     }
+  },
+  created(){
+    getLogistics(this.$route.params.id).then(res=>{
+      console.log(res.data)
+      // console.log(res.data.receiver.Address)
+      this.getLogisticsSent(res.data.sent.Address)
+      this.getLogisticsReceiver(res.data.receiver.Address)
+      this.deliveryCompany=res.data.order.deliveryCompany
+      if(JSON.parse(res.data.result).Data){
+          this.logisticsData= JSON.parse(res.data.result).Data[0]
+          this.logisticsData.Traces.sort(function(a, b) {
+          return b.AcceptTime < a.AcceptTime ? -1 : 1
+        })
+      }
+    })
   },
   mounted(){
   if (window.history && window.history.pushState) {
@@ -63,11 +63,35 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
 methods:{
+   getLogisticsSent(data){
+     axios
+     .get(`https://restapi.amap.com/v3/geocode/geo?address=${data}&output=JSON&key=df1133f2ead971ccb7d7524865904909`)
+     .then(res=>{
+      //  console.log(res.data.geocodes[0].location)
+       this.sent=res.data.geocodes[0].location.split(',')
+       this.lnglat.push(this.sent)
+     })
+   },
+   getLogisticsReceiver(data){
+     axios
+     .get(`https://restapi.amap.com/v3/geocode/geo?address=${data}&output=JSON&key=df1133f2ead971ccb7d7524865904909`)
+     .then(res=>{
+      //  console.log(res.data.geocodes[0].location)
+       this.receiver=res.data.geocodes[0].location.split(',')
+       this.lnglat.push(this.receiver)
+     })
+   },
    goBack(){
     var path=sessionStorage.getItem('path')
     var pathChildren= sessionStorage.getItem('pathChildren')
     this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
     //replace替换原路由，作用是避免回退死循环
+  }
+},
+filters:{
+  formatTime(time){
+    var num = time.lastIndexOf(':')
+    return time.slice(0,num+3)
   }
 }
 }
@@ -82,8 +106,8 @@ methods:{
 }
 .box{
     position: relative;
-    border: 1px solid rgba(0,0,0,0.1);
-    box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);
+    /* border: 1px solid rgba(0,0,0,0.1); */
+    /* box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1); */
     border-radius: 8px 8px 0 0;
     margin-top: -10px;
     background: #fff;

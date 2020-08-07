@@ -180,7 +180,7 @@ const router = new Router({
             }
         },
         {
-            path: '/orderDetails',
+            path: '/orderDetails/:id',
             name: 'orderDetails',
             component: () =>
                 import ('@/pages/orderDetails/orderDetails.vue'),
@@ -235,7 +235,7 @@ const router = new Router({
             }
         },
         {
-            path: '/logistics',
+            path: '/logistics/:id',
             name: 'logistics',
             component: () =>
                 import ('@/pages/logistics/logistics.vue'),
@@ -299,14 +299,31 @@ const router = new Router({
         },
         {
             path: '/commetOrder',
-            name: 'success',
+            name: 'commetOrder',
             component: () =>
                 import ('@/pages/comment/commetOrder'),
             meta: {
                 title: "评论"
             }
         },
-
+        {
+            path: '/goodsComment/:id',
+            name: 'goodsComment',
+            component: () =>
+                import ('@/pages/goodsComment/index'),
+            meta: {
+                title: "评论"
+            }
+        },
+        {
+            path: '/commentItme',
+            name: 'commentItme',
+            component: () =>
+                import ('@/pages/comment/commentItme'),
+            meta: {
+                title: "评论"
+            }
+        },
     ]
 })
 var info = {

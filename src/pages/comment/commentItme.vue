@@ -1,46 +1,109 @@
 <template>
  <div>
+    <div class="top">
+        <van-image width="50" height="50" :src="bookDesc.squareImage"/>
+        <div class="startBox">
+          <div class="title">书本评价</div>
+          <van-rate v-model="startValue"/><span class="startDesc">{{startDesc}}</span>
+        </div>
+    </div>
  <div class="Box">
-     <!-- <div class="content">
-       <div class="goods"  @click="goDetails(item.orderSn)">
-         <div class="bigBox">
-           <div class="box" v-for="(item,index1) in item.list" :key="index1">
-             <van-image class="goodsImg" :src="item.bookPic" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
-           </div>
-         </div>
-          <div class="goods_right">
-            共{{item.list.length}}件商品<van-icon name="arrow" class="right_icon" />
-          </div>
-       </div>
+    <div class="start">分享你的使用体验吧</div>
+      <van-field
+      v-model="message"
+      rows="5"
+      type="textarea"
+      placeholder="请填写评论吧..."
+    />
+    <!-- <div class="item" v-for="(item,index) in imgList" :key="index">
+        <img :src="item" alt="" style="width:60px;height:60px">
     </div> -->
-    <div class="start">服务<van-rate v-model="value" style="margin-left:6px;position:relative;top:3px;"/></div>
-  <van-field
-  v-model="message"
-  rows="5"
-  type="textarea"
-  placeholder="请填写评论吧..."
-/>
- <van-uploader :after-read="afterRead" v-model="fileList"  :max-count="2" class="upload"/>
+ <van-uploader :after-read="afterRead"  :before-delete="beforeDeltte" v-model="fileList" :max-count="9" class="upload"/>
  </div>
-    <van-button type="info" round  size="large" style="width:90%;margin:10px auto">提交</van-button>
+    <van-button type="info" round  size="large" style="width:90%;margin:10px auto" @click="goSubmit">提交</van-button>
 </div>
 </template>
 <script>
+import {getBookDesc,uploadImages,commentSave} from '@/api'
+import { getToken } from '@/utils/authcookie'
 export default {
   name: 'commentOrder',
   data () {
     return {
-      value: 0,
+      startValue: 5,
       fileList:[],
-      message:''
+      imgList:[],
+      message:'',
+      bookDesc:'',
+      startDesc:"非常好"
     }
   },
    created(){
+    //  console.log(this.$route.query.id)
+     let op={
+        id:this.$route.query.id,
+        curPage:1,
+        pageRows:1,
+        isHotSearch:0
+      }
+     getBookDesc(op).then(res=>{
+      //  console.log(res.data.book)
+       this.bookDesc=res.data.book
+     })
   },
+  watch:{
+    startValue(newVal){
+       switch (newVal) {
+         case 1:
+           this.startDesc='非常差'
+           break;
+        case 2:
+           this.startDesc='差'
+           break;
+        case 3:
+           this.startDesc='一般'
+           break;
+        case 4:
+           this.startDesc='好'
+           break;
+         default:
+           this.startDesc='非常好'
+           break;
+       }
+    }
+  }, 
    methods: {
+     beforeDeltte(file){
+        console.log(file)
+     },
+     goSubmit(){
+        var info = JSON.parse(getToken())
+         var op={
+        "bookId": this.$route.query.id,
+        "bookName": this.bookDesc.title,
+        "content": this.message,
+        "memberIp": info.userId,
+        "pics": this.imgList.toString(),
+        "star": this.startValue,
+        "userHead": info.userHead,
+        "userNickName": info.userNickName
+      }
+      commentSave(op).then(res=>{
+        // console.log(res)
+        this.$toast('评论成功')
+         history.back();
+      })
+      // console.log(op)
+     },
      afterRead(file) {
       // 此时可以自行将文件上传至服务器
-      console.log(file);
+        const fromdata=new FormData();
+        fromdata.append('files',file.file);
+      // console.log(file.file);
+      uploadImages(fromdata).then(res=>{
+        // console.log(res.data.items)
+        this.imgList=this.imgList.concat(res.data.items)
+      })
      }
     },
  mounted() {
@@ -51,15 +114,36 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Box{
-  width:92%;
-  padding:10px;
-  height:300px;
-  margin:10px auto;
-  text-align:left;
-  box-shadow: 0px 0px 0px 1px #ccc;
-  border-radius:10px;
+.top{
+  background: #fff;
+  padding: 16px;
+  display: flex; 
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
 }
+.startBox{
+  margin-left: 10px;
+}
+.title{
+  text-align: left;
+  margin-bottom: 10px;
+}
+.startDesc{
+  position: relative;
+  top: -3px;
+  left: 10px;
+  font-size: 10px;
+  color: #666;
+}
+.Box{
+  /* width:92%; */
+  padding:10px 8px;
+  height:300px;
+  margin:16px auto;
+  text-align:left;
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+  /* border-radius:10px; */
+}
+
 .start{
   width:92%;
   margin:6px auto;

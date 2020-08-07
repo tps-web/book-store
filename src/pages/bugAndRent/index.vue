@@ -18,9 +18,9 @@
                   <van-tab title="待收货" name="d">
                     <delayTake/>
                   </van-tab>
-                  <van-tab title="待评价" name="e">
+                  <!-- <van-tab title="待评价" name="e">
                     <delayComment/>
-                  </van-tab>
+                  </van-tab> -->
                   <van-tab title="已取消" name="f">
                     <cancelBox />
                   </van-tab>
@@ -103,8 +103,19 @@ export default {
   
   },
   mounted(){
-  },
+  if (window.history && window.history.pushState) {
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', this.goBack, false);
+  }
+},
+destroyed(){
+  window.removeEventListener('popstate', this.goBack, false);
+},
   methods:{
+       goBack(){
+    this.$router.replace({path: `/me`});
+    //replace替换原路由，作用是避免回退死循环
+  },
       // goBack(){
       //      history.back();
       // },

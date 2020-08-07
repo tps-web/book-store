@@ -70,23 +70,44 @@ export function formatAddress(addresss) {
 
 // 过滤提交订单的商品  修改key 值
 export function formatGoods(list) {
+    // console.log(list)
     var newData = []
     list.map((ele) => {
         newData.push({
-            bookId: ele.id,
-            cartItemId: ele.cartId,
-            bookIsbn: ele.bookIsbn,
-            bookName: ele.name,
-            bookPic: ele.smallImage,
-            bookPrice: ele.price,
-            bookQuantity: ele.bookQuantity
+            bookId: ele.id, //书籍编号
+            cartItemId: ele.cartId, //购物车的记录编号
+            bookIsbn: ele.bookIsbn, //书籍的ISBN  
+            bookName: ele.name, //书籍名称
+            bookPic: ele.smallImage, //书籍封面图
+            bookPrice: ele.price, //销售价格
+            bookQuantity: ele.bookQuantity, //	购买数量
+            promotionAmount: 0, // 数据促销分解金额
+            realAmount: ele.price, //该商品经过优惠后的分解金额
+            couponAmount: 0, //优惠券优惠分解金额
         })
     })
     return newData
 }
 
-//订单状态  
-export function orderStatus(obj, val) {
+//订单状态  借书
+export function rentStatus(val) {
+    var obj = {
+        '-1': '全部订单',
+        '0': '待归还',
+        '1': '待发货',
+        '2': '待收货',
+        '3': '待评价',
+        '4': '已关闭',
+        '5': '无效订单'
+    }
+    for (var key in obj) {
+        if (key == val) {
+            return obj[key]
+        }
+    }
+}
+//订单状态 购书
+export function orderStatus(val) {
     var obj = {
         '-1': '全部订单',
         '0': '待付款',
@@ -113,7 +134,7 @@ export function add(arg1, arg2) {
 }
 
 export function jian(arg1, arg2) {
-    var newArg2 = arg2 == undefined ? 0 : arg2
+    var newArg2 = arg2 == null || undefined ? 0 : arg2
     var r1, r2, m;
     try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
     try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
@@ -121,4 +142,21 @@ export function jian(arg1, arg2) {
     let num1 = Math.max(arg1, arg2)
     let num2 = Math.min(arg1, arg2)
     return ((num1 * m - num2 * m) / m).toFixed(2)
+}
+
+export function discountsNumber(arg1, arg2) {
+    var discountsNum = 0
+    if (arg2 != null || undefined || '') {
+        var r1, r2, m;
+        try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+        try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+        m = Math.pow(10, Math.max(r1, r2))
+        let num1 = Math.max(arg1, arg2)
+        let num2 = Math.min(arg1, arg2)
+        let thatNum = (num1 * m - num2 * m) / m
+        discountsNum += thatNum
+        return discountsNum.toFixed(2)
+    } else {
+        return discountsNum.toFixed(2)
+    }
 }

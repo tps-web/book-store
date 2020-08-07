@@ -71,6 +71,7 @@ export default {
                     "bookName": goods.title,
                     "bookPic": goods.minImage || goods.squareImage,
                     "price": goods.promotionAmount ? goods.promotionAmount : goods.price,
+                    "rebatePrice": goods.promotionAmount,
                     "quantity": 1,
                     "book_category_id": goods.categoryId,
                     "book_press": goods.press,

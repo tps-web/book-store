@@ -24,10 +24,12 @@
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>
                 <div class="price">
-                    <!-- <span class="fh">￥</span>
-                    <span class="priceNum">{{item.price}}</span> -->
-                     <span class="fh">￥</span><span class="priceNum"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
-                     <span class="fh" style=" margin-left: 6px;" v-show="item.promotionAmount">￥</span><span class="promotionAmount" v-show="item.promotionAmount">{{item.promotionAmount}}</span>
+                   <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
+                   <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+                      <span>￥{{item.price|decimals}}</span>
+                   </div>
+                     <!-- <span class="fh">￥</span><span class="priceNum"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span> -->
+                     <!-- <span class="fh" style=" margin-left: 6px;" v-show="item.promotionAmount">￥</span><span class="promotionAmount" v-show="item.promotionAmount">{{item.promotionAmount}}</span> -->
                 </div>
             </div>
             <div class="store_box_right" @click="goCart(item)">
@@ -221,5 +223,14 @@ export default {
 }
 .promotionAmount{
   font-size: 18px;
+}
+.show_decoration{
+  color: #ccc;
+  font-size: 10px!important;
+  display:inline-block;
+  text-decoration:line-through;
+}
+.noshow{
+  font-size: 14px;
 }
 </style>

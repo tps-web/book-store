@@ -8,8 +8,13 @@
 				<div class="username">{{item.userNickName}}</div>
 				<div class="date">{{item.createTime}}</div>
 				<div class="comments_desc">{{item.content}}</div>
-				<div class="pic" v-show="item.pics">
+				<div class="pic" v-if="item.pics">
 				   <van-image  width="66" height="66" :src="pic" v-for="(pic,index1) in item.pics.split(',')" :key="index1" style="margin:4px" @click="viewPic(item.pics,index1)"/>
+				</div>
+				<div v-for="(listItem,index1) in item.list" :key="index1" class="listBox">
+				  <div><span style="color:#8CAACE">{{listItem.userNickName}}</span>  <span>回复：</span>
+				    {{listItem.content}}
+				  </div>
 				</div>
 			</div>
 		</div>
@@ -73,5 +78,13 @@ export default {
 }
 .comments_desc{
 	padding: 6px 0 8px;
+}
+.pic{
+	margin-bottom: 4px;
+}
+.listBox{
+	padding: 6px;
+    background: #f5f5f5;
+	border-radius: 6px;	
 }
 </style>

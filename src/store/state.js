@@ -19,7 +19,10 @@ export default {
     CartTotal: 0,
     //购物车数组数据
     allCartArr: [],
+    //地址
     addressTotal: '',
     addresssNum: 1,
-    allTotal: 0
+    allTotal: 0,
+    //运费
+    freight: ''
 }

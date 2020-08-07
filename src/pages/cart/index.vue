@@ -28,7 +28,16 @@
             </div>
             <div class="right" @click="godesc(item)">
                 <div class="bookName">{{item.name}}</div>
-                <div class="bookPrice"><span style="font-size:12px;margin-right:2px">￥</span>{{item.price}}</div>
+                 <div style="display:inline-block;color:red;margin-top:8px" v-show="item.price"><span>￥</span><span class="num">{{item.price|decimals}}</span></div>
+                   <div :class="[item.rebatePrice?'show_decoration':'noshow']"  v-show="item.rebatePrice">
+                      <span>￥{{item.allPrice|decimals}}</span>
+                   </div>
+                <!-- <div class="bookPrice">
+                  <div style="display:inline-block;text-decoration: line-through;margin-right:4px;font-size:14px" v-show="item.rebatePrice">
+                    <span style="font-size:12px;margin-right:2px;">￥</span>{{item.allPrice}}</div>
+                  <span style="font-size:12px;margin-right:0px">￥</span>{{item.price}}
+                </div> -->
+                <div class="rebat" v-show="item.rebatePrice">优惠了 <span style="color:red">{{item.discounts}}</span> 元</div>
             </div>
          </div>
        </section>
@@ -259,6 +268,7 @@ section {
   margin-left: 8px;
   padding-top: 4px;
   color:rgba(34,34,34,1);
+  position: relative;
 }
 .bookName{
   font-size: 16px;
@@ -313,5 +323,20 @@ section {
   color: #fff;
   font-weight:500;
   background:rgba(252,86,80,1);
+}
+.rebat{
+  position: absolute;
+  bottom: 4px;
+  font-size: 12px;
+}
+.show_decoration{
+  color: #ccc;
+  font-size: 10px!important;
+  display:inline-block;
+  text-decoration:line-through;
+  margin-left: 4px;
+}
+.noshow{
+  font-size: 14px;
 }
 </style>

@@ -8,8 +8,6 @@ import { getToken } from '@/utils/authcookie'
 
 
 
-
-
 //首页   http://192.168.1.109:8110/app/book/index/list/169
 export function index() {
     var info = JSON.parse(getToken())
@@ -265,5 +263,41 @@ export function listByParentId(id) {
     return request({
         url: `/book-type/listByParentId/${id}`,
         method: 'get'
+    })
+}
+
+//订单详情  /order/get/id
+export function getOrderDesc(id) {
+    return request({
+        url: `/order/get/${id}`,
+        method: 'get'
+    })
+}
+
+// 物流  /order/getLogistics/{id}  http://192.168.1.109:8110/order/get/1289152818582069249
+export function getLogistics(id) {
+    return request({
+        url: `/order/getLogistics/${id}`,
+        method: 'get'
+    })
+}
+
+
+// /book/comment/uploadImages 上传评论照片
+export function uploadImages(files) {
+    return request({
+        url: `/book/comment/uploadImages`,
+        method: 'post',
+        data: files
+    })
+}
+
+
+//   /book/comment/save  评论
+export function commentSave(data) {
+    return request({
+        url: `/book/comment/save`,
+        method: 'post',
+        data
     })
 }

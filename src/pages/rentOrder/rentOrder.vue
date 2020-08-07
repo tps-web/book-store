@@ -2,7 +2,7 @@
   <div class="">
     <addAddress ref="currentAddress"/>
     <goods ref="goods"/>
-    <express ref="express"/>
+    <!-- <express ref="express"/> -->
     <!-- 备注 -->
        <div class="remark">
          <van-field v-model="remarkValue" label="备注留言" placeholder="选填，请先和平台协商一致" ref='field'/>
@@ -16,7 +16,7 @@
 <script>
 import addAddress from '@/components/addAddress/addAddress'
 import goods from '@/components/goods/goods'
-import express from '@/components/express/express'
+// import express from '@/components/express/express'
 import { getToken } from '@/utils/authcookie'
 import {postOrder} from '@/api'
 import {formatGoods} from '@/utils'
@@ -26,7 +26,7 @@ export default {
   components:{
         addAddress,
         goods,
-        express
+        // express
    },
   data () {
     return {
@@ -79,7 +79,7 @@ export default {
             goods:this.$refs.goods.goods,
             // date:this.$refs.express.date,
             // date:this.$refs.express.date||this.formatDate(new Date()),
-            expressValue:this.$refs.express.expressValue,
+            // expressValue:this.$refs.express.expressValue,
             // dateQuantum:this.$refs.express.dateQuantum,
             remarkValue:this.remarkValue
         }
@@ -89,7 +89,7 @@ export default {
        }else{
           var info = JSON.parse(getToken())
             var data={
-              "deliveryCompany": op.expressValue.expressName, // 物流名
+              // "deliveryCompany": op.expressValue.expressName, // 物流名
               // "deliverySn":op.expressValue.expressId,    //物流id
               "status":1,   // 订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
               "confirmStatus":"0", // 确定收货
@@ -112,9 +112,9 @@ export default {
                   showCancelButton: true //展示取水按钮
                 })
               .then(() => { //点击确认按钮后的调用
-                console.log(data)
+                // console.log(data)
                 postOrder(data).then(res=>{
-                    console.log(res)
+                    // console.log(res)
                     this.getCartList()
                     this.$router.push('/rentPay/succesc')
                 })

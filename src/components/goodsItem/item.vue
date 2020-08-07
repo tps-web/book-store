@@ -12,8 +12,10 @@
          </div>
          <div class="price">
            <div class="left">
-              <span>￥</span><span class="num" v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span>
-              <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount}}</span></div>
+              <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
+               <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+                 <span>￥{{item.price|decimals}}</span>
+             </div>
            </div>
            <div class="right">
               <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
@@ -119,4 +121,13 @@ export default {
   margin: 4px;
   border-radius: 6px;
 } */
+.show_decoration{
+  color: #ccc;
+  font-size: 10px!important;
+  display:inline-block;
+  text-decoration:line-through;
+}
+.noshow{
+  font-size: 14px;
+}
 </style>

@@ -61,7 +61,16 @@ methods:{
     margin: 10px 0;
 }
 .num{
-    font-size: 20px;
+    font-size: 16px;
 }
-
+.show_decoration{
+  color: #ccc;
+  font-size: 10px!important;
+  display:inline-block;
+  text-decoration:line-through;
+  margin-left: 4px;
+}
+.noshow{
+  font-size: 14px;
+}
 </style>

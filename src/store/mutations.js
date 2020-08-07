@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+import { jian, discountsNumber } from '@/utils'
 // 引入mutation-type
 import {
     Toast
@@ -19,7 +19,8 @@ import {
     SELETE_COUPON,
     USECOUPONTEXT,
     ALL_CART,
-    COUPON_TOTAL
+    COUPON_TOTAL,
+    FREIGHT
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -30,7 +31,7 @@ export default {
         state.userInfo = userInfo
         setLocalStore('userInfo', state.userInfo)
     },
-    [ADD_GOODS](state, { cartId, bookIsbn, goodsID, goodsName, smallImage, goodsPrice, sql }) {
+    [ADD_GOODS](state, { cartId, bookIsbn, goodsID, goodsName, smallImage, goodsPrice, sql, rebatePrice, price }) {
         let shopCart = state.shopCart
             // console.log(state.shopCart)
         if (!shopCart[goodsID]) {
@@ -43,7 +44,11 @@ export default {
                     'price': goodsPrice,
                     'smallImage': smallImage,
                     'checked': true,
-                    'bookQuantity': 1
+                    'bookQuantity': 1,
+                    'rebatePrice': rebatePrice,
+                    'allPrice': price,
+                    'discounts': jian(price, rebatePrice),
+                    'discountsNum': discountsNumber(price, rebatePrice)
                 }
                 // 1.3 给shopCart产生新对象
             state.shopCart = {
@@ -184,9 +189,15 @@ export default {
                     goodsID: allCartArr[i].bookId,
                     goodsName: allCartArr[i].bookName,
                     smallImage: allCartArr[i].bookPic,
-                    goodsPrice: allCartArr[i].price
+                    goodsPrice: allCartArr[i].rebatePrice || allCartArr[i].price,
+                    rebatePrice: allCartArr[i].rebatePrice,
+                    price: allCartArr[i].price
                 })
             }
         }
     },
+    //邮费
+    [FREIGHT](state, freight) {
+        state.freight = freight
+    }
 }

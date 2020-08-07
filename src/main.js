@@ -21,11 +21,18 @@ import headline from './components/headline/headline.vue'
 import Back from './back.js'
 //过滤器
 Vue.filter('testfilter', function(value, num) {
+        // 返回处理后的值
+        if (value.length < num) {
+            return value.substring(0, num)
+        } else {
+            return value.substring(0, num) + '...'
+        }
+    })
+    //保留两位小数
+Vue.filter('decimals', function(value) {
     // 返回处理后的值
-    if (value.length < num) {
-        return value.substring(0, num)
-    } else {
-        return value.substring(0, num) + '...'
+    if (value) {
+        return value.toFixed(2)
     }
 })
 

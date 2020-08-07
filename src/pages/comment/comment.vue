@@ -36,7 +36,7 @@ export default {
        getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
         getBookDesc(op).then(res=>{
-            // console.log(res.data.commentList)
+            console.log(res.data.commentList)
             this.total=res.data.commentList.total
             if(this.curPage==1){
                 this.list=res.data.commentList.records
