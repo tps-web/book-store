@@ -10,8 +10,8 @@
         </div>
     </div>
       <div class="btn">
-              <van-button type="default" @click="goOrder">查看订单</van-button>
-              <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
+         <van-button type="default" @click="goOrder">查看订单</van-button>
+         <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
       </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
       this.$router.push(`/`)
     },
     goOrder(){
-      console.log('查看订单')
+      this.$router.push('/bugAndRent/1/a')
     }
   }
 }

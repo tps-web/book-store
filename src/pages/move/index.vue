@@ -19,7 +19,9 @@ export default {
   created(){
     // console.log(this.$route.params.id)
      listByParentId(this.$route.params.id).then(res=>{
-       this.tabNameList=res.data.items.storyCategoryTypeList
+       console.log(res)
+      //  this.tabNameList=res.data.items.storyCategoryTypeList
+       this.tabNameList=res.data.items.storyCategoryTypes
       //  console.log(res.data.items.storyCategoryTypeList)
      })
   }

@@ -5,9 +5,6 @@ import { getToken } from '@/utils/authcookie'
 
 //得到用户信息
 
-
-
-
 //首页   http://192.168.1.109:8110/app/book/index/list/169
 export function index() {
     var info = JSON.parse(getToken())
@@ -20,7 +17,7 @@ export function index() {
 //分类
 export function getCategory() {
     return request({
-        url: '/book-type/list',
+        url: 'book/story-type/list',
         method: 'get'
     })
 }
@@ -261,7 +258,7 @@ export function getCoupan(id) {
 // /book-type/listByParentId/{parentId}  查询大类下的所有子类
 export function listByParentId(id) {
     return request({
-        url: `/book-type/listByParentId/${id}`,
+        url: `/book/story-type/listByParentId/${id}`,
         method: 'get'
     })
 }
@@ -284,11 +281,11 @@ export function getLogistics(id) {
 
 
 // /book/comment/uploadImages 上传评论照片
-export function uploadImages(files) {
+export function uploadImages(data) {
     return request({
         url: `/book/comment/uploadImages`,
         method: 'post',
-        data: files
+        data
     })
 }
 
@@ -299,5 +296,21 @@ export function commentSave(data) {
         url: `/book/comment/save`,
         method: 'post',
         data
+    })
+}
+
+//得到用户信息
+export function getUserInfoById(userId) {
+    return request({
+        url: `/app/user/getUserInfoById/${userId}`,
+        method: 'get',
+    })
+}
+
+//app/user/getUserMemberById/{userId}  得到用户信息会员信息
+export function getUserMemberById(userId) {
+    return request({
+        url: `/app/user/getUserMemberById/${userId}`,
+        method: 'get',
     })
 }

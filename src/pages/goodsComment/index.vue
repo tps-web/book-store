@@ -1,13 +1,16 @@
 <template>
   <div class="">
-      <div class="box" v-for="(item,index) in list" :key="index">
+      <div class="box" v-for="(item,index) in list" :key="index" >
           <van-image class="img" radius="6" :src="item.bookPic" @click="godesc(item.bookId)" />
             <div class="msg"  @click="godesc(item.bookId)">
                 <div>{{item.bookName}}</div>
                 <div style="margin-top:6px;">{{item.bookPress}}</div>
-                <div style="margin-top:6px;color:red">{{item.bookPrice|decimals}}</div>
+                <div style="margin-top:6px;color:red">￥{{item.bookPrice|decimals}}</div>
             </div>
-            <div class="btn"><van-button round  plain color="red"  size="mini" style="padding:8px" @click="goComment(item)">去评价</van-button></div>
+            <div class="btn">
+                <van-button round  plain color="red"  size="mini" style="padding:8px" @click="goComment(item)" v-if="item.commentCount==0">去评价</van-button>
+                <van-button round  plain color="red"  size="mini" style="padding:8px" @click="goComment(item)" v-else>追加评论</van-button>
+            </div>
       </div>
   </div>
 </template>
@@ -22,7 +25,6 @@ export default {
   },
   created(){
       getOrderDesc(this.$route.params.id).then(res=>{
-          console.log(res.data.item.list)
           this.list=res.data.item.list
       })
   },
@@ -35,6 +37,7 @@ export default {
           path: '/commentItme',
           query:{
 　　　　　　　　id:item.bookId,
+              orderItemId:item.id,
             //   bookName:item.bookName
 　　　　　　}
         })

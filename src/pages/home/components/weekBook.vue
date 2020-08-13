@@ -27,7 +27,6 @@
     </van-swipe>
   </div>
 </template>
-
 <script>
 export default {
   name:'weekItem',
@@ -80,7 +79,7 @@ export default {
     box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
     margin: 0 5px;
     border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 .right{
     text-align: left;
@@ -94,16 +93,16 @@ export default {
     font-size: 12px;
 }
 .line span{
-    width: 54px;
-    height: 16px;
+    width: 50px;
+    /* height: 16px; */
     line-height: 18px;
     text-align: center;
     font-size: 10px;
     display: inline-block;
-    padding: 3px 0px;
+    padding: 2px 0px;
     margin: 10px 4px 0;
     margin-left: 0px;
-    background:rgba(245,245,245,1);
+    background: rgb(237, 233, 224);
     color:rgba(153,153,153,1);
     border-radius: 10px;
 }

@@ -4,12 +4,12 @@
   	<van-nav-bar
       title=""
       :right-text="isShowEmptyCart?(editor?'完成':'编辑'):''"
-      @click-right="onClickRight"
+      @click-right="onClickRight" v-if="isShowEmptyCart"
     />
     <!-- 购物车为空 -->
     <div class="emptyCart" v-show="!isShowEmptyCart">
         <img src="../../assets/images/nodata.png" alt="" width="100" height="100">
-        <div class="emptyText"> 购物车为空</div>
+        <div class="emptyText">购物车为空</div>
     </div>
     <!-- 购物车有数据 -->
       <div class="contentWrapper"
@@ -46,7 +46,7 @@
     <div class="submit-bar" v-show="isShowEmptyCart">
        <div class="checkBox" style="margin:auto 20px">
             <van-checkbox v-model="isCheckedAll"
-                        checked-color='#45c763'>全选</van-checkbox>
+                        checked-color='#629357'>全选</van-checkbox>
        </div>
        <div class="select">
          <span>已选: <span style="color:rgba(255,205,1,1);">{{checkedNum}}</span> 件</span>

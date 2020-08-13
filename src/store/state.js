@@ -24,5 +24,7 @@ export default {
     addresssNum: 1,
     allTotal: 0,
     //运费
-    freight: ''
+    freight: '',
+    //会员信息
+    memberInfo: ''
 }

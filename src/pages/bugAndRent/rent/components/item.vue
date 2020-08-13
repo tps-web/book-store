@@ -28,9 +28,10 @@
     </div>
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=4&&item.status!=5">{{item.status|btnText}}</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=0&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5">取消订单</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==4||item.status==5" >删除订单</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
+
+       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
   </div>
@@ -86,14 +87,24 @@ export default {
   },
   filters:{
     rentStatus(val){
-      var obj = {
+    //   var obj = {
+    //     '-1': '全部订单',
+    //     '0': '待付款',
+    //     '1': '待发货',
+    //     '2': '待收货',
+    //     '3': '待评价',
+    //     '4': '已关闭',
+    //     '5': '无效订单'
+    // }
+     var obj = {
         '-1': '全部订单',
         '0': '待付款',
         '1': '待发货',
         '2': '待收货',
-        '3': '待评价',
-        '4': '已关闭',
-        '5': '无效订单'
+        '3': '待归还',
+        '4': '待评价',
+        '5': '已关闭',
+        '6':'无效订单'
     }
     for (var key in obj) {
         if (key == val) {

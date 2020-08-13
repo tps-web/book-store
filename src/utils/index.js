@@ -160,3 +160,28 @@ export function discountsNumber(arg1, arg2) {
         return discountsNum.toFixed(2)
     }
 }
+
+/**设置倒计时 
+ * 添加倒计时时间30分钟  未支付将设置取消订单
+ * @param {*} data 
+ */
+export function formatList(data) {
+    data.map((ele, index) => {
+        if (ele.status == 0) {
+            let createTime = Date.parse(ele.createTime) / 1000;
+            let endTime = createTime + 1800;
+            let clientTime = Date.parse(new Date()) / 1000;
+            let lastTime = endTime - clientTime;
+            if (lastTime > 0) {
+                // var setIntervalTime = setInterval(() => {
+                // console.log(1)
+                // lastTime--
+                data[index].lastTime = lastTime
+                    // }, 1000);
+            } else {
+                data[index].lastTime = 0
+            }
+        }
+    })
+    return data
+}

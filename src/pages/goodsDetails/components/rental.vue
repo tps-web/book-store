@@ -6,20 +6,20 @@
        </div>
        <div class="bigBox">
        	 <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/xzsp.png')" />
-       	 	  <div>选择商品</div>
+       	 	  <van-image  width="36"  :src="require('../../../assets/images/xzsp.png')" />
+       	 	  <div class="boxText">选择商品</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/zfzyj.png')" />
-       	 	  <div>提交订单</div>
+       	 	  <van-image class="boxImg"  :src="require('../../../assets/images/zfzyj.png')" />
+       	 	  <div class="boxText">提交订单</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/shty.png')" />
-       	 	  <div>收货体验</div>
+       	 	  <van-image class="boxImg" :src="require('../../../assets/images/shty.png')" />
+       	 	  <div class="boxText">收货体验</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/yygh.png')" />
-       	 	  <div>预约归还</div>
+       	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yygh.png')" />
+       	 	  <div class="boxText">预约归还</div>
        	 </div>
        </div>
         <div class="top"  style="margin: 20px auto 10px">
@@ -28,20 +28,20 @@
        </div>
        <div class="bigBox">
         <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/yykd.png')" />
-       	 	  <div>预约快递</div>
+       	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yykd.png')" />
+       	 	  <div class="boxText">预约快递</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/mfqj.png')" />
-       	 	  <div>免费取件</div>
+       	 	  <van-image class="boxImg" :src="require('../../../assets/images/mfqj.png')" />
+       	 	  <div class="boxText">免费取件</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/ckjs.png')" />
-       	 	  <div>创库结算</div>
+       	 	  <van-image width="32"  :src="require('../../../assets/images/ckjs.png')" />
+       	 	  <div class="boxText">创库结算</div>
        	 </div>
        	  <div class="box">
-       	 	  <van-image width="40"  :src="require('../../../assets/images/ddwc.png')" />
-       	 	  <div>订单完成</div>
+       	 	  <van-image class="boxImg" :src="require('../../../assets/images/ddwc.png')" />
+       	 	  <div class="boxText">订单完成</div>
        	 </div>
        	</div>
   </div>
@@ -85,14 +85,23 @@ export default {
 	background:rgba(245,245,245,1);
     border-radius:8px;
 	margin: 6px auto;
-	padding: 6px;
+	padding: 8px 6px;
 	display: flex;
 	justify-content: space-between;
 	flex-wrap:wrap;
 }
 .box{
-	font-weight:400;
+   font-weight:400;
 	width: 22%;
 	margin: 6px 0;
+}
+.boxImg{
+	width: 32px;
+	height: 32px;
+}
+.boxText{
+	font-size: 12px;
+	margin-top: 2px;
+	text-align: center;
 }
 </style>

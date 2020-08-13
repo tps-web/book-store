@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import store from '@/store'
 Vue.use(Router)
-import { setToken } from '@/utils/authcookie'
+import { setToken, getToken } from '@/utils/authcookie'
 
 const router = new Router({
     // 解决路由跳转页面没有置顶
     scrollBehavior(to, from, savedPosition) {
-        // console.log(savedPosition)
         if (savedPosition) {
             return savedPosition
         } else {
@@ -24,7 +22,16 @@ const router = new Router({
             component: () =>
                 import ('@/pages/home/index'),
             meta: {
-                title: "首页"
+                title: "书架"
+            }
+        },
+        {
+            path: '/getUserInfo',
+            name: 'me',
+            component: () =>
+                import ('@/components/getUserInfo'),
+            meta: {
+                title: "书架"
             }
         },
         {
@@ -65,7 +72,7 @@ const router = new Router({
         },
         {
             path: '/edit/:id',
-            name: 'edit',
+            name: 'editId',
             component: () =>
                 import ('@/pages/me/address/edit'),
             meta: {
@@ -138,7 +145,7 @@ const router = new Router({
         },
         {
             path: '/goodsDetails/:id/:searchHot',
-            name: 'goodsDetails',
+            name: 'goodsDetails1',
             component: () =>
                 import ('@/pages/goodsDetails/index'),
             meta: {
@@ -159,6 +166,18 @@ const router = new Router({
             name: 'vip',
             component: () =>
                 import ('@/pages/me/vip/index'),
+            meta: {
+                title: "会员中心"
+            }
+        },
+        {
+            path: '/zVip',
+            name: 'zVip',
+            component: () =>
+                import ('@/pages/me/vip/zVip'),
+            meta: {
+                title: "会员中心"
+            }
         },
         //购书
         {
@@ -263,7 +282,7 @@ const router = new Router({
         },
         {
             path: '/goodsList',
-            name: 'goodsList',
+            name: 'goodsListDesc',
             component: () =>
                 import ('@/components/goodsList/goodsList'),
             meta: {
@@ -281,7 +300,7 @@ const router = new Router({
         },
         {
             path: '/rentPay/succesc',
-            name: 'success',
+            name: 'rentPay',
             component: () =>
                 import ('@/pages/rentPay/success'),
             meta: {
@@ -290,7 +309,7 @@ const router = new Router({
         },
         {
             path: '/orderList/goodsList/:id',
-            name: 'success',
+            name: 'goodsList',
             component: () =>
                 import ('@/components/orderList/goodsList'),
             meta: {
@@ -350,7 +369,7 @@ var info = {
         "area": "",
         "userEmail": "",
         "userHead": "http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png",
-        "userNickName": "ps",
+        "userNickName": "周润发",
         "userSign": "",
         "longitude": 0,
         "latitude": 0,
@@ -374,11 +393,18 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    if (!store.state.userInfo) {
-        setToken(info)
-        store.dispatch('getUserInfo')
+    if (to.path == '/getUserInfo') {
+        next()
+        return
     }
-    next()
+    // 判断微信是否已授权 
+    if (!(getToken())) {
+        // 存储userID
+        next('/getUserInfo')
+    } else {
+        next()
+    }
 })
+
 
 export default router

@@ -8,6 +8,8 @@ import './config/components.js'
 import './assets/js/resizing.js'
 
 
+
+
 import store from './store'
 
 import { Image as VanImage } from 'vant';
@@ -18,7 +20,7 @@ import headerNav from './components/header/nav.vue'
 import goodsItem from './components/goodsItem/item.vue'
 import headline from './components/headline/headline.vue'
 
-import Back from './back.js'
+// import Back from './back.js'
 //过滤器
 Vue.filter('testfilter', function(value, num) {
         // 返回处理后的值
@@ -37,29 +39,35 @@ Vue.filter('decimals', function(value) {
 })
 
 Vue.filter('orderStatus', function(id) {
+        var obj = {
+            '-1': '全部订单',
+            '0': '待付款',
+            '1': '待发货',
+            '2': '待收货',
+            '3': '待归还',
+            '4': '待评价',
+            '5': '已关闭',
+            '6': '无效订单'
+        }
+        for (var key in obj) {
+            if (key == id) {
+                return obj[key]
+            }
+        }
+    })
+    //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
+
+Vue.filter('btnText', function(id) {
     var obj = {
         '-1': '全部订单',
         '0': '待付款',
         '1': '待发货',
-        '2': '待收货',
-        '3': '待评价',
-        '4': '已关闭',
-        '5': '无效订单'
-    }
-    for (var key in obj) {
-        if (key == id) {
-            return obj[key]
-        }
-    }
-})
-Vue.filter('btnText', function(id) {
-    let obj = {
-        '0': '待付款',
-        '1': '待发货',
+        // '2': '待收货',
         '2': '查看物流',
-        '3': '待评价',
-        '4': '删除订单',
-        '5': '无效订单'
+        '3': '待归还',
+        '4': '待评价',
+        '5': '已关闭',
+        '6': '无效订单'
     }
     for (var key in obj) {
         if (key == id) {
@@ -83,7 +91,6 @@ Vue.component("headerNav", headerNav)
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
-    Back,
     router,
     store,
     components: { App },

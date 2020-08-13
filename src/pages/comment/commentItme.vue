@@ -18,7 +18,7 @@
     <!-- <div class="item" v-for="(item,index) in imgList" :key="index">
         <img :src="item" alt="" style="width:60px;height:60px">
     </div> -->
- <van-uploader :after-read="afterRead"  :before-delete="beforeDeltte" v-model="fileList" :max-count="9" class="upload"/>
+   <van-uploader :after-read="afterRead"   v-model="fileList" :max-count="9" class="upload"/>
  </div>
     <van-button type="info" round  size="large" style="width:90%;margin:10px auto" @click="goSubmit">提交</van-button>
 </div>
@@ -47,7 +47,7 @@ export default {
         isHotSearch:0
       }
      getBookDesc(op).then(res=>{
-      //  console.log(res.data.book)
+       console.log(res)
        this.bookDesc=res.data.book
      })
   },
@@ -73,37 +73,63 @@ export default {
     }
   }, 
    methods: {
-     beforeDeltte(file){
-        console.log(file)
-     },
      goSubmit(){
-        var info = JSON.parse(getToken())
-         var op={
+      var info = JSON.parse(getToken())
+      var op={
         "bookId": this.$route.query.id,
         "bookName": this.bookDesc.title,
         "content": this.message,
         "memberIp": info.userId,
-        "pics": this.imgList.toString(),
         "star": this.startValue,
         "userHead": info.userHead,
-        "userNickName": info.userNickName
+        "userNickName": info.userNickName,
+        "orderItemId":this.$route.query.orderItemId,
       }
       commentSave(op).then(res=>{
-        // console.log(res)
-        this.$toast('评论成功')
-         history.back();
+        // console.log(res.data.item.id)
+        // var arr=[]
+        const fromdata=new FormData();
+        for(var i = 0;i<this.fileList.length;i++){
+          fromdata.append('files',this.fileList[i].file);
+          // arr.push(this.fileList[i].file)
+          // this.fileAdd(this.fileList[i].file,res.data.item.id)
+       }
+      //  console.log(arr)
+      //  let op={files:arr,id:res.data.item.id}
+      //  uploadImages(op).then(res=>{
+      //    console.log(res)
+      //  })
+        // fromdata.append('files',arr);
+        fromdata.append('id',res.data.item.id)
+        // console.log(typeof fromdata.get('files'))
+        uploadImages(fromdata).then(res=>{
+           console.log(res)
+           this.$toast('评论成功')
+           history.back();
+        })
+       
       })
       // console.log(op)
      },
+    //  fileAdd(file,id){
+    //    const fromdata=new FormData();
+    //    fromdata.append('files',file);
+    //    fromdata.append('id',id)
+    //     uploadImages(fromdata).then(res=>{
+    //       console.log(res)
+    //        this.$toast('评论成功')
+    //        history.back();
+    //     })
+    //  },
      afterRead(file) {
       // 此时可以自行将文件上传至服务器
-        const fromdata=new FormData();
-        fromdata.append('files',file.file);
+        // const fromdata=new FormData();
+        // fromdata.append('files',file.file);
       // console.log(file.file);
-      uploadImages(fromdata).then(res=>{
-        // console.log(res.data.items)
-        this.imgList=this.imgList.concat(res.data.items)
-      })
+      // uploadImages(fromdata).then(res=>{
+      //   // console.log(res.data.items)
+      //   this.imgList=this.imgList.concat(res.data.items)
+      // })
      }
     },
  mounted() {
@@ -137,7 +163,7 @@ export default {
 .Box{
   /* width:92%; */
   padding:10px 8px;
-  height:300px;
+  /* height:300px; */
   margin:16px auto;
   text-align:left;
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
@@ -153,6 +179,7 @@ export default {
 }
 .upload{
   margin:10px auto;
+  margin-left: 10px;
 }
 .goods{
   position: relative;

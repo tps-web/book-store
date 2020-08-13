@@ -35,5 +35,9 @@ export default {
 	.footer{
 		margin-bottom: 50px;
 	}
+  /* .van-tabbar--fixed{
+    position: absolute;
+    bottom: 0;
+  } */
 </style>
 

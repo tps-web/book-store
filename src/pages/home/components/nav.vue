@@ -25,8 +25,10 @@ export default {
     }
   },
   created(){
+    // console.log(this.navItem.data.data)
     for(var i =0 ;i<5;i++){
-      this.navList.push(this.navItem.data[i])
+      // this.navList.push(this.navItem.data[i])
+      this.navList.push(this.navItem.data.data[i])
     }
   },
   components: {

@@ -2,7 +2,7 @@
   <div class="box">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" >
-             <comment :commentList="list"/>
+             <comment :commentList="list" v-if="list.length"/>
           </van-list>
       </van-pull-refresh>
   </div>
@@ -36,12 +36,12 @@ export default {
        getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
         getBookDesc(op).then(res=>{
-            console.log(res.data.commentList)
+            // console.log(res.data.commentList.records)
             this.total=res.data.commentList.total
             if(this.curPage==1){
                 this.list=res.data.commentList.records
             }else{
-                this.list.concat(res.data.commentList.records)
+             this.list = this.list.concat(res.data.commentList.records)
             }
         })
     },
@@ -62,6 +62,8 @@ export default {
             this.curPage++
             this.getItem()
             this.loading = false;
+            // console.log(this.list.length)
+            // console.log(this.total)
             if (this.list.length >= this.total) {
                this.finished = true;
             }

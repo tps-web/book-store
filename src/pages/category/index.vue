@@ -53,8 +53,10 @@ export default {
   },
   mounted(){
      getCategory().then(res=>{
+      //  console.log(res.data.items)
       this.cateLeft=res.data.items
-      this.data = this.cateLeft[0].storyCategoryTypeList
+      // this.data = this.cateLeft[0].storyCategoryTypeList
+      this.data = this.cateLeft[0].storyCategoryTypes
       this._initData()
     })
   },
@@ -77,7 +79,8 @@ export default {
       }
    },
    clickLeftLi(cate,index){
-      this.data=cate.storyCategoryTypeList
+      // this.data=cate.storyCategoryTypeList
+      this.data=cate.storyCategoryTypes
       this.currentIndex = index
       // this.currentIndex = cate.storyCategoryTypeList
       setTimeout(() => {

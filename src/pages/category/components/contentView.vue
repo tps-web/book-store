@@ -41,7 +41,7 @@ export default {
   },
   methods:{
     goUrl(item){
-      console.log(item)
+      // console.log(item)
       this.$router.push(`categoryItem/${item.id}`)
     },
       // 1.4.初始化滚动视图

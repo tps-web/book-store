@@ -11,7 +11,10 @@
     <div class="bugAll" v-for="(item,index) in list" :key="index" >
     <div class="title">
         <div class="left">购书订单</div>
-        <div class="right">{{item.status|orderStatus}}</div>
+        <div class="right">
+          <span v-show="item.lastTime">{{item.lastTime|formatTime}}</span>
+          {{item.status|orderStatus}}
+        </div>
     </div>
     <div class="content">
          <!-- 商品列表-->
@@ -28,8 +31,8 @@
     </div>
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-        <span class="pay">￥{{item.payAmount}}</span>
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=4&&item.status!=5">{{item.status|btnText}}</van-button>
+        <span class="pay" v-show="item.status==0">￥{{item.payAmount}}</span>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=4&&item.status!=5">{{item.status|orderStatus}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=0&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==4||item.status==5" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
@@ -41,33 +44,76 @@
 </template>
 
 <script>
-var that
+var that,int_minute,lastTime
 import {getOrderType,updateOrder,removeOrder} from '@/api'
-import {orderStatus} from '@/utils'
+import {orderStatus,formatList} from '@/utils'
 import {orderMixin} from '../../mixins/mixins'
+
 export default {
+  inject: ["reload"], //注入reload方法
   props:['status'],
   mixins: [orderMixin],
   data () {
     return {
-       //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单  
+       createdTime:'',
+       lastPayTime:'',
+       ticker:''
+       //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单 
+      //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
     }
   },
   created(){
       that=this
       this.getItem()
   },
-  methods:{
+  watch:{
+  },
+  filters:{
+    formatTime(time){
+      let min = parseInt(time / 60); //算出分钟数
+      let sec = Math.floor(time%60)
+      return min+'分'+sec+'秒'
+    }
+  },
+  mounted(){
+    //这一段是防止进入页面出去后再进来计时器重复启动
+   	  if (this.ticker) {
+         clearInterval(this.ticker);
+       }
+      this.beginTimer();
+  },
+  methods:{  
+    beginTimer() { //这个计时器是每秒减去数组中指定字段的时间
+	      this.ticker = setInterval(() => {
+	        for (let i = 0, len = this.list.length; i < len; i++) {
+	          const item = this.list[i];
+	          if (item.lastTime > 0) {
+	            this.list[i].lastTime = this.list[i].lastTime - 1;
+	          }else{
+              if(this.list[i].status===0){
+                  let op = { id: this.list[i].id, status: 5 }
+                   updateOrder(op).then(res=>{
+                     console.log(res)
+                     this.list[i].status=5
+                    //  this.reload(); 
+                    // this.getItem()
+                   })
+              }
+            }
+	        }
+	      }, 1000);
+	    }, 
    //得到数据
    getItem(){
      let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
         getOrderType(op).then(res=>{
-            // console.log(res.data.rows)
+            console.log(res.data.rows)
+            //倒计时
             this.total=res.data.total
             if(this.curPage==1){
-                this.list=res.data.rows
+                this.list=formatList(res.data.rows)
             }else{
-                this.list=this.list.concat(res.data.rows)
+                this.list=this.list.concat(formatList(res.data.rows))
             }
         })
    },

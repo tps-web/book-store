@@ -1,6 +1,6 @@
 <template>
   <div>
-     <Skeleton v-show="isShowLoading" />
+     <!-- <Skeleton v-show="isShowLoading" /> -->
     <div class="content" v-if="!isShowLoading">
      <!-- 搜索 -->
      <Search/>
@@ -20,10 +20,9 @@
       <Related :listItem="listItem"/>
      </van-pull-refresh>
    </div>
-    <!-- 底部导航     -->
+    <!-- 底部导航 -->
      <navigate/>
   </div>
-  
 </template>
 
 <script>
@@ -57,11 +56,15 @@ export default {
       bannerItem:"",
       navItem:"",
       weekItem:"",
-      bookItem:""
+      bookItem:"",
     }
   },
   created(){
     this._initData()
+    // window.androidCallJs = this.androidCallJs; 
+  },
+  mounted(){
+    // window.androidCallJs = this.androidCallJs; 
   },
    methods: {
      _initData(){
@@ -92,6 +95,5 @@ export default {
 .content{
   background-color: #fff;
 }
-
 
 </style>

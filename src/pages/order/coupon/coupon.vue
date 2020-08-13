@@ -10,7 +10,7 @@
        >
        <div class="noData" v-show="finished&&getCouponTotal==0">
         <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
-        <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
+        <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
       <div>
       <div class="box" v-for="(item,index) in formatCoupon" :key="index" @click="selectItem(item)">
@@ -162,7 +162,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .noData{
-  margin-top: 40%;
+  margin-top: 70px;
 }
 .box{
 	position: relative;

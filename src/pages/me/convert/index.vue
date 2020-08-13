@@ -33,6 +33,7 @@ export default {
       }else{
          getCouponByCode(this.code).then(res=>{
            this.$toast('兑换成功！')
+           this.code=""
          })
       }
   	}

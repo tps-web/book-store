@@ -1,25 +1,23 @@
 <template>
-  <div class="">
-    <Map v-if="lnglat.length!=0" :lnglat="lnglat"  :sent='sent' :receiver='receiver' />
+  <div class="" v-if="lnglat.length>=2">
+    <!-- <Map v-if="lnglat.length>=2" :lnglat="lnglat"  :sent='sent' :receiver='receiver' /> -->
     <div class="box">
         <div class="top">
           <div class="company">发货物流公司：{{deliveryCompany}}</div>
-          <div class="orderId">发货物流单号：{{logisticsData.LogisticCode}}</div>
-          <div class="estimatedDate">预计送达：{{logisticsData.EstimatedDeliveryTime}}</div>
+          <div class="orderId">发货物流单号：{{deliverySn}}</div>
+          <!-- <div class="estimatedDate">预计送达：{{logisticsData.EstimatedDeliveryTime}}</div> -->
         </div>
          <div class="content">
         <van-steps direction="vertical" :active="0" style="width:86%;margin:0 auto; text-align: left;" >
-            <van-step v-for="(item,index) in logisticsData.Traces" :key="index">
-                 <div class="address">{{item.AcceptStation}}</div>
-                 <div class="date">{{item.AcceptTime}}</div>
+            <van-step v-for="(item,index) in logisticsData" :key="index">
+                 <div class="address">{{item.context}}</div>
+                 <div class="date">{{item.ftime}}</div>
             </van-step>
         </van-steps>
     </div>
     </div> 
-   
   </div>
 </template>
-
 <script>
 import Map from '@/components/map/map.vue'
 import {getLogistics} from '@/api'
@@ -35,21 +33,24 @@ export default {
       // lnglat:[["113.434576","23.208843"],["116.287149","39.858427"]],
       lnglat:[],
       logisticsData:'',
-      deliveryCompany:'' //快递名
+      deliverySn:"", //订单编号
+      deliveryCompany:'', //快递名
+      nu:''
     }
   },
   created(){
     getLogistics(this.$route.params.id).then(res=>{
       console.log(res.data)
-      // console.log(res.data.receiver.Address)
-      this.getLogisticsSent(res.data.sent.Address)
-      this.getLogisticsReceiver(res.data.receiver.Address)
+      this.getLogisticsSent(res.data.sent.address,res.data.receiver.address)
+      // this.getLogisticsReceiver(res.data.receiver.Address)
       this.deliveryCompany=res.data.order.deliveryCompany
-      if(JSON.parse(res.data.result).Data){
-          this.logisticsData= JSON.parse(res.data.result).Data[0]
-          this.logisticsData.Traces.sort(function(a, b) {
-          return b.AcceptTime < a.AcceptTime ? -1 : 1
-        })
+      this.deliverySn=res.data.order.deliverySn
+      if(res.data.result){
+         this.logisticsData=res.data.result
+        //   this.logisticsData= JSON.parse(res.data.result).Data[0]
+        //   this.logisticsData.Traces.sort(function(a, b) {
+        //   return b.AcceptTime < a.AcceptTime ? -1 : 1
+        // })
       }
     })
   },
@@ -63,13 +64,16 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
 methods:{
-   getLogisticsSent(data){
+   getLogisticsSent(data,data1){
      axios
      .get(`https://restapi.amap.com/v3/geocode/geo?address=${data}&output=JSON&key=df1133f2ead971ccb7d7524865904909`)
      .then(res=>{
       //  console.log(res.data.geocodes[0].location)
        this.sent=res.data.geocodes[0].location.split(',')
-       this.lnglat.push(this.sent)
+        this.lnglat.push(this.sent)
+        this.getLogisticsReceiver(data1)
+        // this.lnglat[0]=this.sent
+        // console.log(this.lnglat)
      })
    },
    getLogisticsReceiver(data){
@@ -79,6 +83,7 @@ methods:{
       //  console.log(res.data.geocodes[0].location)
        this.receiver=res.data.geocodes[0].location.split(',')
        this.lnglat.push(this.receiver)
+      //  this.lnglat[1]=this.receiver
      })
    },
    goBack(){
@@ -109,7 +114,7 @@ filters:{
     /* border: 1px solid rgba(0,0,0,0.1); */
     /* box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1); */
     border-radius: 8px 8px 0 0;
-    margin-top: -10px;
+    /* margin-top: -10px; */
     background: #fff;
 }
 .top{

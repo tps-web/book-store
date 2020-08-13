@@ -13,7 +13,8 @@ export default {
   components:{item},
   data () {
     return {
-       status:4
+      //  status:4
+       status:5
     }
   },
   created(){

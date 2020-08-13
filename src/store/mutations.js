@@ -20,7 +20,8 @@ import {
     USECOUPONTEXT,
     ALL_CART,
     COUPON_TOTAL,
-    FREIGHT
+    FREIGHT,
+    GETMEMBERINFO
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -199,5 +200,8 @@ export default {
     //邮费
     [FREIGHT](state, freight) {
         state.freight = freight
+    },
+    [GETMEMBERINFO](state, info) {
+        state.memberInfo = info
     }
 }

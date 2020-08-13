@@ -43,13 +43,15 @@
            <div class="box_name">{{item.name}}</div>
       </div> -->
     </div>
-     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" to="/vip" class="vip" />
+     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="memberInfo?'/zVip':'/vip'"  class="vip" />
     <div class="setting_group">
-      <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" />
-      <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" />
-      <van-cell  value="优惠卷"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" />
-      <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" />
+      <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" size="large" />
+      <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" size="large" />
+      <van-cell  value="优惠卷"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" size="large" />
+      <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" size="large"  />
     </div>
+  
+    <button @click="test">测试</button>
   <navigate/>
   </div>
 </template>
@@ -60,65 +62,22 @@ export default {
   name: 'Me',
   data () {
     return {
-      user_group:[
-       {
-        bgImg : require('../../assets/images/qbdd.png'),
-        name:'全部订单',
-        path:'1',
-        pathChildren:"1-a"
-       },
-       {
-        bgImg:require('../../assets/images/dfk.png'),
-        name:'待付款',
-         path:'1',
-        pathChildren:"1-b"
-       },
-        {
-        bgImg:require('../../assets/images/dfh.png'),
-        name:'待发货',
-        path:'1',
-        pathChildren:"1-c"
-       },
-        {
-        bgImg:require('../../assets/images/dsh.png'),
-        name:'待收货',
-        path:'1',
-        pathChildren:"1-d"
-       },
-       //借书
-        {
-        bgImg:require('../../assets/images/dgh.png'),
-        name:'待归还',
-        path:'0',
-        pathChildren:"a"
-       },
-        {
-        bgImg:require('../../assets/images/djs.png'),
-        name:'待发货',
-        path:'0',
-        pathChildren:"b"
-       },
-       {
-        bgImg:require('../../assets/images/dpj.png'),
-        name:'待评价',
-        path:'0',
-        pathChildren:"c"
-       },
-        {
-        bgImg:require('../../assets/images/tk.png'),
-        name:'退款',
-        path:'0',
-        pathChildren:"d"
-       }
-      ]
     }
   },
   computed:{
-     ...mapState(['userInfo'])
+     ...mapState(['userInfo','memberInfo'])
   },
   components:{
   },
+  mounted(){
+   
+  },
   methods:{
+    test(){
+      window.android.callFromJS();  //js 调用android
+    },
+    androidCallJs(){
+    },
     gourl(item){
       // console.log(item)
       this.$router.push(`/bugAndRent/${item}`)
@@ -134,7 +93,7 @@ export default {
 }
 .top{
   width:100%;
-  height:180px;
+  height:170px;
   background-image:  url(../../assets/images/top.png);
   background-size:100%;
   border-radius: 0 0 20px 20px;
@@ -146,7 +105,7 @@ export default {
 }
 .user_mess{
   position: absolute;
-  top: 40px;
+  top: 30px;
   left: 30px;
   display: flex;
 }

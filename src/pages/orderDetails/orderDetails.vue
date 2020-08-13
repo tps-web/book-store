@@ -2,7 +2,9 @@
   <div class="">
       <div class="top">
           <van-image :src="require('../../assets/images/top.png')" class="top_img"/>
-           <div class="top_tit">{{listItem|formatStatus}}</div>
+           <div class="top_tit">{{listItem|formatStatus}}
+              <span style="margin-left:20px;font-size:14px">{{lastPayTime}}</span>
+           </div>
       </div>
       <!-- 运输 -->
        <!-- <div class="expess">
@@ -31,7 +33,6 @@
          <van-cell title="优惠券" :value="formatTwo(listItem.couponAmount)" size="large" title-style="text-align: left;font-size: 14px;"/>
          <div class="total">支付金额：<span style="color:red">￥{{listItem.payAmount}}</span></div>
      </div>
-     
       <!-- 订单号信息 -->
       <div class="orderBox">
           <div class="left">
@@ -50,14 +51,14 @@
       <div class="bottom">
             <van-button plain type="default" round size="small" class="btn" @click="goPay(listItem)" v-show="listItem.status==0" >去付款</van-button>
             <van-button plain type="default" round size="small" class="btn" @click="goExpress(listItem)" v-show="listItem.status==2" >查看物流</van-button>
-            <van-button plain type="danger" round size="small" class="btn">删除订单</van-button>
+            <!-- <van-button plain type="danger" round size="small" class="btn">删除订单</van-button> -->
       </div>
   </div>
 </template>
 
 <script>
 import selectGoods from './goodsList'
-import {getOrderDesc} from '@/api'
+import {getOrderDesc,updateOrder} from '@/api'
 
 export default {
   components:{
@@ -66,15 +67,24 @@ export default {
   data () {
     return {
         listItem:'',
-        goodsList:''
+        goodsList:'',
+        createdTime:'',
+        lastPayTime:''
     }
   },
   created(){
       getOrderDesc(this.$route.params.id).then(res=>{
-        //   console.log(res.data.item)
+          console.log(res.data.item)
           this.goodsList=res.data.item.list
           this.listItem=res.data.item
+             var statusText=this.getStatus(this.listItem.status)
+             document.title=statusText
+          if(this.listItem.status===0){
+               this.createdTime=res.data.item.createTime
+               this.computedLastPayTime()
+           }
       })
+    
   },
   mounted(){
   if (window.history && window.history.pushState) {
@@ -86,15 +96,61 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
   methods:{
+      computedLastPayTime(){
+          var auth_timetimer = setInterval(()=>{
+               let createTime = Date.parse(this.createdTime) / 1000;
+               let endTime  = createTime + 1800;
+               let clientTime = Date.parse(new Date()) / 1000;
+               let lastTime = endTime - clientTime;
+               let int_minute;
+            if(lastTime > 0){
+                int_minute = Math.floor(lastTime/60);
+                lastTime -= int_minute * 60;
+                this.lastPayTime = int_minute+'分'+ lastTime +'秒'
+             } else {
+                 this.lastPayTime='支付时间超时'
+                 let op = { id: this.listItem.id, status: 5 }
+                 updateOrder(op).then(res=>{
+                    //  console.log(res)
+                    this.listItem.status=5
+                 })
+                 clearInterval(auth_timetimer);
+             } 
+          },1000)
+      },
+      getStatus(orderType){
+            switch (orderType) {
+                                 case 0:
+                                   return '待付款'
+                                break;
+                                case 1:
+                                    return '待发货'
+                                break;
+                                case 2:
+                                    return '待收货'
+                                break;
+                                case 3:
+                                    return '待归还'
+                                break;
+                                case 4:
+                                    return '待评价'
+                                break;
+                                case 5:
+                                    return '已关闭'
+                                break;
+                                default:
+                                    break;
+                            }
+      },
     goPay(item){
         //去付款
         console.log(item)
     },
     //返回
-     goBack(){
-    var path=sessionStorage.getItem('path')
-    var pathChildren= sessionStorage.getItem('pathChildren')
-    this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
+   goBack(){
+        var path=sessionStorage.getItem('path')
+        var pathChildren= sessionStorage.getItem('pathChildren')
+        this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
     //replace替换原路由，作用是避免回退死循环
   },
       //保留两位小数
@@ -150,9 +206,12 @@ destroyed(){
                         return '待收货'
                     break;
                     case 3:
-                        return '待评价'
+                        return '待归还'
                     break;
                     case 4:
+                        return '待评价'
+                    break;
+                      case 5:
                         return '已关闭'
                     break;
                     default:

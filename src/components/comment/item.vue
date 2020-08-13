@@ -8,10 +8,13 @@
 				<div class="username">{{item.userNickName}}</div>
 				<div class="date">{{item.createTime}}</div>
 				<div class="comments_desc">{{item.content}}</div>
+
 				<div class="pic" v-if="item.pics">
-				   <van-image  width="66" height="66" :src="pic" v-for="(pic,index1) in item.pics.split(',')" :key="index1" style="margin:4px" @click="viewPic(item.pics,index1)"/>
-				</div>
-				<div v-for="(listItem,index1) in item.list" :key="index1" class="listBox">
+					<!-- <div v-for="(pic,index1) in JSON.parse(item.pics) " :key="index1"> -->
+				      <van-image  width="66" height="66" :src="pic" v-for="(pic,index1) in JSON.parse(item.pics) " :key="index1" style="margin:4px" @click="viewPic(item.pics,index1)"/>
+					</div>
+				<!-- </div> -->
+				<div v-for="(listItem,index2) in item.list" :key="index2" class="listBox">
 				  <div><span style="color:#8CAACE">{{listItem.userNickName}}</span>  <span>回复：</span>
 				    {{listItem.content}}
 				  </div>
@@ -33,13 +36,19 @@ export default {
     }
   },
   created(){
-	//   console.log(this.commentList)
+    
+  },
+ 
+  mounted(){
   },
    methods: {
+	formatStr(pic){
+        return JSON.parse(pic)
+	},
 	//图片预览
 	viewPic(img,index){
       ImagePreview({
-		  images:img.split(','),
+		  images:JSON.parse(img),
 		  showIndex:true,
 		  loop:false,
 		  startPosition:index,

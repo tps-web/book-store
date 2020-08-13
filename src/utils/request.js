@@ -10,7 +10,7 @@ const service = axios.create({
     baseURL: process.env.API_ROOT,
     // baseURL: '/api',
     withCredentials: true, // send cookies when cross-domain requests
-    timeout: 5000 // request timeout
+    timeout: 10000, // request timeout
 })
 
 // request interceptor

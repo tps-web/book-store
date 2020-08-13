@@ -18,9 +18,9 @@
                   <van-tab title="待收货" name="d">
                     <delayTake/>
                   </van-tab>
-                  <!-- <van-tab title="待评价" name="e">
-                    <delayComment/>
-                  </van-tab> -->
+                  <van-tab title="待评价" name="e">
+                    <delayPingjia/>
+                  </van-tab>
                   <van-tab title="已取消" name="f">
                     <cancelBox />
                   </van-tab>
@@ -64,6 +64,7 @@ import delayShipments from './rent/delayShipments'
 import delayTake from './rent/delayTake'
 import delayComment from  './rent/delayComment'
 import cancelBox from './rent/cancelBox'
+import delayPingjia from './rent/delayPingjia'
 
 import Payment from './bug/delayPayment'
 import Shipments from './bug/delayShipments'
@@ -86,7 +87,8 @@ export default {
     Shipments,
     Take,
     Comment,
-    cancelView
+    cancelView,
+    delayPingjia
   },
   data () {
     return {

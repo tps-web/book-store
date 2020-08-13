@@ -53,9 +53,10 @@ export default {
   position:absolute;
   right: 10px;
   top: 40px;
+  font-size: 12px;
 }
 .bigBox{
-  width: 270px;
+  width: 250px;
   overflow-x: auto;
   display: flex;
 }

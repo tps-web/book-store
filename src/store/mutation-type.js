@@ -25,3 +25,5 @@ export const ALL_CART = 'ALL_CART';
 export const COUPON_TOTAL = 'COUPON_TOTAL';
 
 export const FREIGHT = 'FREIGHT';
+
+export const GETMEMBERINFO = 'GETMEMBERINFO';
