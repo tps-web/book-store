@@ -24,7 +24,7 @@
                    @click.stop="single(item.id)"></a>
             </div>
             <div class="center" @click="godesc(item)">
-                <img  :src="item.smallImage" width="90" height="90">
+                <img  :src="item.smallImage" class="goodsImg">
             </div>
             <div class="right" @click="godesc(item)">
                 <div class="bookName">{{item.name}}</div>
@@ -156,15 +156,23 @@ export default {
     },
     //点击租书
     goRent(){
-      if(this.checkedNum&&this.checkedNum<3){
-         this.$toast('需要租3本起')
-      }else if(!this.checkedNum){
-         this.$toast('没有勾选商品')
-      }else if(this.checkedNum&&this.checkedNum>6){
-        this.$toast('租借不能超过6本')
+      //判断是否会员
+      if(this.userInfo.memberFlag!=0){
+        //不等于0 为会员
+        if(this.checkedNum&&this.checkedNum<3){
+             this.$toast('需要租3本起')
+          }else if(!this.checkedNum){
+            this.$toast('没有勾选商品')
+          }else if(this.checkedNum&&this.checkedNum>6){
+            this.$toast('租借不能超过6本')
+          }else{
+            this.$router.push('/rentOrder')
+          }
       }else{
-        this.$router.push('/rentOrder')
+        // 非会员
+        this.$toast('只对会员开放')
       }
+     
     },
     //点击购买按钮
      goBug(){
@@ -260,6 +268,10 @@ section {
 }
 .center img{
   border-radius: 4px;
+}
+.goodsImg{
+  width: 90px;
+  height: 90px;
 }
 .right{
   flex: 6;

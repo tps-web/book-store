@@ -18,7 +18,7 @@
     <!-- <div class="item" v-for="(item,index) in imgList" :key="index">
         <img :src="item" alt="" style="width:60px;height:60px">
     </div> -->
-   <van-uploader :after-read="afterRead"   v-model="fileList" :max-count="9" class="upload"/>
+   <!-- <van-uploader :after-read="afterRead"   v-model="fileList" :max-count="9" class="upload"/> -->
  </div>
     <van-button type="info" round  size="large" style="width:90%;margin:10px auto" @click="goSubmit">提交</van-button>
 </div>
@@ -89,25 +89,17 @@ export default {
         // console.log(res.data.item.id)
         // var arr=[]
         const fromdata=new FormData();
-        for(var i = 0;i<this.fileList.length;i++){
-          fromdata.append('files',this.fileList[i].file);
-          // arr.push(this.fileList[i].file)
-          // this.fileAdd(this.fileList[i].file,res.data.item.id)
-       }
-      //  console.log(arr)
-      //  let op={files:arr,id:res.data.item.id}
-      //  uploadImages(op).then(res=>{
-      //    console.log(res)
-      //  })
-        // fromdata.append('files',arr);
+      //   for(var i = 0;i<this.fileList.length;i++){
+      //     fromdata.append('files',this.fileList[i].file);
+      //  }
         fromdata.append('id',res.data.item.id)
-        // console.log(typeof fromdata.get('files'))
-        uploadImages(fromdata).then(res=>{
-           console.log(res)
-           this.$toast('评论成功')
-           history.back();
-        })
-       
+        // uploadImages(fromdata).then(res=>{
+        //    console.log(res)
+        //    this.$toast('评论成功')
+        //    history.back();
+        // })
+         this.$toast('评论成功')
+         history.back();
       })
       // console.log(op)
      },

@@ -54,7 +54,8 @@ import axios from 'axios'
       qqNickName: "",
       qqUserHead: "",
       worksCount: 0,
-      type: 0
+      type: 0,
+      memberFlag:0
       }
   }
 }
@@ -95,6 +96,9 @@ export default {
             }
       }else{
           setToken(info.data)
+          getUserMemberById(info.data.item.userId).then(res=>{
+              store.commit('GETMEMBERINFO',res.data.item.data)
+          })
           store.dispatch('getUserInfo')
           this.$router.replace('/')
       }

@@ -98,12 +98,11 @@ export default {
 <style scoped>
 .content{
   width: 100%;
-  height: 100%;
   background-color: #f5f5f5;
   overflow: hidden;
 }
 .listWrapper {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   position: absolute;
   top: 50px;
@@ -112,9 +111,9 @@ export default {
 }
 .leftWrapper {
   background-color: #f4f4f4;
-  width: 18%;
+  /* width: 20%; */
   flex: 0 0 95px;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .categoryItem {

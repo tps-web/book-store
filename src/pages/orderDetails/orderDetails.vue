@@ -194,7 +194,7 @@ destroyed(){
   filters:{
         //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单  
       formatStatus(order){
-          if(order.orderType==0){
+        //   if(order.orderType==0){
             switch (order.status) {
                     case 0:
                         return '待付款'
@@ -217,28 +217,28 @@ destroyed(){
                     default:
                         break;
                 }
-          }else{
-              //借书
-            switch (order.status) {
-                case 0:
-                    return '待付款'
-                break;
-                case 1:
-                    return '待发货'
-                break;
-                case 2:
-                    return '待收货'
-                break;
-                case 3:
-                    return '待评价'
-                break;
-                case 4:
-                    return '已关闭'
-                break;
-                default:
-                    break;
-            }
-          }
+        //   }else{
+        //       //借书
+        //     switch (order.status) {
+        //         case 0:
+        //             return '待付款'
+        //         break;
+        //         case 1:
+        //             return '待发货'
+        //         break;
+        //         case 2:
+        //             return '待收货'
+        //         break;
+        //         case 3:
+        //             return '待评价'
+        //         break;
+        //         case 4:
+        //             return '已关闭'
+        //         break;
+        //         default:
+        //             break;
+        //     }
+        //   }
       }
   }
 }

@@ -37,26 +37,66 @@
         </van-grid>
      </div>
      <div class="vipBug">
-        <van-cell title="荟声VIP年卡" value="￥365" title-style="text-align: left" value-class="textClass" />
-        <van-cell title="会员卡有效期" value="12个月" title-style="text-align: left" size="large" />
+        <van-cell title="荟声VIP年卡"   :value="'￥'+payPerice" title-style="text-align: left" value-class="textClass" />
+        <van-cell title="会员卡有效期"  :value="yearNum+'个月'" title-style="text-align: left" size="large"  @click="showExpress=true" />
+         <van-popup v-model="showExpress"  position="bottom" >
+          <van-picker
+            title="选择开通月数"
+            show-toolbar
+            :default-index="0"
+            :columns="columns"
+            value-key = "expressName"
+            @confirm="Confirm"
+            @cancel="onCancel"
+        />
+        </van-popup>
      </div>
-     <van-cell value="会员须知" is-link class="xuzhi" size="large"/>
 
-     <div class="btn">{{memberInfo?'立即续费':'立即开通'}}</div>
+     <van-cell value="会员须知" is-link class="xuzhi" size="large"/>
+     <van-cell value="会员权益" is-link class="quanyi" size="large"/>
+
+     <div class="btn" @click="goPay">{{memberInfo?'立即续费':'立即开通'}}</div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
-
+import {getNowFormatDate} from '@/utils'
 export default {
   data () {
     return {
+      yearNum:12,
+      showExpress:false,
+      columns:[12,24,36,48],
+      payPerice:365,
+      memberLevelId:4
     }
   },
    computed:{
      ...mapState(['userInfo','memberInfo'])
   },
+  methods:{
+    Confirm(value, index){
+      this.payPerice=365
+      this.yearNum=value
+      this.showExpress=false
+      this.payPerice= this.payPerice*(value/12)
+    },
+    onCancel(){
+      this.showExpress=false
+    },
+    goPay(){
+       let op={
+       id:this.userInfo.userId,
+       nickname:this.userInfo.userNickName,
+       memberFees:this.payPerice,
+       memberLevelId:this.memberLevelId,
+       memberYear:(this.yearNum/12),
+       createTime: getNowFormatDate(new Date())
+       }
+      console.log(op)
+    }
+  }
 }
 </script>
 
@@ -100,7 +140,12 @@ export default {
 }
 .xuzhi{
   width: 88%;
-  margin: 20px auto;
+  margin: 20px auto 0;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+.quanyi{
+  width: 88%;
+  margin: 0px auto;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 .btn{

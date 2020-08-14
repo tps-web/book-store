@@ -25,7 +25,7 @@
 
 <script>
 import {mapMutations} from 'vuex'
-import  goodsItem from '@/components/goodsItem/item'
+import  goodsItem from './goods'
 export default {
   components:{
     goodsItem

@@ -18,7 +18,7 @@
              </div>
            </div>
            <div class="right">
-              <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
+              <van-image :src="require('../../../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
            </div>
          </div>
       </van-grid-item>
@@ -46,14 +46,7 @@ export default {
   },
   methods:{
     goToGoodsDetail(item){
-          // this.$router.push(`/goodsDetails/${item.id}`)
-          this.$router.replace({
-              path:`/goodsDetails/${item.id}`
-          },()=>{
-             this.reload(); //此处刷新页面
-            // window.location.reload()
-            // this.$router.go(0)
-          })
+          this.$router.push(`/goodsDetails/${item.id}`)
     },
     //  ...mapMutations(['ADD_TO_CART']),
      ...mapActions(['addCart']),
@@ -71,7 +64,7 @@ export default {
 .content{
   width: 97%;
   margin: 0 auto;
-  /* padding-bottom: 50px; */
+  padding-bottom: 50px;
 }
 .storeName{
 	width: 100%;

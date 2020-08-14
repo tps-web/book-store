@@ -19,6 +19,7 @@
                 </div>
            </div>
        </div>
+        <van-cell value="会员须知" is-link class="xuzhi" size="large"/>
     </div>
   </div>
 </template>
@@ -35,7 +36,7 @@ export default {
     }
   },
   computed:{
-     ...mapState(['userInfo','memberInfo'])
+     ...mapState(['memberInfo'])
   },
   methods:{
       gourl(){
@@ -92,5 +93,11 @@ export default {
 .date{
     margin-top: 5px;
     font-size: 12px;
+}
+.xuzhi{
+    width: 86%;
+    margin: 20px auto 0;
+    border-radius: 6px;
+    box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -33,19 +33,20 @@
          </div>
        </div>
        <!-- 支付方式 -->
-         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '330px' }">
+         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '350px' }">
            <div class="pay_title">支付方式</div>
            <div class="pay_num">￥ <span class="payNum">{{clearedNum}}</span></div>
            <van-radio-group v-model="radio" class="radioBtn">
              <div class="payWay">
                <van-radio name="wxpay" class="btn">
-                 微信支付
                   <van-image :src="require('../../assets/images/wxpay.png')" class="payImg"/>
+                  微信支付
                </van-radio>
              </div>
               <div class="payWay"> 
-                  <van-radio name="zfbpay" class="btn">支付宝支付
+                  <van-radio name="zfbpay" class="btn">
                   <van-image :src="require('../../assets/images/zfbpay.png')"  class="payImg"/>
+                    支付宝支付
                   </van-radio>
               </div>
             </van-radio-group>
@@ -134,17 +135,22 @@ export default {
     //支付
     payBtn(){
       this.payShow=false
-      this.$toast(this.radio)
+      if(this.radio=='wxpay'){
+         this.$toast('微信支付')
+         this.payList.payType=2
+         console.log(this.payList)
+      }else{
+         this.$toast('支付宝支付')
+         this.payList.payType=1
+         console.log(this.payList)
+      }
       // this.$router.replace('/success')
-    },
-    goDetails(item){
-      console.log(item)
     },
       //格式化商品
     formatGoods(list){
       //  console.log(list)
        const data=formatGoods(list)
-      //  console.log(data)
+      //  console.log(data) 
        this.newList=data
     },
     // 提交订单
@@ -156,10 +162,9 @@ export default {
             remarkValue:this.remarkValue
         }
         this.formatGoods(op.goods)
-       
-      //  if(!op.currentAddress){
-      //      this.$toast('请填写地址')
-      //  }else{
+       if(!op.currentAddress){
+           this.$toast('请填写地址')
+       }else{
           var info = JSON.parse(getToken())
             // console.log(this.useCoupon)  //couponHistoryId  amount
             this.payList={
@@ -189,7 +194,7 @@ export default {
              }
             this.payList.list=this.newList     
             this.payShow=true    
-        // }  
+        }  
     },
   
     //选择优惠券
@@ -230,7 +235,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style  scoped>
 .address{
     width: 96%;
     margin: 16px auto;
@@ -373,8 +378,9 @@ export default {
  margin: 6px 0;
 }
 .payImg{
-  position: absolute;
-  right: 10px;
+  position: relative;
+  top: 6px;
+  margin-right: 4px;
   width: 24px;
   height: 24px;
 }
@@ -382,5 +388,9 @@ export default {
   width: 96%;
   margin: 6px auto;
   height: 44px;
+}
+/deep/ .van-radio__icon{
+    position: absolute!important;
+    right: 10px!important;
 }
 </style>

@@ -43,15 +43,15 @@
            <div class="box_name">{{item.name}}</div>
       </div> -->
     </div>
-     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="memberInfo?'/zVip':'/vip'"  class="vip" />
+     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="userInfo.memberFlag!=0?'/zVip':'/vip'"  class="vip" />
+     <!-- <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="memberInfo!=null?'/zVip':'/vip'"  class="vip" /> -->
     <div class="setting_group">
       <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" size="large" />
       <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" size="large" />
       <van-cell  value="优惠卷"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" size="large" />
       <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" size="large"  />
     </div>
-  
-    <button @click="test">测试</button>
+    <button @click="test">测试{{userInfo.memberFlag}}</button>
   <navigate/>
   </div>
 </template>

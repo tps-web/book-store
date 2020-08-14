@@ -8,8 +8,6 @@ import './config/components.js'
 import './assets/js/resizing.js'
 
 
-
-
 import store from './store'
 
 import { Image as VanImage } from 'vant';

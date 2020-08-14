@@ -37,6 +37,20 @@
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==4||item.status==5" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
+    <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
+      <van-icon name="close" size="24" class="close" @click="closeBtn"/>
+         <div class="payNum">￥{{payItem.payAmount}}</div>
+         <van-radio-group v-model="radio" class="radioBox">
+            <van-radio name="2"  class="payBtn">
+                <van-image :src="require('../../../../assets/images/wxpay.png')" class="payImg"/>
+                <span class="payText">微信支付</span>
+            </van-radio>
+            <van-radio name="1"  class="payBtn">
+              <van-image :src="require('../../../../assets/images/zfbpay.png')" class="payImg"/>
+                <span class="payText">支付宝支付</span>
+               </van-radio>
+         </van-radio-group>
+     </van-dialog>
   </div>
    </van-list>
   </van-pull-refresh>
@@ -57,7 +71,10 @@ export default {
     return {
        createdTime:'',
        lastPayTime:'',
-       ticker:''
+       ticker:'',
+       show:false,
+        radio: '2',
+       payItem:''
        //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单 
       //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
     }
@@ -83,6 +100,55 @@ export default {
       this.beginTimer();
   },
   methods:{  
+    onBeforeClose(action, done){
+       if (action === "confirm") {
+        return done(false);
+       }else{
+         return done();
+         this.radio=2
+       }
+    },
+    confirm(){
+     this.payItem.payType=this.radio
+      console.log(this.payItem)
+      this.show=true
+    },
+    closeBtn(){
+      this.show=false
+    },
+   gobtnText(item) {
+            //    订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
+            switch (item.status) {
+                case 0:
+                    console.log('待付款')
+                    console.log(item)
+                    this.show=true
+                    this.payItem=item
+                    break;
+                case 1:
+                    console.log('待发货')
+                    break;
+                case 2:
+                    //查看物流
+                    console.log('查看物流')
+                    this.$router.replace(`/logistics/${item.id}`)
+                    break;
+                case 3:
+                    // console.log('待归还')
+                    // console.log(item)
+                    // this.$router.replace(`/goodsComment/${item.id}`)
+                    break;
+                case 4:
+                    this.$router.replace(`/goodsComment/${item.id}`)
+                    console.log('待评价')
+                    break;
+                case 5:
+                    console.log('已关闭')
+                    break;
+                default:
+                    break;
+            }
+        },
     beginTimer() { //这个计时器是每秒减去数组中指定字段的时间
 	      this.ticker = setInterval(() => {
 	        for (let i = 0, len = this.list.length; i < len; i++) {
@@ -205,5 +271,46 @@ export default {
   padding: 0 4px;
   color: #FC5650;
   border-radius: 14px;
+}
+.radioBox{
+  width: 96%;
+  margin: 0 auto;
+  position: relative;
+}
+.payNum{
+  width: 100%;
+  margin: 6px 0;
+  height: 40px;
+  line-height: 40px;
+  color: #3080AA;
+  font-size: 24px;
+}
+.payImg{
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 6px;
+}
+.payText{
+  display: inline-block;
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+}
+.payBtn{
+  width: 96%;
+  padding: 6px;
+  background: #f5f5f5;
+  margin: 8px auto;
+  border-radius: 6px;
+}
+.close{
+  position:absolute;
+  right: 20px;
+  top: 20px;
+}
+/deep/ .van-radio__icon{
+    position: absolute!important;
+    right: 10px!important;
 }
 </style>

@@ -58,4 +58,12 @@ export default {
     left: auto !important;
     opacity:0 !important;
  }
+.van-overlay{
+  background-color:rgba(0,0,0,.1)!important
+}
+/* .van-radio__icon--round 
+{
+  position: absolute!important;
+    right: 10px!important;
+}  */
 </style>

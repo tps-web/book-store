@@ -1,6 +1,6 @@
 <template>
   <div>
-   <item :status="status"/>
+     <item :status="status"/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   components:{item},
   data () {
     return {
-       status:-1
+       status:-1,
     }
   },
   created(){

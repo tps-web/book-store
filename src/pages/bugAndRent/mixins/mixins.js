@@ -14,36 +14,36 @@ export const orderMixin = {
     },
     created() {},
     methods: {
-        gobtnText(item) {
-            //    订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
-            switch (item.status) {
-                case 0:
-                    console.log('待付款')
-                    break;
-                case 1:
-                    console.log('待发货')
-                    break;
-                case 2:
-                    //查看物流
-                    console.log('查看物流')
-                    this.$router.replace(`/logistics/${item.id}`)
-                    break;
-                case 3:
-                    // console.log('待归还')
-                    // console.log(item)
-                    // this.$router.replace(`/goodsComment/${item.id}`)
-                    break;
-                case 4:
-                    this.$router.replace(`/goodsComment/${item.id}`)
-                    console.log('待评价')
-                    break;
-                case 5:
-                    console.log('已关闭')
-                    break;
-                default:
-                    break;
-            }
-        },
+        // gobtnText(item) {
+        //     //    订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
+        //     switch (item.status) {
+        //         case 0:
+        //             console.log('待付款')
+        //             break;
+        //         case 1:
+        //             console.log('待发货')
+        //             break;
+        //         case 2:
+        //             //查看物流
+        //             console.log('查看物流')
+        //             this.$router.replace(`/logistics/${item.id}`)
+        //             break;
+        //         case 3:
+        //             // console.log('待归还')
+        //             // console.log(item)
+        //             // this.$router.replace(`/goodsComment/${item.id}`)
+        //             break;
+        //         case 4:
+        //             this.$router.replace(`/goodsComment/${item.id}`)
+        //             console.log('待评价')
+        //             break;
+        //         case 5:
+        //             console.log('已关闭')
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // },
         //取消订单
         cancel(item) {
             let op = { id: item.id, status: 5 }

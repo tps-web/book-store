@@ -29,7 +29,6 @@
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
-
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
@@ -56,6 +55,44 @@ export default {
        this.getItem()
   },
   methods:{
+     gobtnText(item) {
+            //    订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
+            switch (item.status) {
+                case 0:
+                    console.log('待付款')
+                    console.log(item)
+                    this.show=true
+                    this.payNum=item.payAmount
+                    break;
+                case 1:
+                    console.log('待发货')
+                    break;
+                case 2:
+                    //查看物流
+                    console.log('查看物流')
+                    this.$router.replace(`/logistics/${item.id}`)
+                    break;
+                case 3:
+                    console.log('待归还')
+                    // console.log(item)
+                    // this.backBooks(item)
+                    // this.$router.replace(`/goodsComment/${item.id}`)
+                    break;
+                case 4:
+                    this.$router.replace(`/goodsComment/${item.id}`)
+                    console.log('待评价')
+                    break;
+                case 5:
+                    console.log('已关闭')
+                    break;
+                default:
+                    break;
+            }
+        },
+        backBooks(item){
+          console.log(item)
+          let op={id:item.id,status:4}
+        },
          //下拉刷新
         onLoad() {
             setTimeout(() => {
