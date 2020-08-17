@@ -1,7 +1,10 @@
 <template>
  <div>
     <div class="top">
-        <van-image width="50" height="50" :src="bookDesc.squareImage"/>
+      <div class="imgBox">
+         <van-image  :src="bookDesc.squareImage" class="goodsImg"/>
+      </div>
+        <!-- <van-image width="50" height="50" :src="bookDesc.squareImage"/> -->
         <div class="startBox">
           <div class="title">书本评价</div>
           <van-rate v-model="startValue"/><span class="startDesc">{{startDesc}}</span>
@@ -196,9 +199,19 @@ export default {
   height: 75px;
   margin: auto 4px;
 }
+.imgBox{
+  width: 50px;
+  height: 60px;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-flex-flow : column nowrap;
+  flex-flow : column nowrap;
+}
 .goodsImg{
-   width: 75px;
-  height: 75px;
+   width: 100%;
+   margin-left : auto;
+   margin-right : auto;
+   margin: auto;
 }
 .right_icon{
   position: relative;

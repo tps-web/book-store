@@ -93,12 +93,13 @@ export function formatGoods(list) {
 export function rentStatus(val) {
     var obj = {
         '-1': '全部订单',
-        '0': '待归还',
+        '0': '待付款',
         '1': '待发货',
         '2': '待收货',
-        '3': '待评价',
-        '4': '已关闭',
-        '5': '无效订单'
+        '3': '待归还',
+        '4': '待评价',
+        '5': '已关闭',
+        '6': '无效订单'
     }
     for (var key in obj) {
         if (key == val) {
@@ -113,9 +114,10 @@ export function orderStatus(val) {
         '0': '待付款',
         '1': '待发货',
         '2': '待收货',
-        '3': '待评价',
-        '4': '已关闭',
-        '5': '无效订单'
+        '3': '待归还',
+        '4': '待评价',
+        '5': '已关闭',
+        '6': '无效订单'
     }
     for (var key in obj) {
         if (key == val) {

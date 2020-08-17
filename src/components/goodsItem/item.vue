@@ -2,7 +2,9 @@
   <div class="content">
     <van-grid :column-num="2" :border="false">
       <van-grid-item v-for="(item,index) in listItem" :key="index" class="grid_item">
-         <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" class="img"/>
+        <div class="imgBox">
+           <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" class="img"/>
+        </div>
          <div class="storeName">{{item.title}}</div>
          <div class="category" v-if="item.categoryName&&item.categoryName.length>0">
          	<div v-for="(type,index) in item.categoryName.slice(0,2)" :key="index" :style="{background:color[index].bg}" class="one">
@@ -102,26 +104,37 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.imgBox{
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
+    /* background-color:#eee; */
+    width: 100%;
+    height: 200px;
+}
 .img{
-  width: 100%;
-  height: 200px;
+    width: 100%;
+    margin-left : auto;
+    margin-right : auto;
+    margin: auto;
 }
 .cart_img{
   width: 18px;
   height: 18px;
 }
-.num{
+.num{ 
   font-size: 16px;
 }
 .grid_item{
   margin: 4px 0;
 }
-/* /deep/ .van-grid-item__content{
-  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
-  padding: 2px 6px;
+/deep/ .van-grid-item__content{
+  box-shadow: 0 0 4px 0  rgba(0,0,0,0.1);
+  padding: 0px 4px;
   margin: 4px;
-  border-radius: 6px;
-} */
+  border-radius: 4px;
+}
 .show_decoration{
   color: #ccc;
   font-size: 10px!important;

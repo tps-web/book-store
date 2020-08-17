@@ -33,7 +33,8 @@
          </div>
        </div>
        <!-- 支付方式 -->
-         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '350px' }">
+        <!-- @close="payCancel()" -->
+         <van-popup v-model="payShow" closeable position="bottom" :style="{ height: '310px' }">
            <div class="pay_title">支付方式</div>
            <div class="pay_num">￥ <span class="payNum">{{clearedNum}}</span></div>
            <van-radio-group v-model="radio" class="radioBtn">
@@ -43,12 +44,12 @@
                   微信支付
                </van-radio>
              </div>
-              <div class="payWay"> 
+              <!-- <div class="payWay"> 
                   <van-radio name="zfbpay" class="btn">
                   <van-image :src="require('../../assets/images/zfbpay.png')"  class="payImg"/>
                     支付宝支付
                   </van-radio>
-              </div>
+              </div> -->
             </van-radio-group>
              <van-button type="primary" size="large" round class="payBtn" @click="payBtn">确定</van-button>
              <van-button type="danger" size="large" round class="payBtn" @click="payCancel">取消</van-button>
@@ -64,7 +65,7 @@ import goods from '@/components/goods/goods'
 // import express from '@/components/express/express'
 import {formatCoupon,formatGoods,add} from '@/utils'
 import { getToken } from '@/utils/authcookie'
-import {postOrder} from '@/api'
+import {postOrder,wxPay} from '@/api'
 
 var that
 export default {
@@ -94,6 +95,8 @@ export default {
 
     }
   },
+  created(){
+  },
   mounted(){
     // window.onresize监听页面高度的变化
     window.onresize = ()=>{
@@ -117,6 +120,13 @@ export default {
     ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
   methods:{
+    androidToPay(item){
+      console.log(item)
+      return item
+    },
+    // close(){
+    //   console.log('关闭')
+    // },
     ...mapActions(['getCartList']),
     //取消支付
     payCancel(){
@@ -125,8 +135,8 @@ export default {
       // console.log(this.payList)
       postOrder(this.payList).then(res=>{
           // console.log(res)
-          this.$toast('已取消支付，请尽快支付')
-          this.getCartList()
+        this.$toast('已取消支付，请尽快支付')
+        this.getCartList()
         this.$store.commit('SELETE_COUPON','')
         this.$store.commit('USECOUPONTEXT','')
         history.back();
@@ -134,11 +144,19 @@ export default {
     },
     //支付
     payBtn(){
-      this.payShow=false
+      // this.payShow=false
       if(this.radio=='wxpay'){
          this.$toast('微信支付')
          this.payList.payType=2
-         console.log(this.payList)
+         this.payList.status=0 
+          postOrder(this.payList).then(res=>{
+              // console.log(res.data.item.orderSn)
+              wxPay(res.data.item.orderSn).then(res=>{
+                console.log(res.data.item)
+                 var op =JSON.stringify(res.data.item)
+                window.android.androidToPay(op);  
+              })
+          })
       }else{
          this.$toast('支付宝支付')
          this.payList.payType=1

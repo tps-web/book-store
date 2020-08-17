@@ -18,7 +18,10 @@
        <div class="goods"  @click="goDetails(item.id)">
          <div class="bigBox">
            <div class="box" v-for="(item,index1) in item.list" :key="index1">
-             <van-image class="goodsImg" :src="item.bookPic" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
+             <div class="imgBox">
+                <van-image class="goodsImg" :src="item.bookPic" radius="2px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
+             </div>
+             <!-- <van-image class="goodsImg" :src="item.bookPic" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/> -->
            </div>
          </div>
           <div class="goods_right">
@@ -55,6 +58,22 @@ export default {
        this.getItem()
   },
   methods:{
+      cancel(item) {
+            let op = { id: item.id, status: 5 }
+            this.$dialog.alert({
+                    message: "是否确定取消订单？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    updateOrder(op).then(res => {
+                        item.status = 5
+                        this.$toast('取消成功')
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+        },
      gobtnText(item) {
             //    订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
             switch (item.status) {
@@ -203,12 +222,23 @@ export default {
 }
 .box{
   width: 75px;
-  height: 75px;
+  height: 85px;
   margin: auto 4px;
 }
+.imgBox{
+  width: 75px;
+  height: 85px;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-flex-flow : column nowrap;
+  flex-flow : column nowrap;
+}
 .goodsImg{
-   width: 75px;
-  height: 75px;
+   width: 65px;
+   margin-left : auto;
+   margin-right : auto;
+   margin: auto;
+  /* height: 75px; */
 }
 .right_icon{
   position: relative;

@@ -241,7 +241,7 @@ section {
 .shopCartListCon{
   display:flex;
   justify-content: flex-start;
-  height: 90px;
+  height: 86px;
   padding: 5px 0;
 }
 .left{
@@ -263,15 +263,22 @@ section {
 }
 .center{
   flex: 3;
-  width: 100px;
-  height: 100px;
+  width: 86px;
+  height: 86px;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-flex-flow : column nowrap;
+  flex-flow : column nowrap;
 }
-.center img{
+/* .center img{
   border-radius: 4px;
-}
+} */
 .goodsImg{
-  width: 90px;
-  height: 90px;
+  border-radius: 4px;
+  width: 70px;
+  margin-left : auto;
+  margin-right : auto;
+  margin: auto;
 }
 .right{
   flex: 6;

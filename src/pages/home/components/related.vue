@@ -103,5 +103,4 @@ export default {
 .num{
   font-size: 16px;
 }
-
 </style>

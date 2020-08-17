@@ -46,7 +46,7 @@ methods:{
 }
 .img{
     width: 88px;
-    height: 88px;
+    /* height: 88px; */
     margin: auto 10px;
 }
 .right{

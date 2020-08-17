@@ -33,7 +33,7 @@
       </div>
     <!-- 商品信息 -->
     <div class="storeDesc">
-      <Vip />
+      <Vip v-show="userInfo.memberFlag==0"/>
       <!-- 租赁流程  归还流程-->
        <Rental/>
        <!-- 简介 -->
@@ -83,7 +83,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(['shopCart']),
+    ...mapState(['shopCart','userInfo','memberInfo']),
     goodsNum(){
       let num = Object.keys(this.shopCart).length
       if(num>=1){
@@ -135,15 +135,23 @@ export default {
 }
 .top_left{
     width: 40%;
+    height: 180px;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
 }
 .bookImg{
     width: 100%;
-    height: 170px;
+    /* height: 170px; */
+    margin-left : auto;
+    margin-right : auto;
+    margin: auto;
 }
 .top_right{
-    width: 60%;
-    margin-left: 10px;
-	text-align: left;
+  width: 60%;
+  margin-left: 10px;
+  text-align: left;
 }
 .title{
     font-size: 17px;
@@ -204,7 +212,7 @@ export default {
 	margin-top: 4px;
 }
 .pad{
-  margin-bottom: 50px;
+  margin-bottom: 66px;
 }
 .price{
   width: 100%; 

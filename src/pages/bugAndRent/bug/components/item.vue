@@ -21,7 +21,9 @@
        <div class="goods"  @click="goDetails(item.id)">
          <div class="bigBox">
            <div class="box" v-for="(item,index1) in item.list" :key="index1">
-             <van-image class="goodsImg" :src="item.bookPic" radius="6px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
+             <div class="imgBox">
+                <van-image class="goodsImg" :src="item.bookPic" radius="2px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
+             </div>
            </div>
          </div>
           <div class="goods_right">
@@ -30,10 +32,12 @@
        </div>
     </div>
     <div class="btn">
+      <!-- <div class="returnId">退款</div> -->
+       <van-button color="#FC5650" size="small" plain round @click="returnId(item)" v-if="item.status==4">退款</van-button>
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-        <span class="pay" v-show="item.status==0">￥{{item.payAmount}}</span>
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=4&&item.status!=5">{{item.status|orderStatus}}</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=0&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5">取消订单</van-button>
+       <span class="pay" v-show="item.status==0">￥{{item.payAmount}}</span>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5">{{item.status|btnText}}</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==4||item.status==5" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -45,10 +49,10 @@
                 <van-image :src="require('../../../../assets/images/wxpay.png')" class="payImg"/>
                 <span class="payText">微信支付</span>
             </van-radio>
-            <van-radio name="1"  class="payBtn">
+            <!-- <van-radio name="1"  class="payBtn">
               <van-image :src="require('../../../../assets/images/zfbpay.png')" class="payImg"/>
                 <span class="payText">支付宝支付</span>
-               </van-radio>
+            </van-radio> -->
          </van-radio-group>
      </van-dialog>
   </div>
@@ -59,8 +63,8 @@
 
 <script>
 var that,int_minute,lastTime
-import {getOrderType,updateOrder,removeOrder} from '@/api'
-import {orderStatus,formatList} from '@/utils'
+import {getOrderType,updateOrder,removeOrder,wxPay} from '@/api'
+import {formatList} from '@/utils'
 import {orderMixin} from '../../mixins/mixins'
 
 export default {
@@ -100,7 +104,17 @@ export default {
       this.beginTimer();
   },
   methods:{  
-    onBeforeClose(action, done){
+    // 退款
+    returnId(item){
+      // console.log(item)
+        this.$router.push({
+          path: '/refund',
+          query:{
+            item
+          }
+        })
+    },
+   onBeforeClose(action, done){
        if (action === "confirm") {
         return done(false);
        }else{
@@ -109,9 +123,15 @@ export default {
        }
     },
     confirm(){
-     this.payItem.payType=this.radio
-      console.log(this.payItem)
-      this.show=true
+      this.payItem.payType=this.radio
+      // console.log(this.payItem.orderSn)
+       wxPay(this.payItem.orderSn).then(res=>{
+          console.log(res.data.item)
+            var op =JSON.stringify(res.data.item)
+           window.android.androidToPay(op);  
+        })
+      // window.android.androidToPay(JSON.stringify(this.payItem));  //js 调用android
+      // this.show=true
     },
     closeBtn(){
       this.show=false
@@ -121,7 +141,7 @@ export default {
             switch (item.status) {
                 case 0:
                     console.log('待付款')
-                    console.log(item)
+                    // console.log(item)
                     this.show=true
                     this.payItem=item
                     break;
@@ -183,6 +203,23 @@ export default {
             }
         })
    },
+     cancel(item) {
+            let op = { id: item.id, status: 5 }
+            this.$dialog.alert({
+                    message: "是否确定取消订单？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    updateOrder(op).then(res => {
+                        item.status = 5
+                        item.lastTime=0
+                        this.$toast('取消成功')
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+        },
     //下拉刷新
      onLoad(){
           setTimeout(() => {
@@ -254,12 +291,22 @@ export default {
 }
 .box{
   width: 75px;
-  height: 75px;
+  height: 85px;
   margin: auto 4px;
 }
+.imgBox{
+  width: 75px;
+  height: 85px;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-flex-flow : column nowrap;
+  flex-flow : column nowrap;
+}
 .goodsImg{
-   width: 75px;
-  height: 75px;
+   width: 100%;
+   margin-left : auto;
+   margin-right : auto;
+   margin: auto;
 }
 .right_icon{
   position: relative;
@@ -274,7 +321,7 @@ export default {
 }
 .radioBox{
   width: 96%;
-  margin: 0 auto;
+  margin: 0px auto;
   position: relative;
 }
 .payNum{
@@ -296,12 +343,14 @@ export default {
   font-size: 14px;
   height: 30px;
   line-height: 30px;
+  margin-left: 2px;
 }
 .payBtn{
   width: 96%;
   padding: 6px;
   background: #f5f5f5;
   margin: 8px auto;
+  margin-bottom: 20px;
   border-radius: 6px;
 }
 .close{
@@ -309,6 +358,7 @@ export default {
   right: 20px;
   top: 20px;
 }
+
 /deep/ .van-radio__icon{
     position: absolute!important;
     right: 10px!important;

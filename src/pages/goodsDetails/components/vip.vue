@@ -1,8 +1,8 @@
 <template>
   <div class="vip">
-      <div class="content">
-        <div class="join">加入会员</div>
-        <span class="enjoy">往返免运费 免租金 免押金</span>
+      <div class="content" @click="goUrl">
+        <div class="join">加入荟声会员</div>
+        <span class="enjoy">免费借阅绘本</span>
         <img src="../../../assets/images/VIP.png" alt="" class="icon_vip">
       </div>
   </div>
@@ -16,7 +16,9 @@ export default {
     }
   },
   methods:{
-  
+   goUrl(){
+       this.$router.push(`/vip`)
+     }
   }
 }
 </script>

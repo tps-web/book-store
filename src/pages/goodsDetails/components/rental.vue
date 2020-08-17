@@ -37,7 +37,7 @@
        	 </div>
        	  <div class="box">
        	 	  <van-image width="32"  :src="require('../../../assets/images/ckjs.png')" />
-       	 	  <div class="boxText">创库结算</div>
+       	 	  <div class="boxText">平台确认</div>
        	 </div>
        	  <div class="box">
        	 	  <van-image class="boxImg" :src="require('../../../assets/images/ddwc.png')" />

@@ -8,7 +8,9 @@
         @load="onLoad"
        >
      <div class="box" v-for="(item,index) in list" :key="index" @click="godesc(item)">
-       <van-image :src="item.bookPic" class="img"  radius="6"/>
+       <div class="imgBox"> 
+           <van-image :src="item.bookPic" class="img"  radius="6"/>
+       </div>
        <div class="right">
             <div class="name">{{item.bookName}}</div>
             <div class="price"><span class="fh">￥</span><span class="num">{{item.bookPrice|decimals}}</span></div>
@@ -114,11 +116,28 @@ methods:{
     border-radius: 8px;
     display: flex;
 }
+.imgBox{
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
+    /* background-color:#eee; */
+    width: 78px;
+    height: 88pxpx;
+    margin-right: 10px;
+    padding: 4px 6px;
+}
 .img{
+    width: 100%;
+    margin-left : auto;
+    margin-right : auto;
+    margin: auto;
+}
+/* .img{
     width: 88px;
     height: 88px;
     margin: auto 10px;
-}
+} */
 .right{
     text-align: left;
 }

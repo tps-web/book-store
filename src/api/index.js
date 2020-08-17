@@ -314,3 +314,28 @@ export function getUserMemberById(userId) {
         method: 'get',
     })
 }
+
+// /book/weixin-pay/create-app/{orderNo}
+export function wxPay(orderNo) {
+    return request({
+        url: `/book/weixin-pay/create-app/${orderNo}`,
+        method: 'get',
+    })
+}
+
+// /order/order-return-reason/list
+export function orderReason() {
+    return request({
+        url: `/order/order-return-reason/list`,
+        method: 'get',
+    })
+}
+
+// /order/order-return-apply/save
+export function returnApply(data) {
+    return request({
+        url: `/order/order-return-apply/save`,
+        method: 'post',
+        data
+    })
+}

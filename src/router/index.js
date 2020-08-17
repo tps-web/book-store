@@ -343,6 +343,25 @@ const router = new Router({
                 title: "评论"
             }
         },
+        {
+            path: '/refund',
+            name: 'refund',
+            component: () =>
+                import ('@/pages/refund/refund'),
+            meta: {
+                title: "申请退款"
+            }
+        },
+        {
+            path: '/returnGoods/:id',
+            name: 'returnGoods',
+            component: () =>
+                import ('@/pages/returnGoods/index'),
+            meta: {
+                title: "申请退款"
+            }
+        },
+
     ]
 })
 var info = {

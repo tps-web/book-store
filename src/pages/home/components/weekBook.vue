@@ -4,10 +4,12 @@
     	<span class="tit_left">本周新书</span>
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
-    <van-swipe :loop="false" :width="280" height="136" :show-indicators='false' class="box">
-        <van-swipe-item v-for="(item,index) in weekItem.data.records" :key="index" @click="goGoodsDesc(item.id)">
+    <van-swipe :loop="false"  :show-indicators='false' class="box">
+        <van-swipe-item v-for="(item,index) in weekItem.data.records" :key="index" @click="goGoodsDesc(item.id)" class="swipeBox">
             <div class="item">
-              <van-image width="100" height="120" :src="item.squareImage" />
+              <div class="boxImg">
+                  <van-image  :src="item.squareImage" class="img"/>
+              </div>
               <!-- <van-image width="100" height="120" src="https://huisn-1253895285.cos.ap-guangzhou.myqcloud.com/resourcePlus/CaiZhouMianBaoZouDeNvHai/1583999060949_1.jpg" /> -->
               <div class="right">
                  <div class="tit">{{item.title}}</div>
@@ -70,20 +72,24 @@ export default {
 	color:rgba(153,153,153,1);
 }
 .box{
-  width: 95%;
+  /* width: 95%; */
+  width: 100%;
   margin: 6px auto;
+  overflow: hidden;
 }
 .item{
     padding: 6px;
     display:flex;
-    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
+    /* box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1); */
     margin: 0 5px;
     border-radius: 5px;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+    /* border: 1px solid red; */
+
 }
 .right{
     text-align: left;
-    margin-left: 8px;
+    margin-left: 10px;
 }
 .tit{
     padding: 4px 4px 6px 0;
@@ -125,5 +131,23 @@ export default {
 }
 .noshow{
   font-size: 14px;
+}
+.boxImg{
+   display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
+    /* background-color:#eee; */
+    width: 100px;
+    height: 120px;
+}
+.img{
+  width: 100%;
+  margin-left : auto;
+  margin-right : auto;
+  margin: auto;
+}
+.swipeBox{
+  width: 360px!important;
 }
 </style>

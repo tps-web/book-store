@@ -19,7 +19,9 @@
        >
       <div class="content_box">
           <div class="store_box" v-for="(item,index) in list" :key="index">
-            <van-image class="store_boxImg" radius="4px" :src="item.verticalImage" @click="goDesc(item.id)"/>
+            <div class="boxImg">
+              <van-image class="store_boxImg" radius="4px" :src="item.squareImage" @click="goDesc(item.id)"/>
+            </div>
             <div class="store_box_content" @click="goDesc(item.id)">
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>
@@ -165,8 +167,8 @@ export default {
 .content_box{
     width: 94%;
     margin: 0 auto;
-    /* position: relative;
-    top: -40px; */
+    position: relative;
+    /* top: -40px; */
 }
 .store_box{
   display: flex;
@@ -174,16 +176,28 @@ export default {
   width: 90%;
   margin: 12px auto;
   box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.1);
-  padding: 12px 10px;
+  /* padding: 12px 10px; */
+  padding:10px;
   border-radius:8px;
 }
-.store_boxImg{
+.boxImg{
     width: 70px;
     height: 90px;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
+    /* background-color:#eee; */
+}
+.store_boxImg{
+  width: 100%;
+  margin-left : auto;
+  margin-right : auto;
+  margin: auto;
 }
 .store_box_content{
     flex: 6;
-    margin-left: 12px;
+    margin-left: 14px;
     text-align: left;
 }
 .title{
@@ -191,7 +205,8 @@ export default {
 }
 .author{
     color: #999;
-    margin: 10px 0;
+    margin: 12px 0;
+    font-size: 12px;
 }
 .price{
     margin: 6px 0;

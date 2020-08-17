@@ -54,6 +54,7 @@ const components = [
     Swipe, SwipeItem, Search, Grid, GridItem, Tab, Tabs, GoodsAction, GoodsActionIcon, GoodsActionButton, SubmitBar, Checkbox, CheckboxGroup, ContactCard, ContactList, ContactEdit, Tag, Popup,
     Calendar, Picker, RadioGroup, Radio, Step, Steps, uploader, rate, SwipeCell,
     list, ImagePreview, Dialog
+
 ]
 
 // Vue.use(Button);

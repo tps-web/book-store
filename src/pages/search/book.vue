@@ -2,7 +2,7 @@
   <div class="">
        <div class="content_box">
           <div class="store_box" v-for="(item,index) in list" :key="index">
-            <van-image class="store_boxImg" radius="4px" :src="item.verticalImage" @click="goGoods(item.id)" />
+            <van-image class="store_boxImg" radius="4px" :src="item.squareImage" @click="goGoods(item.id)" />
             <div class="store_box_content" @click="goGoods(item.id)">
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>

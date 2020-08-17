@@ -36,7 +36,7 @@
       <!-- 订单号信息 -->
       <div class="orderBox">
           <div class="left">
-            <div class="orderId">订单编号:{{listItem.id}}</div>
+            <div class="orderId">订单编号:{{listItem.orderSn}}</div>
             <div class="orderDate">订单创建时间：{{listItem.createTime}}</div>
           </div>
           <div class="right">
@@ -51,14 +51,15 @@
       <div class="bottom">
             <van-button plain type="default" round size="small" class="btn" @click="goPay(listItem)" v-show="listItem.status==0" >去付款</van-button>
             <van-button plain type="default" round size="small" class="btn" @click="goExpress(listItem)" v-show="listItem.status==2" >查看物流</van-button>
-            <!-- <van-button plain type="danger" round size="small" class="btn">删除订单</van-button> -->
+            <van-button plain type="default" round size="small" class="btn" @click="goComment(listItem)" v-show="listItem.status==4" >去评价</van-button>
+            <van-button plain type="danger" round size="small" class="btn"  @click="goDelete(listItem)" v-show="listItem.status==5||listItem.status==6">删除订单</van-button>
       </div>
   </div>
 </template>
 
 <script>
 import selectGoods from './goodsList'
-import {getOrderDesc,updateOrder} from '@/api'
+import {getOrderDesc,updateOrder,removeOrder} from '@/api'
 
 export default {
   components:{
@@ -145,6 +146,13 @@ destroyed(){
     goPay(item){
         //去付款
         console.log(item)
+
+         window.android.androidToPay(JSON.stringify(item));  //js 调用android
+    },
+    //去评价
+    goComment(item){
+            // path: '/goodsComment/:id',
+      this.$router.push(`/goodsComment/${item.id}`)
     },
     //返回
    goBack(){
@@ -153,16 +161,37 @@ destroyed(){
         this.$router.replace({path: `/bugAndRent/${path}/${pathChildren}`});
     //replace替换原路由，作用是避免回退死循环
   },
+  //删除
+  goDelete(item){
+        this.$dialog.alert({
+            message: "是否确定删除订单？", //改变弹出框的内容
+            showCancelButton: true //展示取水按钮
+        })
+        .then(() => { //点击确认按钮后的调用
+            removeOrder(item.id).then(res => {
+                this.$toast('删除成功')
+                history.back();
+                // this.list.forEach((ele, index, array) => {
+                //     if (ele.id == item.id) {
+                //         array.splice(ele, 1)
+                //     }
+                // })
+            })
+        })
+        .catch(() => { //点击取消按钮后的调用
+            // console.log("点击了取消按钮")
+        })
+    },
       //保留两位小数
-      formatTwo(num){
-          if(num!=null || undefined){
-             return num.toFixed(2)
-          }else{
-              var str=0
-              return str.toFixed(2)
-          }
-      },
-      jian(arg1, arg2,arg3) {
+    formatTwo(num){
+        if(num!=null || undefined){
+            return num.toFixed(2)
+        }else{
+            var str=0
+            return str.toFixed(2)
+        }
+    },
+    jian(arg1, arg2,arg3) {
         var newArg3 = arg3 == null || undefined ? 0 : arg3
         var r1, r2,r3, m;
         try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
