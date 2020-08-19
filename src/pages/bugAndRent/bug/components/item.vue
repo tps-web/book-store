@@ -81,6 +81,7 @@ export default {
        show:false,
        radio: '2',
        payItem:'',
+       dataList:''
        //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单 
       //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
     }
@@ -106,25 +107,6 @@ export default {
       this.beginTimer();
   },
   methods:{  
-   //安卓调用支付结果
-    // androidPayResult(result){
-         //0 成功  非0 失败
-        //  if(result==0){
-        //    this.$router.replace({
-        //       path: '/success',
-        //       query:{
-        //         id: this.payItem.id
-        //     }
-        // })
-        //  }else{
-        //    this.$router.replace({
-        //       path: '/fail',
-        //       query:{
-        //         id: this.payItem.id
-        //       }
-        //    })
-        //  }
-    // },
     // 退款
     returnId(item){
       // console.log(item)
@@ -211,23 +193,38 @@ export default {
 	      }, 1000);
 	    }, 
    //得到数据
-   getItem(){
-     console.log(1,that.curPage)
-     let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
-        getOrderType(op).then(res=>{
-            console.log(res.data.rows)
-            //倒计时
-             console.log(2,that.curPage)
+  //  getItem(){
+  //    let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
+  //       getOrderType(op).then(res=>{
+  //           console.log(res.data.rows)
+  //           //倒计时
+  //           this.total=res.data.total
+  //           if(that.curPage==1){
+  //               this.list=formatList(res.data.rows)
+  //           }else{
+  //               this.list=this.list.concat(formatList(res.data.rows))
+  //           }
+  //       })
+  //  },
+  getItem(){
+      let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
+      console.log(op)
+      getOrderType(op).then(res=>{
+        // console.log(res)
             this.total=res.data.total
-            if(that.curPage==1){
-              console.log(3,that.curPage)
-                this.list=formatList(res.data.rows)
-            }else{
-              console.log(4,that.curPage)
+            this.loading = false;
+            this.isLoading = false;  
+            this.dataList=res.data
+            if(this.dataList.rows.length>0){
+               this.finished = false;
                 this.list=this.list.concat(formatList(res.data.rows))
+            }else{
+              console.log(123)
+               that.isLoading = false
+               that.finished = true;
             }
-        })
-   },
+      })
+  },
      cancel(item) {
             let op = { id: item.id, status: 5 }
             this.$dialog.alert({
@@ -245,32 +242,42 @@ export default {
                     // console.log("点击了取消按钮")
                 })
         },
+         // 下拉加载
+      onLoad() {
+          that.curPage++;
+          that.getItem();
+      },
+     // 上拉刷新
+      onRefresh() {
+          that.list = [];
+          that.curPage = 1;
+          that.getItem();
+      },
     //上拉加载
-     onLoad(){
-          setTimeout(() => {
-            if (this.isLoading) {
-                 this.isLoading = false; 
-            }
-            // console.log(that.curPage)
-            this.getItem()
-            that.curPage++
-            this.loading = false;
-
-            if (this.list.length==0||this.list.length >= this.total) {
-               this.finished = true;
-            }
-        }, 1000);
-     },
-        onRefresh() {
-          this.$toast('刷新')
-                // 清空列表数据
-            this.finished = false;
-            // 重新加载数据
-                // 将 loading 设置为 true，表示处于加载状态
-            this.loading = true;
-            that.curPage = 1
-            this.onLoad();
-        },
+    //  onLoad(){
+    //       setTimeout(() => {
+    //         if (this.isLoading) {
+    //              this.isLoading = false; 
+    //         }
+    //         // console.log(that.curPage)
+    //         this.getItem()
+    //         that.curPage++
+    //         this.loading = false;
+    //         if (this.list.length==0||this.list.length >= this.total) {
+    //            this.finished = true;
+    //         }
+    //     }, 1000);
+    //  },
+    //     onRefresh() {
+    //       this.$toast('刷新')
+    //             // 清空列表数据
+    //         this.finished = false;
+    //         // 重新加载数据
+    //             // 将 loading 设置为 true，表示处于加载状态
+    //         this.loading = true;
+    //         // that.curPage = 1
+    //         this.onLoad();
+    //     },
   },
 }
 </script>

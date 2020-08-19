@@ -370,6 +370,15 @@ const router = new Router({
                 title: "退货信息"
             }
         },
+        {
+            path: '/text',
+            name: 'text',
+            component: () =>
+                import ('@/pages/text/index'),
+            meta: {
+                title: "text"
+            }
+        },
     ]
 })
 var info = {
