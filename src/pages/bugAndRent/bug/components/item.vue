@@ -213,14 +213,14 @@ export default {
         // console.log(res)
             this.total=res.data.total
             this.loading = false;
-            this.isLoading = false;  
+            that.isLoading = false;  
             this.dataList=res.data
             if(this.dataList.rows.length>0){
                this.finished = false;
                 this.list=this.list.concat(formatList(res.data.rows))
             }else{
               console.log(123)
-               that.isLoading = false
+              //  that.isLoading = false
                that.finished = true;
             }
       })
@@ -251,7 +251,9 @@ export default {
       onRefresh() {
           that.list = [];
           that.curPage = 1;
-          that.getItem();
+           setTimeout(() => {
+             that.getItem();
+           },500)
       },
     //上拉加载
     //  onLoad(){
