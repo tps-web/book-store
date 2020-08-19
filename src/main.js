@@ -45,7 +45,8 @@ Vue.filter('orderStatus', function(id) {
             '3': '待归还',
             '4': '待评价',
             '5': '已关闭',
-            '6': '无效订单'
+            // '6': '无效订单'
+            '6': '退款'
         }
         for (var key in obj) {
             if (key == id) {
@@ -54,7 +55,6 @@ Vue.filter('orderStatus', function(id) {
         }
     })
     //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
-
 Vue.filter('btnText', function(id) {
     var obj = {
         '-1': '全部订单',
@@ -65,7 +65,8 @@ Vue.filter('btnText', function(id) {
         '3': '待归还',
         '4': '待评价',
         '5': '已关闭',
-        '6': '无效订单'
+        // '6': '无效订单'
+        '6': '退款'
     }
     for (var key in obj) {
         if (key == id) {

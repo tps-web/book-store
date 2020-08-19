@@ -90,7 +90,7 @@ export default {
                   store.commit('GETMEMBERINFO',UserMember.data.item.data)
                   this.$router.replace('/')
               }))
-              return "用户得到"
+               return "用户得到"
             }else{
                 return "请求过了"
             }
@@ -102,7 +102,6 @@ export default {
           store.dispatch('getUserInfo')
           this.$router.replace('/')
       }
-      
   },
  }
 }

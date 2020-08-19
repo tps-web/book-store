@@ -7,7 +7,7 @@ export const orderMixin = {
             isLoading: false, //上拉
             finished: false, //是否加载完
             loading: false, //下拉
-            curPage: 1, //当前页面
+            // curPage: 1, //当前页面
             pageRows: 6, //请求一页有多少数据
             total: 0,
         }
@@ -71,12 +71,12 @@ export const orderMixin = {
                 .then(() => { //点击确认按钮后的调用
                     removeOrder(item.id).then(res => {
                         this.$toast('删除成功')
-                        this.reload();
-                        // this.list.forEach((ele, index, array) => {
-                        //     if (ele.id == item.id) {
-                        //         array.splice(ele, 1)
-                        //     }
-                        // })
+                            // this.reload();
+                        this.list.forEach((ele, index, array) => {
+                            if (ele.id == item.id) {
+                                array.splice(ele, 1)
+                            }
+                        })
                     })
                 })
                 .catch(() => { //点击取消按钮后的调用
@@ -101,17 +101,24 @@ export const orderMixin = {
                     // console.log("点击了取消按钮")
                 })
         },
-        goDetails(id) {
-            // this.$router.replace(`/orderList/goodsList/${id}`)
-            this.$router.push(`/orderDetails/${id}`)
+        goDetails(item) {
+            if (item.status === 6) {
+                this.$router.replace(`/ReturnOrderDesc/${item.orderSn}`)
+            } else {
+                this.$router.replace(`/orderDetails/${item.id}`)
+            }
+            // this.$router.push(`/orderDetails/${id}`)
         },
-        onRefresh() {
-            // 清空列表数据
-            this.finished = false;
-            // 重新加载数据
-            // 将 loading 设置为 true，表示处于加载状态
-            this.loading = true;
-            this.onLoad();
-        },
+        //下拉刷新
+        // onRefresh() {
+        //     console.log(this.curPage)
+        //         // 清空列表数据
+        //     this.finished = false;
+        //     // 重新加载数据
+        //     this.curPage = 0
+        //         // 将 loading 设置为 true，表示处于加载状态
+        //     this.loading = true;
+        //     this.onLoad();
+        // },
     }
 }

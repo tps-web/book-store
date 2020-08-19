@@ -4,41 +4,66 @@
         <div class="success_img">
             <van-image :src="require('../../assets/images/fail.png')"  class="succ_img"/>
           <div class="text">
-            <div class="success_text">支付成功！</div>
-            <div>感谢您的购买</div>
+            <div class="success_text">支付失败！</div>
+            <div>请重新支付</div>
           </div>
         </div>
-        
     </div>
     <div class="box">
          <van-image :src="require('../../assets/images/fail_xian.png')" class="xian" />
          <div class="pay_box">
-             <div class="pay"><span>￥</span><span class="payNum">326.80</span></div>
+             <div class="pay"><span>￥</span><span class="payNum">{{item.payAmount}}</span></div>
              <div class="desc">
-                <div class="payId">订单编号：082546908245</div>
-                <div class="date">下单时间：2020-07-09 12:4</div>
-                <div class="payWay">支付方式：微信支付</div>
+                <div class="payId">订单编号：{{item.orderSn}}</div>
+                <div class="date">下单时间：{{item.createTime}}</div>
+                <div class="payWay">支付方式：{{item.payType|payWay}}</div>
              </div>
          </div>
+    </div>
+    <div class="btn">
+          <van-button type="default" @click="goOrder">查看订单</van-button>
+          <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
     </div>
   </div>
 </template>
 
 <script>
-
+import {getOrderDesc} from '@/api'
 export default {
   data () {
     return {
+      id:this.$route.query.id,
+      item:''
     }
-  }
+  },
+   created(){
+     getOrderDesc(this.$route.query.id).then(res=>{
+        console.log(res.data.item)
+        this.item=res.data.item
+     })
+   },
+   methods:{
+    goHome(){
+      this.$router.push(`/`)
+     },
+     goOrder(){
+      this.$router.push(`/orderDetails/${sessionStorage.getItem('orderId')}`)
+     }
+   },
+   filters:{
+     payWay(payType){
+       if(payType==2){
+         return '微信支付'
+       }else if(payType==1){
+         return '支付宝支付'
+       }
+     }
+   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.page{
-  background:rgba(245,245,245,1);
-}
 .bg{
     width: 100%;
     height: 240px;
@@ -92,5 +117,8 @@ export default {
 }
 .date{
     margin: 12px 0;
+}
+.btn{
+  margin: 40px auto;
 }
 </style>

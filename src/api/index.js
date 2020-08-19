@@ -315,7 +315,7 @@ export function getUserMemberById(userId) {
     })
 }
 
-// /book/weixin-pay/create-app/{orderNo}
+// /book/weixin-pay/create-app/{orderNo}  //微信支付
 export function wxPay(orderNo) {
     return request({
         url: `/book/weixin-pay/create-app/${orderNo}`,
@@ -323,7 +323,7 @@ export function wxPay(orderNo) {
     })
 }
 
-// /order/order-return-reason/list
+// /order/order-return-reason/list  退款原因表
 export function orderReason() {
     return request({
         url: `/order/order-return-reason/list`,
@@ -331,11 +331,28 @@ export function orderReason() {
     })
 }
 
-// /order/order-return-apply/save
+// /order/order-return-apply/save  申请退款
 export function returnApply(data) {
     return request({
         url: `/order/order-return-apply/save`,
         method: 'post',
         data
+    })
+}
+
+
+// /order/order-return-apply/getByorderSn/{orderSn}   根据订单编号获取订单退货申请对象
+export function getReturnDesc(orderSn) {
+    return request({
+        url: `/order/order-return-apply/getByorderSn/${orderSn}`,
+        method: 'get'
+    })
+}
+
+// /order/order-return-apply/updateReturnOrder/{id}/{status}
+export function updateReturnOrder(data) {
+    return request({
+        url: `/order/order-return-apply/updateReturnOrder/${data.id}/${data.status}`,
+        method: 'put'
     })
 }

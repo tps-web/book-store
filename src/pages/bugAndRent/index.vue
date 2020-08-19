@@ -43,6 +43,9 @@
                   <van-tab title="待评价" name="1-e">
                     <Comment/>  
                   </van-tab>
+                  <van-tab title="退款" name="1-h">
+                    <returnOrder/>  
+                  </van-tab>
                    <van-tab title="已取消" name="1-f">
                     <cancelView/>  
                   </van-tab>
@@ -71,6 +74,7 @@ import Shipments from './bug/delayShipments'
 import Take from './bug/delayTake'
 import Comment from  './bug/delayComment'
 import cancelView from './bug/cancelBox'
+import  returnOrder from './bug/returnOrder'
 
 export default {
   components:{
@@ -88,7 +92,8 @@ export default {
     Take,
     Comment,
     cancelView,
-    delayPingjia
+    delayPingjia,
+    returnOrder
   },
   data () {
     return {
@@ -101,9 +106,6 @@ export default {
    sessionStorage.setItem('path',this.$route.params.path)
    sessionStorage.setItem('pathChildren',this.$route.params.pathChildren)
   },
-  watch:{
-  
-  },
   mounted(){
   if (window.history && window.history.pushState) {
     history.pushState(null, null, document.URL);
@@ -114,9 +116,9 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
   methods:{
-       goBack(){
-    this.$router.replace({path: `/me`});
-    //replace替换原路由，作用是避免回退死循环
+    goBack(){
+     this.$router.replace({path: `/me`});
+     //replace替换原路由，作用是避免回退死循环
   },
       // goBack(){
       //      history.back();

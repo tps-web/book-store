@@ -10,7 +10,7 @@
             <div class="title">{{goodsInfo.title}}</div>
              <div class="book_press">
                 <div class="author">作者:{{goodsInfo.author}}</div>
-                <div class="press">出版社：中山韦达技术出版社</div>
+                <div class="press">出版社:{{goodsInfo.press}}</div>
              </div>
              <div class="type">
                 <div class="desc"  v-for="(type,index) in goodsInfo.categoryName" :key="index" >
@@ -25,9 +25,9 @@
                     <span   :class="[goodsInfo.promotionAmount==null ? 'periceC':'priceNum']" >￥{{goodsInfo.price}}</span>
                     <!-- <span class="priceNum"  v-bind:style="{'text-decoration':goodsInfo.promotionAmount ? 'line-through':'none'}" >￥{{goodsInfo.price}}</span> -->
                 </div>
-               
                 <!-- <div class="vip">会员免费借书看</div> -->
               </div>
+              <div class="remark">剩余{{residue}}本</div>
               <div class="remark">已有{{goodsInfo.lendCount}}会员免费借阅</div>   
          </div>
       </div>
@@ -36,8 +36,21 @@
       <Vip v-show="userInfo.memberFlag==0"/>
       <!-- 租赁流程  归还流程-->
        <Rental/>
+       <!-- 产品介绍 -->
+      <div class="desTitle">商品简介</div>
        <!-- 简介 -->
        <Introduce  :introduction="introduction" v-if="introduction.introduction"/>
+        <div class="descBox">
+          <div class="p">纸张:{{goodsInfo.usingPaper}}</div>
+          <div class="p">格式：{{goodsInfo.format}}</div>
+          <div class="p">包装：{{goodsInfo.packing}}</div>
+          <div class="p">页数：{{goodsInfo.pageCount}}</div>
+          <div class="p">出版社：{{goodsInfo.press}}</div>
+          <div class="p">出版时间：{{goodsInfo.publicationTime}}</div>
+          <!-- <div class="p">国际标准书号:{{goodsInfo.originalIsbn}}</div> -->
+          <div class="p">语言：{{goodsInfo.textLanguage}}</div>
+          <div class="p">重量：{{goodsInfo.weight}}</div>
+       </div>
        <!-- 评论 -->
        <Comment :commentList="commentList" :bookId="bookId"  v-if="commentList"/>
        <!-- 推荐 -->
@@ -79,7 +92,8 @@ export default {
        recommendlist:[],
        introduction:{},
        commentList:"",
-       bookId:''
+       bookId:'',
+       residue:''
     }
   },
   computed:{
@@ -98,6 +112,7 @@ export default {
         // console.log(res.data)
         this.recommendlist=res.data.acviseBook.records
         this.goodsInfo=res.data.book
+        this.residue=res.data.book.total-res.data.book.remainder
         this.introduction.squareImage=res.data.book.squareImage
         this.introduction.introduction=res.data.book.introduction
         this.commentList=res.data.commentList
@@ -119,7 +134,11 @@ export default {
     onClickButton(){
       // this.$toast('加入购物车')
       // this.ADD_TO_CART(this.goodsInfo);
-      this.addCart(this.goodsInfo)
+      if(this.residue!=0){
+        this.addCart(this.goodsInfo) 
+      }else{
+        this.$toast('库存不足')
+      }
     }
   },
 }
@@ -252,5 +271,26 @@ export default {
   height: 35px;
   font-size: 18px;
   line-height: 38px;
+}
+.descBox{
+  width: 88%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* border: 1px solid #ccc; */
+}
+.p{
+  width: 49%;
+  text-align: left;
+  padding: 4px 0;
+}
+.desTitle{
+    width:94%;
+    margin: 0 auto;
+	  font-size:16px;
+    color:rgba(34,34,34,1);
+    font-weight:700;
+    text-align: left;
 }
 </style>

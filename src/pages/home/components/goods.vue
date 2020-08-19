@@ -53,9 +53,13 @@ export default {
     //  ...mapMutations(['ADD_TO_CART']),
      ...mapActions(['addCart']),
     goCart(item){
-      // console.log(item)
-      //  this.ADD_TO_CART(item);
-       this.addCart(item)
+      console.log(item)
+      if(item.total-item.remainder>0){
+         this.addCart(item);
+       }else{
+        this.$toast('库存不足')
+       }
+    
     }
   }
 }

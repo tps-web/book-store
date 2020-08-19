@@ -159,12 +159,12 @@ export default {
       //判断是否会员
       if(this.userInfo.memberFlag!=0){
         //不等于0 为会员
-        if(this.checkedNum&&this.checkedNum<3){
-             this.$toast('需要租3本起')
+        if(this.checkedNum&&this.checkedNum<4){
+             this.$toast('需要租4本起')
           }else if(!this.checkedNum){
             this.$toast('没有勾选商品')
-          }else if(this.checkedNum&&this.checkedNum>6){
-            this.$toast('租借不能超过6本')
+          }else if(this.checkedNum&&this.checkedNum>8){
+            this.$toast('租借不能超过8本')
           }else{
             this.$router.push('/rentOrder')
           }

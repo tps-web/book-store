@@ -8,33 +8,62 @@
             <div>感谢您的购买</div>
           </div>
         </div>
-        
     </div>
     <div class="box">
          <van-image :src="require('../../assets/images/xian.png')" class="xian" />
          <div class="pay_box">
-             <div class="pay"><span>￥</span><span class="payNum">{{clearedNum}}</span></div>
+             <div class="pay"><span>￥</span><span class="payNum">{{item.payAmount}}</span></div>
              <div class="desc">
-                <div class="payId">订单编号：082546908245</div>
-                <div class="date">下单时间：2020-07-09 12:4</div>
-                <div class="payWay">支付方式：微信支付</div>
+                <div class="payId">订单编号：{{item.orderSn}}</div>
+                <div class="date">下单时间：{{item.createTime}}</div>
+                <div class="payWay">支付方式：{{item.payType|payWay}}</div>
              </div>
          </div>
     </div>
+        <div class="btn">
+          <van-button type="default" @click="goOrder">查看订单</van-button>
+          <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
+        </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex'
-
+import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
+import {getOrderDesc} from '@/api'
 export default {
   data () {
     return {
+      id:this.$route.query.id,
+      item:''
     }
   },
   computed:{
     ...mapGetters({clearedNum:'CLEARED_NUM'}),
-  }
+  },
+  created(){
+     getOrderDesc(this.$route.query.id).then(res=>{
+        console.log(res.data.item)
+        this.item=res.data.item
+     })
+  },
+  methods:{
+    goHome(){
+      this.$router.push(`/`)
+    },
+    goOrder(){
+      // this.$router.push('/bugAndRent/1/a')
+      this.$router.push(`/orderDetails/${sessionStorage.getItem('orderId')}`)
+    }
+  },
+   filters:{
+     payWay(payType){
+       if(payType==2){
+         return '微信支付'
+       }else if(payType==1){
+         return '支付宝支付'
+       }
+     }
+   }
 }
 </script>
 
@@ -93,5 +122,8 @@ export default {
 }
 .date{
     margin: 12px 0;
+}
+.btn{
+  margin: 40px auto;
 }
 </style>

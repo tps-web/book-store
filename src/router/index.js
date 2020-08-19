@@ -358,10 +358,18 @@ const router = new Router({
             component: () =>
                 import ('@/pages/returnGoods/index'),
             meta: {
-                title: "申请退款"
+                title: "申请退货"
             }
         },
-
+        {
+            path: '/ReturnOrderDesc/:id',
+            name: 'ReturnOrderDesc',
+            component: () =>
+                import ('@/pages/ReturnOrderDesc/index'),
+            meta: {
+                title: "退货信息"
+            }
+        },
     ]
 })
 var info = {

@@ -74,13 +74,12 @@ export default {
   },
   methods:{
     test(){
-      window.android.callFromJS();  //js 调用android
-    },
-    androidCallJs(){
+      window.android.refundOrder('20200818155603749');  //js 调用 android
     },
     gourl(item){
       // console.log(item)
-      this.$router.push(`/bugAndRent/${item}`)
+      // this.$router.push(`/bugAndRent/${item}`)
+      this.$router.replace(`/bugAndRent/${item}`)
     }
   }
 }

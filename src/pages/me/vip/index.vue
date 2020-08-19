@@ -38,9 +38,9 @@
      </div>
      <div class="vipBug">
         <van-cell title="荟声VIP年卡"   :value="'￥'+payPerice" title-style="text-align: left" value-class="textClass" />
-        <van-cell title="会员卡有效期"  :value="yearNum+'个月'" title-style="text-align: left" size="large"  @click="showExpress=true" />
-         <van-popup v-model="showExpress"  position="bottom" >
-          <van-picker
+        <van-cell title="会员卡有效期"  :value="yearNum+'个月'" title-style="text-align: left" size="large"  />
+         <!-- <van-popup v-model="showExpress"  position="bottom" >  @click="showExpress=true"
+          <van-picker   
             title="选择开通月数"
             show-toolbar
             :default-index="0"
@@ -49,7 +49,7 @@
             @confirm="Confirm"
             @cancel="onCancel"
         />
-        </van-popup>
+        </van-popup> -->
      </div>
 
      <van-cell value="会员须知" is-link class="xuzhi" size="large"/>

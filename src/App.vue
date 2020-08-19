@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 // import './assets/css/common.css';
 export default {
   name: 'App',
@@ -19,8 +20,34 @@ export default {
     }
   },
   created(){
+     window.androidPayResult = this.androidPayResult;
+  },
+  mounted(){
+        //安卓调用支付结果
+     window.androidPayResult = this.androidPayResult;
   },
     methods: {
+    ...mapActions(['getCartList']),
+         //安卓调用支付结果
+    androidPayResult(result){
+         this.getCartList()
+         //0 成功  非0 失败
+         if(result==0){
+           this.$router.replace({
+              path: '/success',
+              query:{
+                id:sessionStorage.getItem('orderId')
+            }
+        })
+         }else{
+           this.$router.replace({
+              path: '/fail',
+              query:{
+                   id:sessionStorage.getItem('orderId')
+              }
+           })
+         }
+    },
       reload () {
         this.isRouterAlive = false
         this.$nextTick(function () {

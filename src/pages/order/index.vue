@@ -65,7 +65,7 @@ import goods from '@/components/goods/goods'
 // import express from '@/components/express/express'
 import {formatCoupon,formatGoods,add} from '@/utils'
 import { getToken } from '@/utils/authcookie'
-import {postOrder,wxPay} from '@/api'
+import {postOrder,wxPay,updateOrder} from '@/api'
 
 var that
 export default {
@@ -91,8 +91,7 @@ export default {
        payShow:false, //支付方式
        radio:'wxpay',
        newList:'',  //格式商品对象格式
-       payList:'' // 提交数据
-
+       payList:'', // 提交数据
     }
   },
   created(){
@@ -120,13 +119,6 @@ export default {
     ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
   methods:{
-    androidToPay(item){
-      console.log(item)
-      return item
-    },
-    // close(){
-    //   console.log('关闭')
-    // },
     ...mapActions(['getCartList']),
     //取消支付
     payCancel(){
@@ -144,21 +136,22 @@ export default {
     },
     //支付
     payBtn(){
-      // this.payShow=false
       if(this.radio=='wxpay'){
-         this.$toast('微信支付')
+        //  this.$toast('微信支付')  
          this.payList.payType=2
          this.payList.status=0 
           postOrder(this.payList).then(res=>{
               // console.log(res.data.item.orderSn)
+              sessionStorage.setItem('orderId',res.data.item.id)
               wxPay(res.data.item.orderSn).then(res=>{
-                console.log(res.data.item)
-                 var op =JSON.stringify(res.data.item)
-                window.android.androidToPay(op);  
+                // console.log(res.data.item)
+                var op =JSON.stringify(res.data.item)
+                window.android.androidToPay(op);
+                this.payShow=false
               })
           })
       }else{
-         this.$toast('支付宝支付')
+        //  this.$toast('支付宝支付')
          this.payList.payType=1
          console.log(this.payList)
       }

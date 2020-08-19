@@ -84,8 +84,12 @@ export default {
      },
      //加入购物车
       goCart(item){
-        this.addCart(item);
-        // this.ADD_TO_CART(item)
+        console.log(item)
+       if(item.total-item.remainder>0){
+         this.addCart(item);
+        }else{
+        this.$toast('库存不足')
+       }
       },
     getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}

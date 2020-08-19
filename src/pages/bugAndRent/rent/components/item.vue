@@ -15,7 +15,7 @@
     </div>
     <div class="content">
          <!-- 商品列表-->
-       <div class="goods"  @click="goDetails(item.id)">
+       <div class="goods"  @click="goDetails(item)">
          <div class="bigBox">
            <div class="box" v-for="(item,index1) in item.list" :key="index1">
              <div class="imgBox">

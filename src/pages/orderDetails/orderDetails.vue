@@ -54,12 +54,26 @@
             <van-button plain type="default" round size="small" class="btn" @click="goComment(listItem)" v-show="listItem.status==4" >去评价</van-button>
             <van-button plain type="danger" round size="small" class="btn"  @click="goDelete(listItem)" v-show="listItem.status==5||listItem.status==6">删除订单</van-button>
       </div>
+    <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
+      <van-icon name="close" size="24" class="close" @click="closeBtn"/>
+         <div class="payNum">￥{{item.payAmount}}</div>
+         <van-radio-group v-model="radio" class="radioBox">
+            <van-radio name="2"  class="payBtn">
+                <van-image :src="require('../../assets/images/wxpay.png')" class="payImg"/>
+                 <span class="payText">微信支付</span>
+            </van-radio>
+            <!-- <van-radio name="1"  class="payBtn">
+              <van-image :src="require('../../../assets/images/zfbpay.png')" class="payImg"/>
+                <span class="payText">支付宝支付</span>
+            </van-radio> -->
+         </van-radio-group>
+     </van-dialog>
   </div>
 </template>
 
 <script>
 import selectGoods from './goodsList'
-import {getOrderDesc,updateOrder,removeOrder} from '@/api'
+import {getOrderDesc,updateOrder,removeOrder,wxPay} from '@/api'
 
 export default {
   components:{
@@ -67,10 +81,13 @@ export default {
   },
   data () {
     return {
+        show:false,
+        radio:'2',
         listItem:'',
         goodsList:'',
         createdTime:'',
-        lastPayTime:''
+        lastPayTime:'',
+        item:'',
     }
   },
   created(){
@@ -97,6 +114,48 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
   methods:{
+   //安卓调用支付结果
+    // androidPayResult(result){
+    //         //0 成功  非0 失败
+    //         if(result==0){
+    //         this.$router.replace({
+    //             path: '/success',
+    //             query:{
+    //                 id:this.item.id
+    //             }
+    //         })
+    //         }else{
+    //         this.$router.replace({
+    //             path: '/fail',
+    //             query:{
+    //                 id:this.item.id
+    //             }
+    //         })
+    //         }
+    //     },
+      onBeforeClose(action, done){
+       if (action === "confirm") {
+            return done(false);
+        }else{
+            return done();
+            this.radio=2
+        }
+      },
+      confirm(){
+        let op={id:this.item.id,payType:this.radio}
+        updateOrder(op).then(res=>{
+            console.log(res)
+        })
+        wxPay(this.listItem.orderSn).then(res=>{
+            var op =JSON.stringify(res.data.item)
+             sessionStorage.setItem('orderId',this.item.id)
+            window.android.androidToPay(op);
+            this.show=false
+         })
+      },
+      closeBtn(){
+         this.show=false
+      },
       computedLastPayTime(){
           var auth_timetimer = setInterval(()=>{
                let createTime = Date.parse(this.createdTime) / 1000;
@@ -145,9 +204,10 @@ destroyed(){
       },
     goPay(item){
         //去付款
+        this.item=item
         console.log(item)
-
-         window.android.androidToPay(JSON.stringify(item));  //js 调用android
+        this.show=true
+        //  window.android.androidToPay(JSON.stringify(item));  //js 调用android
     },
     //去评价
     goComment(item){
@@ -354,7 +414,7 @@ destroyed(){
     margin: 6px 4px; 
 }
 .left .orderDate{
-    margin-top: 8px;
+    margin-top: 10px;
 }
 .right{
     width: 18%;
@@ -386,5 +446,40 @@ destroyed(){
 .btn{
     height: 30px;
     margin: 4px;
+}
+.close{
+  position:absolute;
+  right: 20px;
+  top: 20px;
+}
+.payImg{
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 6px;
+}
+.radioBox{
+  width: 96%;
+  margin: 0px auto;
+  position: relative;
+}
+/deep/ .van-radio__icon{
+    position: absolute!important;
+    right: 10px!important;
+}
+.payText{
+  display: inline-block;
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 2px;
+}
+.payNum{
+  width: 100%;
+  margin: 6px 0;
+  height: 40px;
+  line-height: 40px;
+  color: #3080AA;
+  font-size: 24px;
 }
 </style>

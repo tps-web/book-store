@@ -6,7 +6,7 @@ import {
 
 // create an axios instance
 const service = axios.create({
-    // baseURL: ' http://mock.studyinghome.com/mock/5f0e6465e525ff20854f7c1d/api',
+    // baseURL: 'https://huisn.com.cn/bk/',
     baseURL: process.env.API_ROOT,
     // baseURL: '/api',
     withCredentials: true, // send cookies when cross-domain requests

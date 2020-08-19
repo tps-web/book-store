@@ -1,6 +1,5 @@
 <template>
   <div class="content">
-    <div class="title">商品简介</div>
     <div class="desc">
       {{introduction.introduction}}
     </div>
@@ -30,12 +29,6 @@ export default {
 .content{
 	width: 92%; 
 	margin: 20px auto 8px;
-}
-.title{
-	  font-size:16px;
-    color:rgba(34,34,34,1);
-    font-weight:700;
-    text-align: left;
 }
 .desc{
   	margin: 10px 0;

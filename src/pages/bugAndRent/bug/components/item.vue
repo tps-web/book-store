@@ -18,7 +18,7 @@
     </div>
     <div class="content">
          <!-- 商品列表-->
-       <div class="goods"  @click="goDetails(item.id)">
+       <div class="goods"  @click="goDetails(item)">
          <div class="bigBox">
            <div class="box" v-for="(item,index1) in item.list" :key="index1">
              <div class="imgBox">
@@ -33,12 +33,13 @@
     </div>
     <div class="btn">
       <!-- <div class="returnId">退款</div> -->
-       <van-button color="#FC5650" size="small" plain round @click="returnId(item)" v-if="item.status==4">退款</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="returnId(item)" v-if="item.status==4">退货</van-button>
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
        <span class="pay" v-show="item.status==0">￥{{item.payAmount}}</span>
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5">{{item.status|btnText}}</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5">取消订单</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==4||item.status==5" >删除订单</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6">{{item.status|btnText}}</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==0">取消订单</van-button>
+       <!-- <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5&&item.status!=6">取消订单</van-button> -->
+       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
     <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
@@ -74,11 +75,12 @@ export default {
   data () {
     return {
        createdTime:'',
+       curPage: 1, //当前页面
        lastPayTime:'',
        ticker:'',
        show:false,
-        radio: '2',
-       payItem:''
+       radio: '2',
+       payItem:'',
        //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单 
       //  订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->无效订单 
     }
@@ -104,6 +106,25 @@ export default {
       this.beginTimer();
   },
   methods:{  
+   //安卓调用支付结果
+    // androidPayResult(result){
+         //0 成功  非0 失败
+        //  if(result==0){
+        //    this.$router.replace({
+        //       path: '/success',
+        //       query:{
+        //         id: this.payItem.id
+        //     }
+        // })
+        //  }else{
+        //    this.$router.replace({
+        //       path: '/fail',
+        //       query:{
+        //         id: this.payItem.id
+        //       }
+        //    })
+        //  }
+    // },
     // 退款
     returnId(item){
       // console.log(item)
@@ -123,15 +144,18 @@ export default {
        }
     },
     confirm(){
-      this.payItem.payType=this.radio
-      // console.log(this.payItem.orderSn)
+       this.payItem.payType=this.radio
+       let op={id:this.payItem.id,payType:this.radio}
+       updateOrder(op).then(res=>{
+          console.log(res)
+       })
+      // console.log(this.payItem)
        wxPay(this.payItem.orderSn).then(res=>{
-          console.log(res.data.item)
-            var op =JSON.stringify(res.data.item)
-           window.android.androidToPay(op);  
+          //  console.log(res.data.item)
+           var op =JSON.stringify(res.data.item)
+           sessionStorage.setItem('orderId',this.payItem.id)
+           window.android.androidToPay(op);    //js 调用android
         })
-      // window.android.androidToPay(JSON.stringify(this.payItem));  //js 调用android
-      // this.show=true
     },
     closeBtn(){
       this.show=false
@@ -141,7 +165,7 @@ export default {
             switch (item.status) {
                 case 0:
                     console.log('待付款')
-                    // console.log(item)
+                    console.log(item)
                     this.show=true
                     this.payItem=item
                     break;
@@ -179,10 +203,7 @@ export default {
               if(this.list[i].status===0){
                   let op = { id: this.list[i].id, status: 5 }
                    updateOrder(op).then(res=>{
-                     console.log(res)
                      this.list[i].status=5
-                    //  this.reload(); 
-                    // this.getItem()
                    })
               }
             }
@@ -191,14 +212,18 @@ export default {
 	    }, 
    //得到数据
    getItem(){
+     console.log(1,that.curPage)
      let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
         getOrderType(op).then(res=>{
             console.log(res.data.rows)
             //倒计时
+             console.log(2,that.curPage)
             this.total=res.data.total
-            if(this.curPage==1){
+            if(that.curPage==1){
+              console.log(3,that.curPage)
                 this.list=formatList(res.data.rows)
             }else{
+              console.log(4,that.curPage)
                 this.list=this.list.concat(formatList(res.data.rows))
             }
         })
@@ -220,21 +245,32 @@ export default {
                     // console.log("点击了取消按钮")
                 })
         },
-    //下拉刷新
+    //上拉加载
      onLoad(){
           setTimeout(() => {
             if (this.isLoading) {
                  this.isLoading = false; 
             }
-            that.curPage++
+            // console.log(that.curPage)
             this.getItem()
+            that.curPage++
             this.loading = false;
 
             if (this.list.length==0||this.list.length >= this.total) {
                this.finished = true;
             }
         }, 1000);
-     }
+     },
+        onRefresh() {
+          this.$toast('刷新')
+                // 清空列表数据
+            this.finished = false;
+            // 重新加载数据
+                // 将 loading 设置为 true，表示处于加载状态
+            this.loading = true;
+            that.curPage = 1
+            this.onLoad();
+        },
   },
 }
 </script>
