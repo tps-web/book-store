@@ -52,6 +52,7 @@ export default {
         })
       },
       onRefresh(){
+        that.curPage=0
         // 清空列表数据
         this.finished = false;
         // 重新加载数据

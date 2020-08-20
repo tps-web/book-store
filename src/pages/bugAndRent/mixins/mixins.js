@@ -7,7 +7,7 @@ export const orderMixin = {
             isLoading: false, //上拉
             finished: false, //是否加载完
             loading: false, //下拉
-            // curPage: 1, //当前页面
+            curPage: 1, //当前页面
             pageRows: 6, //请求一页有多少数据
             total: 0,
         }

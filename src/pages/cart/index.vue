@@ -96,7 +96,7 @@ export default {
     // 2.延展出store里的shopCart的数据
     ...mapState(['shopCart', 'userInfo']),
     ...mapGetters(
-      { totalPrice: 'SELECTED_GOODS_PRICE',getShopCart:'getShopCart'}
+      { totalPrice: 'SELECTED_GOODS_PRICE',getShopCart:'getShopCart',getRentOrder:'getRentOrder'}
     ),
     // 3.计算shopCart的数量  这里选中的物品数量 不是根据checked 展示是否为空购物车使用 
     totalCount () {
@@ -156,18 +156,26 @@ export default {
     },
     //点击租书
     goRent(){
+      console.log(this.getRentOrder)
       //判断是否会员
       if(this.userInfo.memberFlag!=0){
         //不等于0 为会员
-        if(this.checkedNum&&this.checkedNum<4){
-             this.$toast('需要租4本起')
-          }else if(!this.checkedNum){
-            this.$toast('没有勾选商品')
-          }else if(this.checkedNum&&this.checkedNum>8){
-            this.$toast('租借不能超过8本')
-          }else{
-            this.$router.push('/rentOrder')
-          }
+        // 判断是否存在待归还
+           if(this.getRentOrder>0){
+           //存在
+              this.$toast('有订单未归还，请归还后再借')
+            }else{
+            //不存在待归还  可以借书
+             if(this.checkedNum&&this.checkedNum<4){
+                  this.$toast('需要租4本起')
+                }else if(!this.checkedNum){
+                  this.$toast('没有勾选商品')
+                }else if(this.checkedNum&&this.checkedNum>8){
+                  this.$toast('租借不能超过8本')
+                }else{
+                  this.$router.push('/rentOrder')
+                }
+           }
       }else{
         // 非会员
         this.$toast('只对会员开放')

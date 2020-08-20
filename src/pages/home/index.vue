@@ -12,6 +12,8 @@
       <Nav :navItem="navItem"/>
       <!-- 本周新书 -->
       <WeekBook :weekItem="weekItem"/>
+      <!-- 推荐音频 -->
+      <bannervoice/>
        <!-- 新书上架 -->
       <!-- <New-Book/> -->
       <!-- 书单 -->
@@ -34,6 +36,8 @@ import BookList from './components/booklist.vue'
 import Related from './components/related.vue'
 import Skeleton from './components/skeleton.vue'
 import WeekBook from './components/weekBook.vue'
+import bannervoice from './components/bannervoice.vue'
+
 
 import {getBookList,index} from '@/api'
 export default {
@@ -46,7 +50,8 @@ export default {
      BookList,
      Related,
      Skeleton,
-     WeekBook
+     WeekBook,
+     bannervoice
   },
   data () {
     return {

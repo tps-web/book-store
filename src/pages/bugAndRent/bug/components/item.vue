@@ -69,7 +69,6 @@ import {formatList} from '@/utils'
 import {orderMixin} from '../../mixins/mixins'
 
 export default {
-  inject: ["reload"], //注入reload方法
   props:['status'],
   mixins: [orderMixin],
   data () {
@@ -208,7 +207,7 @@ export default {
   //  },
   getItem(){
       let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :0}
-      console.log(op)
+      // console.log(op)
       getOrderType(op).then(res=>{
         // console.log(res)
             this.total=res.data.total
@@ -219,7 +218,6 @@ export default {
                this.finished = false;
                 this.list=this.list.concat(formatList(res.data.rows))
             }else{
-              console.log(123)
               //  that.isLoading = false
                that.finished = true;
             }
@@ -249,6 +247,7 @@ export default {
       },
      // 上拉刷新
       onRefresh() {
+          this.loading = true;
           that.list = [];
           that.curPage = 1;
            setTimeout(() => {

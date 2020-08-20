@@ -33,6 +33,8 @@
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
+       <!-- <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-if="item.status==3">续  约</van-button> -->
+       <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -58,6 +60,15 @@ export default {
        this.getItem()
   },
   methods:{
+      //买断
+      goBug(item){
+        console.log(item)
+        this.$router.push(`/bugRentBook/${item.id}`)
+      },
+      //续约
+      goterm(item){
+          console.log(item)
+      },
       cancel(item) {
             let op = { id: item.id, status: 5 }
             this.$dialog.alert({
@@ -108,39 +119,66 @@ export default {
                     break;
             }
         },
-        backBooks(item){
-          console.log(item)
-          let op={id:item.id,status:4}
-        },
+        // backBooks(item){
+        // //   console.log(item)
+        //   let op={id:item.id,status:4}
+        // },
          //下拉刷新
-        onLoad() {
-            setTimeout(() => {
-                if (this.isLoading) {
-                    this.isLoading = false;
-                }
-                this.curPage++
-                    this.getItem()
-                this.loading = false;
-
-                if (this.list.length == 0 || this.list.length >= this.total) {
-                    this.finished = true;
-                }
-            }, 1000);
-        },
+        // onLoad() {
+        //     setTimeout(() => {
+        //         if (this.isLoading) {
+        //             this.isLoading = false;
+        //         }
+        //         this.curPage++
+        //             this.getItem()
+        //         this.loading = false;
+        //         if (this.list.length == 0 || this.list.length >= this.total) {
+        //             this.finished = true;
+        //         }
+        //     }, 1000);
+        // },
         //得到数据
-        getItem() {
-            let op = { curPage: this.curPage, pageRows: this.pageRows, status: this.status, orderType: 1 }
-            getOrderType(op).then(res => {
-                // console.log(res.data.rows)
-                this.total = res.data.total
-                if (this.curPage == 1) {
-                    this.list = res.data.rows
-                } else {
-                    this.list = this.list.concat(res.data.rows)
-                }
-            })
-        },
+        // getItem() {
+        //     let op = { curPage: this.curPage, pageRows: this.pageRows, status: this.status, orderType: 1 }
+        //     getOrderType(op).then(res => {
+        //         this.total = res.data.total
+        //         if (this.curPage == 1) {
+        //             this.list = res.data.rows
+        //         } else {
+        //             this.list = this.list.concat(res.data.rows)
+        //         }
+        //     })
+        // },
+     getItem(){
+      let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :1}
+      getOrderType(op).then(res=>{
+            this.total=res.data.total
+            this.loading = false;
+            that.isLoading = false;  
+            this.dataList=res.data
+            if(this.dataList.rows.length>0){
+               this.finished = false;
+                this.list=this.list.concat(res.data.rows)
+            }else{
+               that.finished = true;
+            }
+      })
   },
+  // 下拉加载
+   onLoad() {
+          that.curPage++;
+          that.getItem();
+      },
+     // 上拉刷新
+      onRefresh() {
+          this.loading = true;
+          that.list = [];
+          that.curPage = 1;
+           setTimeout(() => {
+             that.getItem();
+           },800)
+      },
+   },
   filters:{
     rentStatus(val){
     //   var obj = {

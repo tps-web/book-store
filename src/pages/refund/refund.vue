@@ -2,9 +2,9 @@
   <div class="content">
     <div class="selectRadioBox">
       <van-radio-group v-model="radio">
-          <van-radio v-for="(item,index) in reasonList" :key="index"  :name="item.id" class="radioBox" >{{item.name}}</van-radio>
+          <van-radio v-for="(item,index) in reasonList" :key="index"  :name="item.name" class="radioBox" >{{item.name}}</van-radio>
       </van-radio-group>
-       <van-cell-group v-if="radio==9">
+       <van-cell-group v-if="radio=='其他问题'">
          <van-field v-model="value" placeholder="请输入问题" type="textarea" autosize rows="2" class="filedBox" />
        </van-cell-group>
      </div>
@@ -57,6 +57,7 @@ export default {
   },
   methods:{
     goReturn(){
+      // console.log(this.radio)
       if(this.radio!=null){
          this.$dialog.alert({
                     message: "是否确定退款？", //改变弹出框的内容

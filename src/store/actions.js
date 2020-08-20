@@ -1,5 +1,5 @@
 import { setToken, getToken } from '@/utils/authcookie'
-import { saveCart, getCartList, removeByCartId, saveAddress, getAddress, updateAddress, getCouponHistory } from '@/api'
+import { saveCart, getCartList, removeByCartId, saveAddress, getAddress, updateAddress, getCouponHistory, isRendOrder } from '@/api'
 // var info = JSON.parse(getToken())
 import { formatAddress } from '@/utils'
 import {
@@ -15,6 +15,10 @@ export default {
             // getInfo().then(res => {
             //     commit('USER_INFO', res.data)
             // })
+        isRendOrder().then(res => {
+            // console.log(res.data.total)
+            commit('ISRENDORDER', res.data.total)
+        })
         let addressOp = { curPage: 1, pageRows: 10 }
         getAddress(addressOp).then(res => {
                 // console.log(res.data.rows)

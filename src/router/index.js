@@ -371,14 +371,42 @@ const router = new Router({
             }
         },
         {
-            path: '/text',
-            name: 'text',
+            path: '/voice',
+            name: 'voice',
             component: () =>
-                import ('@/pages/text/index'),
+                import ('@/pages/voice/index'),
             meta: {
-                title: "text"
+                title: "编辑推荐"
             }
         },
+        {
+            path: '/bugRentBook/:id',
+            name: 'bugRentBook',
+            component: () =>
+                import ('@/pages/bugRentBook/index'),
+            meta: {
+                title: "买断"
+            }
+        },
+        {
+            path: '/rule',
+            name: 'rule',
+            component: () =>
+                import ('@/pages/rule/index'),
+            meta: {
+                title: "用户须知"
+            }
+        },
+        {
+            path: '/dataDesc/:id',
+            name: 'rule',
+            component: () =>
+                import ('@/pages/rule/desc'),
+            meta: {
+                title: "详情"
+            }
+        },
+
     ]
 })
 var info = {

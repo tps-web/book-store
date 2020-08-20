@@ -349,10 +349,42 @@ export function getReturnDesc(orderSn) {
     })
 }
 
-// /order/order-return-apply/updateReturnOrder/{id}/{status}
+// /order/order-return-apply/updateReturnOrder/{id}/{status}   修改退货状态
 export function updateReturnOrder(data) {
     return request({
         url: `/order/order-return-apply/updateReturnOrder/${data.id}/${data.status}`,
         method: 'put'
+    })
+}
+
+//是否存在借书订单
+export function isRendOrder() {
+    return request({
+        url: `/order/list/1/6/169/3/1`,
+        method: 'get'
+    })
+}
+
+//获取静态
+export function getAllDataByRule() {
+    return request({
+        url: `/book/static-data/getAllDataByRule`,
+        method: 'post'
+    })
+}
+
+// /book/static-data/get/{id}   根据id获取静态
+export function getDatadesc(id) {
+    return request({
+        url: `/book/static-data/get/${id}`,
+        method: 'get'
+    })
+}
+
+// /book/static-data/getAllDataByType
+export function getAllDataByType(data) {
+    return request({
+        url: `/book/static-data/getAllDataByType?dataType=${data}`,
+        method: 'post',
     })
 }

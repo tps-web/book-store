@@ -4,8 +4,8 @@
        	 <div class="tit">租赁流程</div>
        	 <div class="more" @click="goMore">更多</div>
        </div>
-       <div class="bigBox">
-       	 <div class="box">
+       <div class="bigBox" @click="goMore">
+       	 <div class="box" >
        	 	  <van-image  width="36"  :src="require('../../../assets/images/xzsp.png')" />
        	 	  <div class="boxText">选择商品</div>
        	 </div>
@@ -24,10 +24,10 @@
        </div>
         <div class="top"  style="margin: 20px auto 10px">
        	 <div class="tit">归还须知</div>
-       	 <div class="more">更多</div>
+       	 <div class="more"  @click="goMore">更多</div>
        </div>
-       <div class="bigBox">
-        <div class="box">
+       <div class="bigBox" @click="goMore">
+        <div class="box" >
        	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yykd.png')" />
        	 	  <div class="boxText">预约快递</div>
        	 </div>
@@ -56,7 +56,7 @@ export default {
   },
   methods:{
   	goMore(){
-  		this.$toast('查看更多')
+	  this.$router.push(`/rule`)
   	}
   }
 }

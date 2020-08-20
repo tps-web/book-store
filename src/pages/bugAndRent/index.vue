@@ -77,6 +77,7 @@ import cancelView from './bug/cancelBox'
 import  returnOrder from './bug/returnOrder'
 
 export default {
+  inject: ["reload"], //注入reload方法
   components:{
     Bug,
     Rent,
@@ -128,9 +129,17 @@ destroyed(){
       },
       rentChange(rentActive){
         sessionStorage.setItem('pathChildren',rentActive)
+        let router=sessionStorage.getItem('path')+'/'+sessionStorage.getItem('pathChildren')
+         this.$router.replace({path:`/bugAndRent/${router}`});
+        //  console.log(router)
+        this.reload()
       },
       bugChange(bugActive){
         sessionStorage.setItem('pathChildren',bugActive)
+        let router=sessionStorage.getItem('path')+'/'+sessionStorage.getItem('pathChildren')
+        // console.log(router)
+        this.$router.replace({path:`/bugAndRent/${router}`});
+        this.reload()
       }
   }
 }

@@ -273,17 +273,21 @@ export default {
   line-height: 38px;
 }
 .descBox{
-  width: 88%;
+  width: 90%;
   margin: 10px auto;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  /* border: 1px solid #ccc; */
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  /* border-bottom: 1px solid #000; */
 }
 .p{
-  width: 49%;
+  width: 49.5%;
   text-align: left;
   padding: 4px 0;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 .desTitle{
     width:94%;

@@ -21,7 +21,8 @@ import {
     ALL_CART,
     COUPON_TOTAL,
     FREIGHT,
-    GETMEMBERINFO
+    GETMEMBERINFO,
+    ISRENDORDER
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -201,7 +202,12 @@ export default {
     [FREIGHT](state, freight) {
         state.freight = freight
     },
+    //会员
     [GETMEMBERINFO](state, info) {
         state.memberInfo = info
+    },
+    //是否存在待归还
+    [ISRENDORDER](state, total) {
+        state.isRendOrder = total
     }
 }

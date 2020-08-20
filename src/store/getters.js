@@ -2,6 +2,8 @@ export default {
     getShopCart(state) {
         return state.shopCart
     },
+    // 是否存在待归还
+    getRentOrder: state => state.isRendOrder,
     // getCouponList: state => state.coupon,
     getCouponList(state) {
         return state.coupon.sort(function(a, b) {

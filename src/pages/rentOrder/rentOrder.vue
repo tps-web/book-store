@@ -20,7 +20,7 @@ import goods from '@/components/goods/goods'
 import { getToken } from '@/utils/authcookie'
 import {postOrder} from '@/api'
 import {formatGoods} from '@/utils'
-import {  mapActions } from 'vuex'
+import {  mapActions,mapGetters } from 'vuex'
 
 export default {
   components:{
@@ -49,6 +49,9 @@ export default {
   created(){
   },
   mounted(){
+  },
+  computed:{
+    ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
    watch:{
     showHeight(newVal,oldVal){
@@ -101,12 +104,20 @@ export default {
               "receiverPostCode": op.currentAddress.postCode,
               "receiverProvince": op.currentAddress.province,
               "receiverRegion": op.currentAddress.region,
-              "remark": op.remarkValue,
+              "remark": op.remarkValue, 
               "sourceType": 1,
               "userId": info.userId,
-              "userNickName": info.userNickName
+              "userNickName": info.userNickName,
+
+              "payAmount": this.clearedNum,  //应付金额（实际支付金额）
+              "totalAmount": this.allTotal ,  //订单总金额 
+              
+              "promotionAmount":0,
+              "integration":0,    //可以获得的积分
+              "integrationAmount":0, //积分抵扣金额 
              }
             data.list=this.newList
+            // console.log(data)
             this.$dialog.alert({
                   message: "确定提交？", //改变弹出框的内容
                   showCancelButton: true //展示取水按钮

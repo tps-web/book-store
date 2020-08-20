@@ -26,5 +26,6 @@ export default {
     //运费
     freight: '',
     //会员信息
-    memberInfo: ''
+    memberInfo: '',
+    isRendOrder: ''
 }

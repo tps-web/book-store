@@ -52,8 +52,8 @@
         </van-popup> -->
      </div>
 
-     <van-cell value="会员须知" is-link class="xuzhi" size="large"/>
-     <van-cell value="会员权益" is-link class="quanyi" size="large"/>
+     <van-cell value="会员须知" is-link class="xuzhi" size="large" @click="goDesc('会员须知')"/>
+     <van-cell value="会员权益" is-link class="quanyi" size="large" @click="goDesc('会员权益')"/>
 
      <div class="btn" @click="goPay">{{memberInfo?'立即续费':'立即开通'}}</div>
   </div>
@@ -62,6 +62,7 @@
 <script>
 import {mapState} from 'vuex'
 import {getNowFormatDate} from '@/utils'
+import { getAllDataByType } from "@/api";
 export default {
   data () {
     return {
@@ -76,6 +77,11 @@ export default {
      ...mapState(['userInfo','memberInfo'])
   },
   methods:{
+    goDesc(str){
+      getAllDataByType(str).then(res=>{
+        this.$router.push(`/dataDesc/${res.data.rows[0].id}`)
+      })
+    },
     Confirm(value, index){
       this.payPerice=365
       this.yearNum=value

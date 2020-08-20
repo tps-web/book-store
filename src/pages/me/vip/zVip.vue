@@ -19,14 +19,14 @@
                 </div>
            </div>
        </div>
-        <van-cell value="会员须知" is-link class="xuzhi" size="large"/>
+        <van-cell value="会员须知" is-link class="xuzhi" size="large" @click="goDesc('会员须知')"/>
     </div>
   </div>
 </template>
 
 <script>
 import { setToken, getToken } from '@/utils/authcookie'
-
+import { getAllDataByType } from "@/api";
 import {mapState} from 'vuex'
 
 export default {
@@ -39,6 +39,11 @@ export default {
      ...mapState(['memberInfo'])
   },
   methods:{
+    goDesc(str){
+      getAllDataByType(str).then(res=>{
+        this.$router.push(`/dataDesc/${res.data.rows[0].id}`)
+      })
+     },
       gourl(){
           this.$router.push('/vip')
       }

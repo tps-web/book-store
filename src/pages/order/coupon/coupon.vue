@@ -1,6 +1,7 @@
 <template>
   <div class="">
      <!-- <headerNav title="优惠券"/> -->
+     <!-- <div class="onCoupon" @click="onCoupon">不使用优惠券</div> -->
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
       <van-list  
         v-model="isLoading"
@@ -102,6 +103,9 @@ export default {
   mounted(){
   },
   methods:{
+    // onCoupon(){
+    //     this.$emit('selectOnCoupon','')
+    // },
     selectItem(item){
       if(item.useStatus==0){
         //  console.log('选中优惠券')
@@ -311,4 +315,5 @@ export default {
   width: 100%;
   height: 166px;
 }
+
 </style>
