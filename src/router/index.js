@@ -409,50 +409,7 @@ const router = new Router({
 
     ]
 })
-var info = {
-    "code": "1",
-    "data": {
-        "userId": 169,
-        "userCode": "",
-        "userTelphone": "18813580769",
-        "userRegistDatetime": "2020-04-07 10:30:55",
-        "regId": "",
-        "alias": "uid_169",
-        "tag": "",
-        "birthday": "",
-        "hasBindQq": 0,
-        "hasBindWeixin": 0,
-        "hasBindApple": 0,
-        "isThreeLogin": 0,
-        "myqrcode": "",
-        "phoneDeviceCode": "null",
-        "phoneDeviceName": "vivo V1824BA",
-        "phoneDeviceType": "android",
-        "sex": 0,
-        "status": 1,
-        "area": "",
-        "userEmail": "",
-        "userHead": "http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png",
-        "userNickName": "周润发",
-        "userSign": "",
-        "longitude": 0,
-        "latitude": 0,
-        "loginStatus": 1,
-        "updateTime": "2020-05-02 02:51:03",
-        "isRealUser": 1,
-        "background": "",
-        "soundType": 0,
-        "isFollow": 0,
-        "wxNickName": "",
-        "wxUserHead": "",
-        "qqNickName": "",
-        "qqUserHead": "",
-        "worksCount": 0,
-        "type": 0
-    },
-    "msg": "登录成功",
-    "serializeNulls": false
-}
+
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title

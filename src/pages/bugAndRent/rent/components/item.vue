@@ -152,31 +152,52 @@ export default {
      getItem(){
       let op={curPage:that.curPage,pageRows:that.pageRows,status:this.status,orderType :1}
       getOrderType(op).then(res=>{
-            this.total=res.data.total
-            this.loading = false;
-            that.isLoading = false;  
-            this.dataList=res.data
-            if(this.dataList.rows.length>0){
-               this.finished = false;
-                this.list=this.list.concat(res.data.rows)
+          this.total=res.data.total
+             this.dataList=res.data
+              // if(this.dataList.rows.length>0){
+              //    this.finished = true;
+              // }
+            if(that.curPage==1){
+                this.list=res.data.rows
             }else{
-               that.finished = true;
+                this.list=this.list.concat(res.data.rows)
             }
       })
   },
   // 下拉加载
    onLoad() {
-          that.curPage++;
-          that.getItem();
+          // that.curPage++;
+          // that.getItem();
+          setTimeout(() => {
+            if (this.isLoading) {
+                 this.isLoading = false;
+            }
+            this.curPage++
+            this.getItem()
+            this.loading = false;
+             if (!this.total) {
+               this.finished = true;
+            }
+            if (this.list.length >= this.total) {
+               this.finished = true;
+            }
+        }, 1000);
       },
      // 上拉刷新
       onRefresh() {
-          this.loading = true;
-          that.list = [];
-          that.curPage = 1;
-           setTimeout(() => {
-             that.getItem();
-           },800)
+            that.curPage=0
+            // 清空列表数据
+            this.finished = false;
+            // 重新加载数据
+            // 将 loading 设置为 true，表示处于加载状态
+            this.loading = true;
+            this.onLoad();
+          // this.loading = true;
+          // that.list = [];
+          // that.curPage = 1;
+          //  setTimeout(() => {
+          //    that.getItem();
+          //  },800)
       },
    },
   filters:{

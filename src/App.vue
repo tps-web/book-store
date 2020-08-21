@@ -1,17 +1,27 @@
 <template>
   <div id="app">
     <router-view v-if="isRouterAlive"/>
+    <!-- <div @click="text()">aaa</div> -->
   </div>
 </template>
-
+ 
+                 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions,mapState} from 'vuex'
 // import './assets/css/common.css';
+import { getToken,setToken } from '@/utils/authcookie'
+import {currentDate,currentDateLater,expireTimeDateLater} from '@/utils'
+import {getUserMemberById, getOrderDesc,saveMember,updateMember,getUserInfoById} from '@/api'
+import store from '@/store'
+import axios from 'axios'
+
 export default {
   name: 'App',
    provide () {
     return {
-      reload: this.reload
+      reload: this.reload,
+      newExpireTime:'',
+      op:''
     }
   },
   data () {
@@ -22,12 +32,17 @@ export default {
   created(){
      window.androidPayResult = this.androidPayResult;
   },
+    computed:{
+    ...mapState(['userInfo']),
+    },
   mounted(){
         //安卓调用支付结果
      window.androidPayResult = this.androidPayResult;
   },
     methods: {
-    ...mapActions(['getCartList']),
+      text(){
+      },
+    ...mapActions(['getCartList','getUserInfo']),
          //安卓调用支付结果
     androidPayResult(result){
          this.getCartList()
@@ -39,11 +54,63 @@ export default {
                 id:sessionStorage.getItem('orderId')
             }
         })
+          //会员
+          if(sessionStorage.getItem('orderType')=='2'){
+             if(this.userInfo.memberFlag==0){  //不是会员
+                getOrderDesc(sessionStorage.getItem('orderId')).then(res=>{
+                  let op ={
+                    createTime:currentDate(),
+                    expireTime:currentDateLater(),
+                    memberFees: res.data.item.payAmount,
+                    memberYear:1,
+                    memberLevelId:4,
+                    userId:res.data.item.userId,
+                    nickname:res.data.item.userNickName
+                   }
+                   saveMember(op).then(res=>{
+                      // alert('开通成功')
+                         axios.all([getUserInfoById(this.userInfo.userId),getUserMemberById(this.userInfo.userId)])
+                              .then(axios.spread((UserInfo,UserMember)=>{
+                                  setToken(UserInfo.data)
+                                  this.getUserInfo()
+                                  this.reload()
+                                  store.commit('GETMEMBERINFO',UserMember.data.item.data)
+                              }))
+                      // getUserInfoById(this.userInfo.userId).then(res=>{
+                      //       setToken(res.data)
+                      //       this.getUserInfo()
+                      // })
+                   })
+                })
+             }else{ //是会员
+                 getUserMemberById(this.userInfo.userId).then(res=>{
+                    var  memberData=res.data.item.data
+                    var  expireTime = new Date(res.data.item.data.expireTime)
+                    var  newExpireTime = expireTimeDateLater(expireTime)
+                    memberData.expireTime =newExpireTime
+                    // memberData.memberLevelId=4
+                    updateMember(memberData).then(res=>{
+                      // alert('续费成功')
+                      // getUserInfoById(this.userInfo.userId).then(res=>{
+                      //       setToken(res.data)
+                      //       this.getUserInfo()
+                      //       this.reload()
+                      // })
+                       axios.all([getUserInfoById(this.userInfo.userId),getUserMemberById(this.userInfo.userId)])
+                        .then(axios.spread((UserInfo,UserMember)=>{
+                            setToken(UserInfo.data)
+                            this.getUserInfo()
+                            store.commit('GETMEMBERINFO',UserMember.data.item.data)
+                        }))
+                    })
+                 })
+             }
+          }
          }else{
            this.$router.replace({
               path: '/fail',
               query:{
-                   id:sessionStorage.getItem('orderId')
+                  id:sessionStorage.getItem('orderId')
               }
            })
          }

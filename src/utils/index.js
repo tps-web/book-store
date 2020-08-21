@@ -1,11 +1,55 @@
 //格式化时间
-// export function formatDate(date) {
-//     var year = date.getFullYear();
-//     var Month = date.getMonth() + 1;
-//     var day = date.getDate();
-//     return year + '-' + Month + '-' + day
-// }
+export function formatDate(date) {
+    var year = date.getFullYear();
+    var Month = date.getMonth() + 1;
+    var day = date.getDate();
+    return year + '-' + Month + '-' + day
+}
 
+export function currentDate() {
+    var date = new Date();
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    // m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    // d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    // h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('1' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+}
+export function currentDateLater() {
+    var date = new Date();
+    var y = date.getFullYear() + 1;
+    var m = date.getMonth() + 1;
+    // m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    // d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    // h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('1' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+}
+export function expireTimeDateLater(date) {
+    var y = date.getFullYear() + 1;
+    var m = date.getMonth() + 1;
+    // m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    // d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    // h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('1' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+}
 //比较优惠券日期
 // export function compareDate(date) {
 //     var now = new Date()
@@ -171,7 +215,7 @@ export function formatList(data) {
     data.map((ele, index) => {
         if (ele.status == 0) {
             let createTime = Date.parse(ele.createTime) / 1000;
-            let endTime = createTime + 1800;
+            let endTime = createTime + 1200;
             let clientTime = Date.parse(new Date()) / 1000;
             let lastTime = endTime - clientTime;
             if (lastTime > 0) {

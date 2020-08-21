@@ -5,7 +5,17 @@
            <div class="top_tit">买断
            </div>
       </div>
-      <goodList :goodsList='goodsList'/>
+     
+      <div class="box" v-for="(item,index) in newList" :key="index">
+        <div class="imgBox">
+          <img class="boxImg" :src="item.squareImage" alt="">
+        </div>
+          <div class="boxDesc">
+             <div class="tit">{{item.title}}</div>
+             <div style="color:red;margin-top:4px">￥{{item.price}}</div>
+          </div>
+      </div>
+      {{newList}}
       <div class="deliver_msg">
           <van-cell title="商品金额"  :value="total"  title-style="text-align: left;" />
           <!-- 优惠券 -->
@@ -15,19 +25,22 @@
           </van-popup>
           <van-cell title="应付金额"  :value="payAmount"  title-style="text-align: left;" />
       </div>
+      <pay  :show='isShow' :payAmount='payAmount' @closepop="closepop" @confirmData='confirmData'/>
       <div class="bugBtn" @click="bayBug">买断</div>
   </div>
 </template>
 
 <script>
-import {getOrderDesc,updateOrder} from '@/api'
+import {getOrderDesc,updateOrder,getBookDesc} from '@/api'
 import goodList from './goodList'
 import Coupon from '../order/coupon/coupon'
+import pay from '@/components/pay/index'
 import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
 export default {
    components:{
      goodList,
-     Coupon
+     Coupon,
+     pay
   },
   data () {
     return {
@@ -35,11 +48,14 @@ export default {
        showCoupon:false, //是否展示优惠券
        useCouponText:'', //优惠券文案
        couponNum:'',   //优惠券价额
-       couponItem:''
+       couponItem:'',
+       isShow:false,
+       newList:[]
     }
   },
   computed:{
     ...mapGetters({getCouponList:'getCouponList'}),
+    //总价
     total(){
         if(this.goodsList){
             var totalNum=0
@@ -53,11 +69,11 @@ export default {
             return totalNum
         }
     },
+    //应付金额  减去优惠券
     payAmount(){
          if(this.goodsList){
             var paytotalNum=0
             this.goodsList.forEach(element => {
-                // console.log(element)
                 paytotalNum+=element.bookPrice
             });
             if(this.couponNum){
@@ -65,29 +81,33 @@ export default {
             }
             return paytotalNum
         }
-    }
+    },
   },
   created(){
     getOrderDesc( this.$route.params.id ).then(res=>{
-        // console.log(res.data.item.list)
-        this.goodsList=res.data.item.list
+        // this.goodsList=res.data.item.list
+        var arr=res.data.item.list
+        let op={curPage :1,isHotSearch :0,pageRows :1 }
+        arr.forEach(ele=>{
+            op.id=ele.bookId
+           getBookDesc(op).then(res=>{
+               this.newList.push(res.data.book)              
+           })
+        })
     })
   },
   methods:{
+    confirmData(){
+      // payType 支付方式 status 状态 0  orderType订单类型 0  payAmount 应付金额   totalAmount 总金额
+      console.log(123)
+    },
+    closepop(){
+      this.isShow=!this.isShow
+    },
     bayBug(){
-          this.$dialog.alert({
-                  message: "确定提交？", //改变弹出框的内容
-                  showCancelButton: true //展示取水按钮
-                })
-              .then(() => { //点击确认按钮后的调用
-                console.log('确定')
-                let op={payType:0,payAmount:this.payAmount,totalAmount:this.total,couponSn:this.couponItem.couponHistoryId,couponAmount:this.couponItem.amount}
-                console.log(op)
-                // updateOrder().then(res=>{})
-              })
-              .catch(() => { //点击取消按钮后的调用
-                  console.log("点击了取消按钮")
-          })
+      this.isShow=true
+       let op={payType:0,payAmount:this.payAmount,totalAmount:this.total,couponSn:this.couponItem.couponHistoryId,couponAmount:this.couponItem.amount}
+       console.log(op)
     },
     //选择优惠券
     selectCoupon(couponItem){
@@ -108,7 +128,7 @@ export default {
     color: #fff;
     line-height: 50px;
     background: #ee0a24;
-    position: absolute;
+    position: fixed;
     bottom: 0;
 }
 .top{
@@ -127,5 +147,32 @@ export default {
     font-size: 20px;
     font-weight: 500;
     color:rgba(34,34,34,1);
+}
+.box{
+  width: 94%;
+  margin: 6px auto;
+  border:1px solid red;
+  border-radius: 6px;
+  padding: 6px 4px;
+  display: flex;
+}
+.boxDesc{
+  margin-left: 10px;
+  text-align: left;
+}
+.imgBox{
+  width: 78px;
+  height: 88px;
+  display:-webkit-flex;
+  display:flex;
+  -webkit-flex-flow : column nowrap;
+  flex-flow : column nowrap;
+}
+.boxImg{
+   width: 100%;
+    /* height: 170px; */
+    margin-left : auto;
+    margin-right : auto;
+    margin: auto;
 }
 </style>

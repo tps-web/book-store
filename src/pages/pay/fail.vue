@@ -20,7 +20,7 @@
              </div>
          </div>
     </div>
-    <div class="btn">
+    <div class="btn"  v-show="orderType!=2">
           <van-button type="default" @click="goOrder">查看订单</van-button>
           <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
     </div>
@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       id:this.$route.query.id,
-      item:''
+      item:'',
+      orderType:sessionStorage.getItem('orderType')
     }
   },
    created(){

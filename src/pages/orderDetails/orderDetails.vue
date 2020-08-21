@@ -482,4 +482,9 @@ destroyed(){
   color: #3080AA;
   font-size: 24px;
 }
+.payBtn{
+  width: 96%;
+  margin: 6px auto;
+  height: 44px;
+}
 </style>

@@ -126,6 +126,9 @@ destroyed(){
       // },
       onChange(activeItem){
         sessionStorage.setItem('path',activeItem)
+         let router=sessionStorage.getItem('path')+'/'+sessionStorage.getItem('pathChildren')
+        this.$router.replace({path:`/bugAndRent/${router}`});
+        this.reload()
       },
       rentChange(rentActive){
         sessionStorage.setItem('pathChildren',rentActive)
@@ -137,11 +140,10 @@ destroyed(){
       bugChange(bugActive){
         sessionStorage.setItem('pathChildren',bugActive)
         let router=sessionStorage.getItem('path')+'/'+sessionStorage.getItem('pathChildren')
-        // console.log(router)
         this.$router.replace({path:`/bugAndRent/${router}`});
         this.reload()
       }
-  }
+  },
 }
 </script>
 

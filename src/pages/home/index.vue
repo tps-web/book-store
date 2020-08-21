@@ -13,7 +13,7 @@
       <!-- 本周新书 -->
       <WeekBook :weekItem="weekItem"/>
       <!-- 推荐音频 -->
-      <bannervoice/>
+      <!-- <bannervoice/> -->
        <!-- 新书上架 -->
       <!-- <New-Book/> -->
       <!-- 书单 -->

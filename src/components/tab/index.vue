@@ -37,6 +37,7 @@ import goods from '@/components/goodsItem/item'
 
 var that
 export default {
+  inject: ["reload"], //注入reload方法
   props:['tabNameList'],
   components:{
 	  goods
@@ -73,33 +74,40 @@ export default {
 		// console.log(that.activeName)
        let op={curPage:that.curPage,pageRows:that.pageRows,categoryId:that.activeName}
         getChildCategoryBookList(op).then(res=>{
-			// console.log(res.data)
-            that.total=res.data.total
-            that.loading = false;
-            that.isLoading = false;  
-            that.dataList=res.data
-            if(that.dataList.rows.length>0){
-               that.finished = false;
-                that.list=that.list.concat(res.data.rows)
-            }else{
-               that.finished = true;
+			 this.total=res.data.total
+            if(this.curPage==1){
+                this.list=res.data.rows
+            }else{ 
+                this.list = this.list.concat(res.data.rows)
             }
         })
 	},
-	 onRefresh(){
-         that.list = [];
-         that.curPage = 1;
-		setTimeout(() => {
-			that.getItem();
-		},500)
+	onRefresh(){
+       that.curPage=0
+        // 清空列表数据
+        this.finished = false;
+        // 重新加载数据
+        // 将 loading 设置为 true，表示处于加载状态
+        this.loading = true;
+        this.onLoad();
      },
-    // //下拉刷新
+    //下拉刷新
      onLoad(){
           setTimeout(() => {
-             that.curPage++;
-             that.getItem();
-        }, 500);
-     },
+            if (this.isLoading) {
+                 this.isLoading = false;
+            }
+            this.curPage++
+            this.getItem()
+            this.loading = false;
+             if (!this.total) {
+               this.finished = true;
+            }
+            if (this.list.length >= this.total) {
+               this.finished = true;
+            }
+        }, 1000);
+     }
   	// goDetails(id){
   	// 	this.$router.push('/goodsDetails')
   	// },

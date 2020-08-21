@@ -102,6 +102,7 @@ export default {
        },
        //刷新
      onRefresh() {
+         this.curPage=0
             // 清空列表数据
             this.finished = false;
             // 重新加载数据

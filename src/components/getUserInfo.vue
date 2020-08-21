@@ -55,7 +55,7 @@ import axios from 'axios'
       qqUserHead: "",
       worksCount: 0,
       type: 0,
-      memberFlag:4
+      memberFlag:0
       }
   }
 }
@@ -70,6 +70,7 @@ export default {
   },
   created(){
      window.androidCallJs = this.androidCallJs;
+     window.iOSCallJs =this.iOSCallJs
   },
   mounted(){
      window.androidCallJs = this.androidCallJs;
@@ -77,6 +78,23 @@ export default {
      androidCallJs()
   },
  methods:{
+   iOSCallJs(id){
+       if(!isTrue){
+              axios.all([getUserInfoById(id),getUserMemberById(id)])
+              .then(axios.spread((UserInfo,UserMember)=>{
+                    // alert(UserInfo.data.item.userId)
+                  setToken(UserInfo.data)
+                  store.dispatch('getUserInfo')
+                  isTrue=true
+                  //  alert(UserMember.data.item.data.userId)
+                  store.commit('GETMEMBERINFO',UserMember.data.item.data)
+                  this.$router.replace('/')
+            }))
+               return "用户得到"
+         }else{
+                return "请求过了"
+         }
+   },
     androidCallJs(id){
       if(id){
           if(!isTrue){

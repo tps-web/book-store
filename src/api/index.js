@@ -381,10 +381,28 @@ export function getDatadesc(id) {
     })
 }
 
-// /book/static-data/getAllDataByType
+// /book/static-data/getAllDataByType   数据类型获取内容
 export function getAllDataByType(data) {
     return request({
         url: `/book/static-data/getAllDataByType?dataType=${data}`,
         method: 'post',
+    })
+}
+
+// /app/user/save/
+// 保存会员信息
+export function saveMember(data) {
+    return request({
+        url: `/app/user/save/`,
+        method: 'post',
+        data
+    })
+}
+//修改会员
+export function updateMember(data) {
+    return request({
+        url: `/app/user/update/`,
+        method: 'post',
+        data
     })
 }

@@ -143,9 +143,7 @@ export default {
           postOrder(this.payList).then(res=>{
               // console.log(res.data.item.orderSn)
               sessionStorage.setItem('orderId',res.data.item.id)
-              wxPay(res.data.item.orderSn).then(res=>{
-                // console.log(res.data.item)
-                var op =JSON.stringify(res.data.item)
+              wxPay(res.data.item.orderSn).then(res=>{ 
                 window.android.androidToPay(op);
                 this.payShow=false
               })
@@ -242,6 +240,10 @@ export default {
     // console.log(this.clearedNum)
     // this.usableArr=couponList.usableArr
   },
+  beforeDestroy(){
+     this.$store.commit('SELETE_COUPON','')
+     this.$store.commit('USECOUPONTEXT','')
+  }
 }
 </script>
 

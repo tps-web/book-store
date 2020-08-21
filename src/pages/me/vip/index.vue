@@ -51,32 +51,89 @@
         />
         </van-popup> -->
      </div>
+     <!-- 支付 -->
+      <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
+      <van-icon name="close" size="24" class="close" @click="closeBtn"/>
+         <div class="payNum">￥{{payPerice}}</div>
+         <van-radio-group v-model="radio" class="radioBox">
+            <van-radio name="2"  class="payBtn">
+                <van-image :src="require('../../../assets/images/wxpay.png')" class="payImg"/>
+                <span class="payText">微信支付</span>
+            </van-radio>
+            <!-- <van-radio name="1"  class="payBtn">
+              <van-image :src="require('../../../assets/images/zfbpay.png')" class="payImg"/>
+                <span class="payText">支付宝支付</span>
+            </van-radio> -->
+         </van-radio-group>
+     </van-dialog>
 
      <van-cell value="会员须知" is-link class="xuzhi" size="large" @click="goDesc('会员须知')"/>
      <van-cell value="会员权益" is-link class="quanyi" size="large" @click="goDesc('会员权益')"/>
 
-     <div class="btn" @click="goPay">{{memberInfo?'立即续费':'立即开通'}}</div>
+     <div class="btn" @click="goPay">{{userInfo.memberFlag==0?'立即开通':'立即续费'}}</div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import {getNowFormatDate} from '@/utils'
-import { getAllDataByType } from "@/api";
+import { getAllDataByType,postOrder,wxPay } from "@/api";
 export default {
   data () {
     return {
+      show:false,
       yearNum:12,
       showExpress:false,
       columns:[12,24,36,48],
-      payPerice:365,
-      memberLevelId:4
+      payPerice:'',
+      memberLevelId:4,
+      radio:'2'
     }
   },
    computed:{
      ...mapState(['userInfo','memberInfo'])
   },
+  created(){
+    getAllDataByType('年卡费用').then(res=>{
+      // console.log(res.data.rows[0].dataContent)
+      this.payPerice=res.data.rows[0].dataContent
+    })
+  },
   methods:{
+    closeBtn(){
+      this.show=false
+    },
+     onBeforeClose(action, done){
+       if (action === "confirm") {
+        return done(false);
+       }else{
+         return done();
+         this.radio=2
+       }
+    },
+    confirm(){
+       let op={
+          userId:this.userInfo.userId,
+          userNickName:this.userInfo.userNickName,
+          payAmount:this.payPerice,
+          orderType:2,
+          payType:this.radio,
+          status:0,
+          totalAmount:this.payPerice,
+          sourceType:1
+       }
+       postOrder(op).then(res=>{
+        //  console.log(res.data.item.id)
+          sessionStorage.setItem('orderId',res.data.item.id)
+          sessionStorage.setItem('orderType',res.data.item.orderType)
+            wxPay(res.data.item.orderSn).then(res=>{
+              // console.log(res)
+              var op =JSON.stringify(res.data.item)
+              window.android.androidToPay(op);
+              this.show=false
+           })
+       })
+    },
     goDesc(str){
       getAllDataByType(str).then(res=>{
         this.$router.push(`/dataDesc/${res.data.rows[0].id}`)
@@ -92,15 +149,7 @@ export default {
       this.showExpress=false
     },
     goPay(){
-       let op={
-       id:this.userInfo.userId,
-       nickname:this.userInfo.userNickName,
-       memberFees:this.payPerice,
-       memberLevelId:this.memberLevelId,
-       memberYear:(this.yearNum/12),
-       createTime: getNowFormatDate(new Date())
-       }
-      console.log(op)
+      this.show=true
     }
   }
 }
@@ -162,5 +211,40 @@ export default {
   bottom: 0;
   background:rgba(255,205,1,1);
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+.close{
+  position:absolute;
+  right: 20px;
+  top: 20px;
+}
+.payNum{
+  width: 100%;
+  margin: 6px 0;
+  height: 40px;
+  line-height: 40px;
+  color: #3080AA;
+  font-size: 24px;
+}
+/deep/ .van-radio__icon{
+    position: absolute!important;
+    right: 10px!important;
+}
+.payImg{
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 6px;
+}
+.payText{
+  display: inline-block;
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 2px;
+}
+.payBtn{
+  width: 96%;
+  margin: 6px auto;
+  height: 44px;
 }
 </style>
