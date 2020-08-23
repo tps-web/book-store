@@ -1,5 +1,5 @@
 import { setToken, getToken } from '@/utils/authcookie'
-import { saveCart, getCartList, removeByCartId, saveAddress, getAddress, updateAddress, getCouponHistory, isRendOrder } from '@/api'
+import { saveCart, getCartList, removeByCartId, saveAddress, getAddress, updateAddress, getCouponHistory, isRendOrder, getOrderType } from '@/api'
 // var info = JSON.parse(getToken())
 import { formatAddress } from '@/utils'
 import {
@@ -146,6 +146,13 @@ export default {
             op.page = data
             commit('USER_COUPON', op)
             commit('COUPON_TOTAL', res.data.total)
+        })
+    },
+    //待支付数目
+    wraitPayTotal({ state, commit }, data) {
+        getOrderType(data).then(res => {
+            // console.log(res.data.total)
+            state.wraitPayTotal = res.data.total
         })
     }
 }

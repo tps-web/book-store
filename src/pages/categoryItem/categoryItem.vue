@@ -72,7 +72,7 @@ export default {
             if (this.list.length >= this.total) {
                this.finished = true;
             }
-        }, 1000);
+        }, 500);
      }
   }
 }

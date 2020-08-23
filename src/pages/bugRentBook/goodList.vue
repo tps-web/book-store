@@ -5,7 +5,7 @@
          <div class="bigBox">
            <div class="box" v-for="(item,index) in goodsList" :key="index" >
              <div class="boxImg">
-                 <van-image class="goodsImg" :src="item.bookPic" radius="2px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
+                 <van-image class="goodsImg" :src="item.squareImage" radius="2px" style="box-shadow:0px 0px 8px 0px rgba(0,0,0,0.1);"/>
              </div>
            </div>
          </div>
@@ -28,12 +28,16 @@ export default {
      //商品总数
   },
   created(){
-    // console.log(this.goodsList)
+    console.log(this.goodsList)
   },
   methods:{
       goDetails(item){
-          // console.log(item[0].orderSn)
-          this.$router.push(`/orderList/goodsList/${item[0].orderSn}`)
+          this.$router.push({
+            path:'/goodListDesc',
+            query:{
+              goodsList : this.goodsList
+            }
+          })
       }
   }
 }

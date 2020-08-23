@@ -15,7 +15,9 @@
       <div class="all" @click="gourl('0/1-a')">全部订单 <span style="float:right"><van-icon name="arrow" size="16"/></span></div>
       <div class="box">
         <div @click="gourl('0/1-b')">
-            <van-image :src="require('../../assets/images/dfk.png')" class="bgImg" />
+              <van-image :src="require('../../assets/images/dfk.png')" class="bgImg">
+                 <div class="van-info" v-show="wraitPayNum">{{wraitPayNum}}</div>
+               </van-image>
             <div class="box_name">待付款</div>
         </div>
           <div  @click="gourl('0/1-c')">
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
 export default {
   name: 'Me',
   data () {
@@ -65,17 +67,20 @@ export default {
     }
   },
   computed:{
-     ...mapState(['userInfo','memberInfo'])
+     ...mapState(['userInfo','memberInfo']),
+     ...mapGetters({wraitPayNum:'wraitPayTotal'})
   },
   components:{
   },
   mounted(){
    
   },
+  created(){
+     let op={curPage:1,orderType:0,pageRows:1,status:0}
+     this.wraitPayTotal(op)
+  },
   methods:{
-    test(){
-      window.android.refundOrder('20200818155603749');  //js 调用 android
-    },
+    ...mapActions(['wraitPayTotal']),
     gourl(item){
       // console.log(item)
       // this.$router.push(`/bugAndRent/${item}`)

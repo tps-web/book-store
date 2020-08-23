@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="title">
-    	<span class="tit_left">本周新书</span>
+    	<span class="tit_left">{{weekItem.indexName}}</span>
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
     <van-swipe :loop="false"  :show-indicators='false' class="box">

@@ -71,7 +71,6 @@ export default {
   },
   created(){
       that=this
-    //   console.log(this.$route.params.id)
       this.getItem()
   },
   methods:{
@@ -79,7 +78,6 @@ export default {
      ...mapActions(['addCart']),
      //跳转详情页面
      goDesc(id){
-        // console.log(id)
         this.$router.push(`/goodsDetails/${id}`)
      },
      //加入购物车
@@ -94,7 +92,6 @@ export default {
     getItem(){
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
         getListItem(op).then(res=>{
-            // console.log(res)
             this.total=res.data.item.listCount
             this.topBg.listImage=res.data.item.listImage
             this.topBg.listName=res.data.item.listName
@@ -130,7 +127,7 @@ export default {
             // if (this.list.length >= this.total) {
             //    this.finished = true;
             // }
-        }, 1000);
+        }, 300);
      }
   }
 }

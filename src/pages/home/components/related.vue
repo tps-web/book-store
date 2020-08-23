@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-   <headline headline="猜你喜欢" />
+   <headline :headline="listItem.indexName" />
      <goodsItem :listItem="listItem.data" />
     <!-- <van-grid :column-num="2" :border="false">
       <van-grid-item v-for="(item,index) in listItem.data" :key="index" class="grid_item">

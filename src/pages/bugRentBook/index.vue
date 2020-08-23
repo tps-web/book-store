@@ -5,23 +5,15 @@
            <div class="top_tit">买断
            </div>
       </div>
-     
-      <div class="box" v-for="(item,index) in newList" :key="index">
-        <div class="imgBox">
-          <img class="boxImg" :src="item.squareImage" alt="">
-        </div>
-          <div class="boxDesc">
-             <div class="tit">{{item.title}}</div>
-             <div style="color:red;margin-top:4px">￥{{item.price}}</div>
-          </div>
-      </div>
-      {{newList}}
+      <!-- 商品列表 -->
+      <goodList   :goodsList="newList"/>
+      <!-- {{newList}} -->
       <div class="deliver_msg">
           <van-cell title="商品金额"  :value="total"  title-style="text-align: left;" />
           <!-- 优惠券 -->
           <van-cell title="优惠券" is-link :value="useCouponText"  title-style="text-align: left;" @click="showCoupon = true"/>
-           <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round closeable>
-             <Coupon  :coupon='getCouponList' @selectCoupon="selectCoupon" />
+           <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round >
+             <Coupon  :goodsTotal='total' @selectCoupon="selectCoupon" />
           </van-popup>
           <van-cell title="应付金额"  :value="payAmount"  title-style="text-align: left;" />
       </div>
@@ -33,7 +25,7 @@
 <script>
 import {getOrderDesc,updateOrder,getBookDesc} from '@/api'
 import goodList from './goodList'
-import Coupon from '../order/coupon/coupon'
+import Coupon from './coupon'
 import pay from '@/components/pay/index'
 import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
 export default {
@@ -47,7 +39,7 @@ export default {
        goodsList:'',
        showCoupon:false, //是否展示优惠券
        useCouponText:'', //优惠券文案
-       couponNum:'',   //优惠券价额
+       couponNum:0,   //优惠券价额
        couponItem:'',
        isShow:false,
        newList:[]
@@ -57,24 +49,22 @@ export default {
     ...mapGetters({getCouponList:'getCouponList'}),
     //总价
     total(){
-        if(this.goodsList){
+        if(this.newList){
             var totalNum=0
-            this.goodsList.forEach(element => {
-                // console.log(element)
-                totalNum+=element.bookPrice
+            this.newList.forEach(element => {
+                var realPerice= element.promotionAmount==null?element.price:element.promotionAmount
+                totalNum+=realPerice
             });
-            // if(this.couponNum){
-            //     totalNum-=this.couponNum
-            // }
             return totalNum
         }
     },
     //应付金额  减去优惠券
     payAmount(){
-         if(this.goodsList){
+         if(this.newList){
             var paytotalNum=0
-            this.goodsList.forEach(element => {
-                paytotalNum+=element.bookPrice
+             this.newList.forEach(element => {
+                var realPerice= element.promotionAmount==null?element.price:element.promotionAmount
+                paytotalNum+=realPerice
             });
             if(this.couponNum){
                 paytotalNum-=this.couponNum
@@ -99,22 +89,32 @@ export default {
   methods:{
     confirmData(){
       // payType 支付方式 status 状态 0  orderType订单类型 0  payAmount 应付金额   totalAmount 总金额
-      console.log(123)
+      let op={payType:0,
+      payAmount:this.payAmount,
+      totalAmount:this.total,
+      couponSn:this.couponItem.couponHistoryId,
+      couponAmount:this.couponItem.amount}
+       console.log(op)
     },
     closepop(){
       this.isShow=!this.isShow
     },
     bayBug(){
       this.isShow=true
-       let op={payType:0,payAmount:this.payAmount,totalAmount:this.total,couponSn:this.couponItem.couponHistoryId,couponAmount:this.couponItem.amount}
-       console.log(op)
     },
     //选择优惠券
     selectCoupon(couponItem){
-       this.couponItem=couponItem
-       this.useCouponText='减' + couponItem.amount
-       this.couponNum=couponItem.amount
-       this.showCoupon=false
+      if(couponItem){
+        this.couponItem=couponItem
+        var couponTest='减'+couponItem.amount
+         this.useCouponText=couponTest //优惠券文案
+         this.couponNum=couponItem.amount  //优惠券价额
+        this.showCoupon=false
+      }else{
+         this.useCouponText='' //优惠券文案
+         this.couponNum=0 //优惠券价额
+        this.showCoupon=false
+      }
     }
   },
 }

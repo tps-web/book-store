@@ -359,8 +359,9 @@ export function updateReturnOrder(data) {
 
 //是否存在借书订单
 export function isRendOrder() {
+    var info = JSON.parse(getToken())
     return request({
-        url: `/order/list/1/6/169/3/1`,
+        url: `/order/list/1/6/${info.userId}/3/1`,
         method: 'get'
     })
 }
@@ -404,5 +405,13 @@ export function updateMember(data) {
         url: `/app/user/update/`,
         method: 'post',
         data
+    })
+}
+
+// /app/user/getUserMemberLevel/{isDefault}  获取会员类型  0 1
+export function getUserMemberLevel(isDefault) {
+    return request({
+        url: `/app/user/getUserMemberLevel/${isDefault}`,
+        method: 'get',
     })
 }

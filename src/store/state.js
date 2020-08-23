@@ -27,5 +27,6 @@ export default {
     freight: '',
     //会员信息
     memberInfo: '',
-    isRendOrder: ''
+    isRendOrder: '',
+    wraitPayTotal: 0 //待支付数码
 }

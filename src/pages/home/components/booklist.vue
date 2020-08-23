@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="title">
-    	<span class="tit_left">精选书单</span>
+    	<span class="tit_left">{{bookItem.indexName}}</span>
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
     <van-grid :border="false" :column-num="3" class="box" >

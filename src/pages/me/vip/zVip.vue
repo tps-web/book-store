@@ -26,7 +26,7 @@
 
 <script>
 import { setToken, getToken } from '@/utils/authcookie'
-import { getAllDataByType } from "@/api";
+import { getAllDataByType,getUserMemberLevel } from "@/api";
 import {mapState} from 'vuex'
 
 export default {

@@ -1,3 +1,5 @@
+import state from "./state";
+
 export default {
     getShopCart(state) {
         return state.shopCart
@@ -11,6 +13,7 @@ export default {
         })
     },
     getCouponTotal: state => state.couponTotal,
+    wraitPayTotal: state => state.wraitPayTotal,
     SELECTED_GOODS_PRICE(state) {
         let totalPrice = 0;
         Object.values(state.shopCart).forEach((goods, index) => {

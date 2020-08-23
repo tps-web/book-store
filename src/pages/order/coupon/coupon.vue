@@ -1,5 +1,9 @@
 <template>
   <div class="">
+    <div class="closeBox">
+          <span v-show="total" style="color:#ccc">点击关闭不使用优惠券</span>
+         <van-icon name="close" size="24" class="close" @click="closeBtn"/>
+    </div>
      <!-- <headerNav title="优惠券"/> -->
      <!-- <div class="onCoupon" @click="onCoupon">不使用优惠券</div> -->
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
@@ -9,7 +13,7 @@
         finished-text="没有更多了"
         @load="onLoad"
        >
-       <div class="noData" v-show="finished&&getCouponTotal==0">
+       <div class="noData" v-show="finished&&total==0">
         <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
         <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
@@ -50,10 +54,11 @@
 
 <script>
 import {mapState,mapActions, mapGetters} from 'vuex'
-import {compareDate,formatCoupon} from '@/utils'
+// import {compareDate,formatCoupon} from '@/utils'
+import {getCouponHistory } from '@/api'
 var that
 export default { 
-  props:['coupon'],
+  // props:['coupon'],
   data () {
     return {
        isLoading:false, //上拉
@@ -63,14 +68,16 @@ export default {
        pageRows:6, //请求一页有多少数据
        list:[],  
        total:0,
+       rows:[],
+       getCouponList:[]
     }
   },
   computed:{
-    ...mapGetters(['getCouponList','getCouponTotal','SELECTED_GOODS_PRICE']),
+    ...mapGetters(['SELECTED_GOODS_PRICE']),
     formatCoupon(){
        var newData = []
-      this.coupon.map(function(ele,index,array){
-            if(ele.minPoint<that.SELECTED_GOODS_PRICE){
+      this.getCouponList.map(function(ele,index,array){
+            if(ele.minPoint<=that.SELECTED_GOODS_PRICE){
                newData.push(ele)
             }else{
                ele.useStatus=3
@@ -79,21 +86,21 @@ export default {
       })
       return newData
     },
-   formatGoods(list) {
-    var newData = []
-    list.map((ele) => {
-        newData.push({
-            bookId: ele.id,
-            cartItemId: ele.cartId,
-            bookIsbn: ele.bookIsbn,
-            bookName: ele.name,
-            bookPic: ele.smallImage,
-            bookPrice: ele.price,
-            bookQuantity: ele.bookQuantity
-        })
-    })
-    return newData
-}
+//    formatGoods(list) {
+//     var newData = []
+//     list.map((ele) => {
+//         newData.push({
+//             bookId: ele.id,
+//             cartItemId: ele.cartId,
+//             bookIsbn: ele.bookIsbn,
+//             bookName: ele.name,
+//             bookPic: ele.smallImage,
+//             bookPrice: ele.price,
+//             bookQuantity: ele.bookQuantity
+//         })
+//     })
+//     return newData
+// }
   },
   created(){
      that=this
@@ -103,9 +110,9 @@ export default {
   mounted(){
   },
   methods:{
-    // onCoupon(){
-    //     this.$emit('selectOnCoupon','')
-    // },
+    closeBtn(){
+       this.$emit('selectCoupon','')
+    },
     selectItem(item){
       if(item.useStatus==0){
         //  console.log('选中优惠券')
@@ -113,27 +120,37 @@ export default {
       }
     },
     getFollowPage(){
-        let op={
-            curPage:that.curPage,
-            pageRows:that.pageRows
-        }
-        this.$store.dispatch('couponHistory',op)
+        let op={curPage:that.curPage,pageRows:that.pageRows}
+        getCouponHistory(op).then(res=>{
+            this.total=res.data.total
+            this.rows=res.data.rows
+            console.log(this.rows)
+            if(that.curPage==1){
+                this.getCouponList=res.data.rows
+            }else{ 
+                that.getCouponList = this.getCouponList.concat(res.data.rows)
+            }
+        })
      },
     onLoad() {
-        setTimeout(() => {
-            if (this.refreshing) {
-               this.refreshing = false;
+         setTimeout(() => {
+            if (this.isLoading) {
+                 this.isLoading = false;
             }
             this.curPage++
             this.getFollowPage()
             this.loading = false;
-            if (this.getCouponList.length >= this.getCouponTotal) {
-              this.finished = true;
+             if (this.rows.length===0) {
+               this.finished = true;
             }
-        }, 800);
+            // if (this.list.length >= this.total) {
+            //    this.finished = true;
+            // }
+        }, 500);
        },
        //刷新
      onRefresh() {
+            this.curPage=0
             // 清空列表数据
             this.finished = false;
             // 重新加载数据
@@ -151,11 +168,14 @@ export default {
        case 1:
           return `已<br/>使用`
          break;
+       case 2:
+          return `已<br/>过期`
+         break;
        case 3:
           return `不<br/>可用`
         break;
         default:
-          return `已<br/>过期`
+          return ``
           break;
       }
     }
@@ -315,5 +335,15 @@ export default {
   width: 100%;
   height: 166px;
 }
-
+.closeBox{
+  position: relative;
+  width: 100%;
+  /* height: 30px; */
+}
+.close{
+  position:fixed;
+  right: 16px;
+  z-index: 10;
+  margin-top: 6px;
+}
 </style>

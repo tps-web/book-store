@@ -12,8 +12,9 @@
           <van-cell title="立减"      :value="all_discounts"  title-style="text-align: left;" />
           <!-- 优惠券 -->
           <van-cell title="优惠券" is-link :value="useCouponText"  title-style="text-align: left;" @click="showCoupon = true"/>
-           <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round closeable>
-             <Coupon  :coupon='getCouponList' @selectCoupon="selectCoupon" />
+           <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round >
+             <!-- <Coupon  :coupon='getCouponList' @selectCoupon="selectCoupon" />  -->
+             <Coupon  @selectCoupon="selectCoupon"  />
           </van-popup>
           <!-- 发货时间 -->
           <!-- <van-cell title="发货时间" is-link :value="date||selectDate"  title-style="text-align: left;" @click="dateShow = true"/> -->
@@ -119,6 +120,9 @@ export default {
     ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
   methods:{
+    closeBtn(){
+      
+    },
     ...mapActions(['getCartList']),
     //取消支付
     payCancel(){
@@ -209,10 +213,16 @@ export default {
     //选择优惠券
     selectCoupon(couponItem){
       // console.log(couponItem)
-      this.$store.commit('SELETE_COUPON',couponItem)
-         var couponTest='减'+couponItem.amount
+      if(couponItem){
+        this.$store.commit('SELETE_COUPON',couponItem)
+        var couponTest='减'+couponItem.amount
         this.$store.commit('USECOUPONTEXT',couponTest)
-      this.showCoupon=false
+        this.showCoupon=false
+      }else{
+        this.$store.commit('SELETE_COUPON','')
+        this.$store.commit('USECOUPONTEXT','')
+        this.showCoupon=false
+      }
       // if(couponItem.type===0){
       //   var couponTest='减'+couponItem.price
       //   this.$store.commit('USECOUPONTEXT',couponTest)

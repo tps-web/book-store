@@ -406,7 +406,16 @@ const router = new Router({
                 title: "详情"
             }
         },
-
+        //  买断商品列表 goodDesc
+        {
+            path: '/goodListDesc',
+            name: 'goodListDesc',
+            component: () =>
+                import ('@/pages/bugRentBook/goodDesc'),
+            meta: {
+                title: "商品列表"
+            }
+        },
     ]
 })
 

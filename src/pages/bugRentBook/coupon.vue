@@ -1,5 +1,9 @@
 <template>
   <div class="">
+    <div class="closeBox">
+          <span v-show="total" style="color:#ccc">点击关闭不使用优惠券{{goodsTotal}}</span>
+         <van-icon name="close" size="24" class="close" @click="closeBtn"/>
+    </div>
      <!-- <headerNav title="优惠券"/> -->
   <van-pull-refresh v-model="loading" @refresh="onRefresh">
       <van-list  
@@ -8,14 +12,14 @@
         finished-text="没有更多了"
         @load="onLoad"
        >
-      <div class="noData" v-show="finished&&total==0">
-        <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
-        <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
+       <div class="noData" v-show="finished&&total==0">
+        <van-image width="120"  :src="require('../../assets/images/nodata.png')" />
+        <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
       <div>
-      <div class="box" v-for="(item,index) in getCouponList" :key="index">
-        <van-image  :src="require('../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
-         <van-image  :src="require('../../../assets/images/bg-used.png')" class="bg" v-else/>
+      <div class="box" v-for="(item,index) in formatCoupon" :key="index" @click="selectItem(item)">
+        <van-image  :src="require('../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
+         <van-image  :src="require('../../assets/images/bg-used.png')" class="bg" v-else/>
         <div class="pos"> 
         <div :class="[item.useStatus==0 ? 'content':'invalid_content']">
         	<div class="num" >
@@ -30,7 +34,7 @@
                <div>{{item.name}}</div>
         	 </div>
         	</div>
-        	<div class="useBtn" @click="goBug(item.useStatus)">
+        	<div class="useBtn" >
         		<div :class="[item.useStatus==0 ?'btn_content':'invalid_btn_content']"><span class="use_font" v-html="$options.filters.format(item.useStatus)"></span></div>
         	</div>
         </div>
@@ -44,15 +48,16 @@
   </div>
     </van-list>
     </van-pull-refresh> 
-  </div>
+   </div>
 </template>
 
 <script>
 import {mapState,mapActions, mapGetters} from 'vuex'
-import {compareDate,formatCoupon} from '@/utils'
-import { getCouponHistory } from '@/api'
+// import {compareDate,formatCoupon} from '@/utils'
+import {getCouponHistory } from '@/api'
 var that
 export default { 
+  props:['goodsTotal'],
   data () {
     return {
        isLoading:false, //上拉
@@ -62,29 +67,60 @@ export default {
        pageRows:6, //请求一页有多少数据
        list:[],  
        total:0,
-       getCouponList:"",
-       rows:''
+       rows:[],
+       getCouponList:[]
     }
   },
   computed:{
-    // ...mapState(['coupon']),
-    // ...mapGetters(['getCouponList','getCouponTotal']),
+    ...mapGetters(['SELECTED_GOODS_PRICE']),
+    formatCoupon(){
+       var newData = []
+      this.getCouponList.map(function(ele,index,array){
+            if(ele.minPoint<=that.goodsTotal){
+               newData.push(ele)
+            }else{
+               ele.useStatus=3
+               newData.push(ele)
+            }
+      })
+      return newData
+    },
+//    formatGoods(list) {
+//     var newData = []
+//     list.map((ele) => {
+//         newData.push({
+//             bookId: ele.id,
+//             cartItemId: ele.cartId,
+//             bookIsbn: ele.bookIsbn,
+//             bookName: ele.name,
+//             bookPic: ele.smallImage,
+//             bookPrice: ele.price,
+//             bookQuantity: ele.bookQuantity
+//         })
+//     })
+//     return newData
+// }
   },
   created(){
+      console.log(this.goodsTotal)
      that=this
       // this.couponList=formatCoupon(this.coupon)
-       this.getFollowPage()
+      this.getFollowPage()
   },
   mounted(){
   },
   methods:{
-    goBug(useStatus){
-      if(useStatus==0){
-          this.$router.push('/')
-       }
+    closeBtn(){
+       this.$emit('selectCoupon','')
+    },
+    selectItem(item){
+      if(item.useStatus==0){
+        //  console.log('选中优惠券')
+        this.$emit('selectCoupon',item)
+      }
     },
     getFollowPage(){
-          let op={curPage:that.curPage,pageRows:that.pageRows}
+        let op={curPage:that.curPage,pageRows:that.pageRows}
         getCouponHistory(op).then(res=>{
             this.total=res.data.total
             this.rows=res.data.rows
@@ -94,14 +130,9 @@ export default {
                 that.getCouponList = this.getCouponList.concat(res.data.rows)
             }
         })
-        // let op={
-        //     curPage:that.curPage,
-        //     pageRows:that.pageRows
-        // }
-        // this.$store.dispatch('couponHistory',op)
      },
     onLoad() {
-        setTimeout(() => {
+         setTimeout(() => {
             if (this.isLoading) {
                  this.isLoading = false;
             }
@@ -118,7 +149,7 @@ export default {
        },
        //刷新
      onRefresh() {
-         this.curPage=0
+            this.curPage=0
             // 清空列表数据
             this.finished = false;
             // 重新加载数据
@@ -136,8 +167,14 @@ export default {
        case 1:
           return `已<br/>使用`
          break;
-        default:
+       case 2:
           return `已<br/>过期`
+         break;
+       case 3:
+          return `不<br/>可用`
+        break;
+        default:
+          return ``
           break;
       }
     }
@@ -148,7 +185,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .noData{
-  margin-top: 40%;
+  margin-top: 70px;
 }
 .box{
 	position: relative;
@@ -296,5 +333,16 @@ export default {
 .bg{
   width: 100%;
   height: 166px;
+}
+.closeBox{
+  position: relative;
+  width: 100%;
+  /* height: 30px; */
+}
+.close{
+  position:fixed;
+  right: 16px;
+  z-index: 10;
+  margin-top: 6px;
 }
 </style>

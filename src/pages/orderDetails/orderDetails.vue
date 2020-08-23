@@ -159,7 +159,7 @@ destroyed(){
       computedLastPayTime(){
           var auth_timetimer = setInterval(()=>{
                let createTime = Date.parse(this.createdTime) / 1000;
-               let endTime  = createTime + 1800;
+               let endTime  = createTime + 1200;
                let clientTime = Date.parse(new Date()) / 1000;
                let lastTime = endTime - clientTime;
                let int_minute;

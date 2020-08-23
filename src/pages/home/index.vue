@@ -89,7 +89,7 @@ export default {
         this._initData()
         this.$toast('刷新成功');
         this.isLoading = false;
-      }, 800);
+      }, 500);
     },
   },
 }

@@ -5,7 +5,7 @@ export function formatDate(date) {
     var day = date.getDate();
     return year + '-' + Month + '-' + day
 }
-
+//当前时间
 export function currentDate() {
     var date = new Date();
     var y = date.getFullYear();
@@ -21,6 +21,7 @@ export function currentDate() {
     second = second < 10 ? ('0' + second) : second;
     return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 }
+// 当前时间 加一年
 export function currentDateLater() {
     var date = new Date();
     var y = date.getFullYear() + 1;
@@ -36,6 +37,7 @@ export function currentDateLater() {
     second = second < 10 ? ('0' + second) : second;
     return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 }
+//带入年时间 加一年时间
 export function expireTimeDateLater(date) {
     var y = date.getFullYear() + 1;
     var m = date.getMonth() + 1;
@@ -67,7 +69,6 @@ export function expireTimeDateLater(date) {
 // }
 
 //优惠券分成 过期 与 不过期   使用与未使用      type : 0 减钱  1 折扣 2 已使用
-
 // export function formatCoupon(couponList) {
 //     var disabledArr = [] //不可用
 //     var usableArr = [] //可用

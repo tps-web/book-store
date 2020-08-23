@@ -106,6 +106,7 @@ export default {
     }
   },
    created(){
+    //  console.log(this.$route.params.id)
     //获取绘本信息
       let op ={ id : this.$route.params.id , curPage:1, pageRows :4}
       getBookDesc(op).then(res=>{

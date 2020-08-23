@@ -77,12 +77,12 @@
 <script>
 import {mapState} from 'vuex'
 import {getNowFormatDate} from '@/utils'
-import { getAllDataByType,postOrder,wxPay } from "@/api";
+import { getAllDataByType,postOrder,wxPay,getUserMemberLevel } from "@/api";
 export default {
   data () {
     return {
       show:false,
-      yearNum:12,
+      yearNum:'',
       showExpress:false,
       columns:[12,24,36,48],
       payPerice:'',
@@ -94,9 +94,14 @@ export default {
      ...mapState(['userInfo','memberInfo'])
   },
   created(){
-    getAllDataByType('年卡费用').then(res=>{
-      // console.log(res.data.rows[0].dataContent)
-      this.payPerice=res.data.rows[0].dataContent
+    // getAllDataByType('年卡费用').then(res=>{
+    //   // console.log(res.data.rows[0].dataContent)
+    //   this.payPerice=res.data.rows[0].dataContent
+    // }),
+    getUserMemberLevel(1).then(res=>{
+      this.payPerice=res.data.item.data.memberFees
+      this.yearNum=res.data.item.data.memberYear*12
+      // console.log(this.yearNum)
     })
   },
   methods:{
@@ -139,12 +144,12 @@ export default {
         this.$router.push(`/dataDesc/${res.data.rows[0].id}`)
       })
     },
-    Confirm(value, index){
-      this.payPerice=365
-      this.yearNum=value
-      this.showExpress=false
-      this.payPerice= this.payPerice*(value/12)
-    },
+    // Confirm(value, index){
+    //   this.payPerice=365
+    //   this.yearNum=value
+    //   this.showExpress=false
+    //   this.payPerice= this.payPerice*(value/12)
+    // },
     onCancel(){
       this.showExpress=false
     },
