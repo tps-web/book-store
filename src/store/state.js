@@ -34,5 +34,6 @@ export default {
         wraitRentTotal: 0,
         receiveTotal: 0,
         returnTotal: 0
-    }
+    },
+    timeData: 0, //自动关闭订单时间
 }

@@ -14,7 +14,8 @@
         <div class="right">
           <div v-show="false">{{test}}</div>
           <span v-show="item.lastTime">{{item.lastTime|formatTime}}</span>
-          {{item.status|orderStatus}}
+            <span >{{item.status|orderStatus}}</span> 
+            <span v-show="item.returnStatus">-{{item.returnStatus|returnStatusText}}</span> 
         </div>
     </div>
     <div class="content">

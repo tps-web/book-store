@@ -1,5 +1,16 @@
 import { setToken, getToken } from '@/utils/authcookie'
-import { saveCart, getCartList, removeByCartId, saveAddress, getAddress, updateAddress, getCouponHistory, isRendOrder, getOrderType } from '@/api'
+import {
+    saveCart,
+    getCartList,
+    removeByCartId,
+    saveAddress,
+    getAddress,
+    updateAddress,
+    getCouponHistory,
+    isRendOrder,
+    getOrderType,
+    getAllDataByType
+} from '@/api'
 // var info = JSON.parse(getToken())
 import { formatAddress } from '@/utils'
 import {
@@ -150,13 +161,17 @@ export default {
     },
     //待支付数目
     wraitPayTotal({ state, commit }) {
-        // 0->待付款；1->待发货；2->待收货；3->待评价
-        // TabTotal: {
-        //     wraitTotal: 0,
-        //     wraitRentTotal: 0,
-        //     receiveTotal: 0
-        //      returnTotal:0
-        // }
+        getAllDataByType('自动关闭订单时间').then(res => {
+                state.timeData = res.data.rows[0].dataContent
+                    // console.log(res.data.rows[0].dataContent)
+            })
+            // 0->待付款；1->待发货；2->待收货；3->待评价
+            // TabTotal: {
+            //     wraitTotal: 0,
+            //     wraitRentTotal: 0,
+            //     receiveTotal: 0
+            //      returnTotal:0
+            // }
         let op = { curPage: 1, orderType: 0, pageRows: 1, status: 0 }
         getOrderType(op).then(res => {
             // console.log(res.data.total)

@@ -74,6 +74,7 @@
 <script>
 import selectGoods from './goodsList'
 import {getOrderDesc,updateOrder,removeOrder,wxPay,updateStatusById} from '@/api'
+import { mapState } from 'vuex'
 
 export default {
   components:{
@@ -102,13 +103,15 @@ export default {
                this.computedLastPayTime()
            }
       })
-    
   },
   mounted(){
   if (window.history && window.history.pushState) {
     history.pushState(null, null, document.URL);
     window.addEventListener('popstate', this.goBack, false);
   }
+},
+ computed:{
+    ...mapState(['timeData']),
 },
 destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
@@ -159,7 +162,7 @@ destroyed(){
       computedLastPayTime(){
           var auth_timetimer = setInterval(()=>{
                let createTime = Date.parse(this.createdTime) / 1000;
-               let endTime  = createTime + 1200;
+               let endTime  = createTime + this.timeData*60;
                let clientTime = Date.parse(new Date()) / 1000;
                let lastTime = endTime - clientTime;
                let int_minute;

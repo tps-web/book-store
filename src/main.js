@@ -36,6 +36,22 @@ Vue.filter('decimals', function(value) {
     }
 })
 
+Vue.filter('returnStatusText', function(id) {
+    // 申请退款状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+    var obj = {
+        '0': '待处理',
+        '1': '退货中',
+        '2': '已完成',
+        '3': '已拒绝',
+    }
+    for (var key in obj) {
+        if (key == id) {
+            return obj[key]
+        }
+    }
+})
+
+
 Vue.filter('orderStatus', function(id) {
         var obj = {
             '-1': '全部订单',

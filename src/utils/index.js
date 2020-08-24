@@ -1,3 +1,4 @@
+import store from '@/store'
 //格式化时间
 export function formatDate(date) {
     var year = date.getFullYear();
@@ -238,7 +239,7 @@ export function formatList(data) {
     data.map((ele, index) => {
         if (ele.status == 0) {
             let createTime = Date.parse(ele.createTime) / 1000;
-            let endTime = createTime + 1200;
+            let endTime = createTime + store.state.timeData * 60;
             let clientTime = Date.parse(new Date()) / 1000;
             let lastTime = endTime - clientTime;
             if (lastTime > 0) {
