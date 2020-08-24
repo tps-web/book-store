@@ -67,8 +67,9 @@ export default {
   methods:{
 	onChange(active){
 		// console.log(active)
-		this.curPage=0
-	    this.onLoad();
+      this.curPage=0
+      this.finished=false
+	    this.onRefresh();
 	},
 	getItem(){
 		// console.log(that.activeName)
@@ -84,6 +85,7 @@ export default {
 	},
 	onRefresh(){
        that.curPage=0
+       this.list=[]
         // 清空列表数据
         this.finished = false;
         // 重新加载数据

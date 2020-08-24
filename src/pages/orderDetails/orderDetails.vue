@@ -73,7 +73,7 @@
 
 <script>
 import selectGoods from './goodsList'
-import {getOrderDesc,updateOrder,removeOrder,wxPay} from '@/api'
+import {getOrderDesc,updateOrder,removeOrder,wxPay,updateStatusById} from '@/api'
 
 export default {
   components:{
@@ -170,7 +170,7 @@ destroyed(){
              } else {
                  this.lastPayTime='支付时间超时'
                  let op = { id: this.listItem.id, status: 5 }
-                 updateOrder(op).then(res=>{
+                 updateStatusById(op).then(res=>{
                     //  console.log(res)
                     this.listItem.status=5
                  })

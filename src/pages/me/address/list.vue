@@ -4,7 +4,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <div class="noData" v-if="!shippingAddress.length">
         <van-image width="120"  :src="require('../../../assets/images/noCart.png')" />
-        <div style="margin-left: 10px">暂无相关纪录~</div>
+        <div style="margin-left: 10px">暂无我的地址~</div>
       </div>
     <div class="bigBox" v-else>
      <div class="box" v-for="(item,index) in shippingAddress" :key="index">
@@ -44,7 +44,7 @@ export default {
   methods: {
     ...mapActions(['getALLAddressList']),
     onAdd() {
-      Toast('新增地址');
+      // Toast('新增地址');
       this.$router.push('/edit')
     },
     onEdit(item, index) {
@@ -61,12 +61,13 @@ export default {
     },
     onRefresh(){
        setTimeout(() => {
+         this.getALLAddressList()
         Toast('刷新成功');
         this.isLoading = false;
-      }, 1000);
+      }, 800);
     }
   },
-};
+};  
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

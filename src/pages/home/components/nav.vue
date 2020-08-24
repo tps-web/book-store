@@ -4,7 +4,7 @@
               :border="false">
       <van-grid-item v-for="(nav,index) in navList"
          :key="index"
-         icon="photo-o"
+         :icon="nav.icon"
          :text="nav.name"
          @click="gotoCategory(nav)" to=""/>
     </van-grid>

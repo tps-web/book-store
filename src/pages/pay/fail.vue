@@ -24,6 +24,10 @@
           <van-button type="default" @click="goOrder">查看订单</van-button>
           <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
     </div>
+     <div class="btn"  v-show="orderType==2">
+          <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
+          <van-button type="default" style="margin-left:30px" @click="gozVip">返回我的会员</van-button>
+     </div>
   </div>
 </template>
 
@@ -49,7 +53,10 @@ export default {
      },
      goOrder(){
       this.$router.push(`/orderDetails/${sessionStorage.getItem('orderId')}`)
-     }
+     },
+     gozVip(){
+      this.$router.push(`/zVip`)
+    },
    },
    filters:{
      payWay(payType){

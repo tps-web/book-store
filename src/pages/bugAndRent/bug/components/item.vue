@@ -65,7 +65,7 @@
 
 <script>
 var that,int_minute,lastTime
-import {getOrderType,updateOrder,removeOrder,wxPay} from '@/api'
+import {getOrderType,updateOrder,removeOrder,wxPay,updateStatusById} from '@/api'
 import {formatList} from '@/utils'
 import {orderMixin} from '../../mixins/mixins'
 
@@ -143,6 +143,7 @@ export default {
           //  console.log(res.data.item)
            var op =JSON.stringify(res.data.item)
            sessionStorage.setItem('orderId',this.payItem.id)
+           sessionStorage.setItem('orderType',0)
            window.android.androidToPay(op);    //js 调用android
         })
     },
@@ -154,7 +155,7 @@ export default {
             switch (item.status) {
                 case 0:
                     console.log('待付款')
-                    console.log(item)
+                    // console.log(item)
                     this.show=true
                     this.payItem=item
                     break;
@@ -196,7 +197,7 @@ export default {
 	          }else{
               if(this.list[i].status===0){
                   let op = { id: that.list[i].id, status: 5 }
-                   updateOrder(op).then(res=>{
+                   updateStatusById(op).then(res=>{
                      this.list[i].status=5
                    })
               }
@@ -228,7 +229,7 @@ export default {
                     showCancelButton: true //展示取水按钮
                 })
                 .then(() => { //点击确认按钮后的调用
-                    updateOrder(op).then(res => {
+                    updateStatusById(op).then(res => {
                         item.status = 5
                         item.lastTime=0
                         this.$toast('取消成功')

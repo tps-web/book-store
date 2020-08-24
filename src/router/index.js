@@ -58,7 +58,7 @@ const router = new Router({
             component: () =>
                 import ('@/pages/me/address/list'),
             meta: {
-                title: "地址"
+                title: "我的地址"
             }
         },
         {

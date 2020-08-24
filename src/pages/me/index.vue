@@ -1,13 +1,17 @@
 <template>
   <div class="me">
     <div class="top">
-      <!-- <van-icon name="arrow-left" size="30" class="icon"/> -->
+      <!-- <van-icon name="arrow-left" size="30" class="icon"/>   -->
       <div class="user_mess">
          <van-image
            round
            :src="userInfo.userHead"
            class="avater"
-         />
+         >
+          <!-- <div class="o" style="position: absolute;bottom: 2px;right: 4px;">
+            <img src="../../assets/images/isvipIcon.png" alt="" style="width:20px"/>
+          </div> -->
+         </van-image>
        <div class="name">{{userInfo.userNickName}}</div>
       </div>
     </div>
@@ -16,27 +20,37 @@
       <div class="box">
         <div @click="gourl('0/1-b')">
               <van-image :src="require('../../assets/images/dfk.png')" class="bgImg">
-                 <div class="van-info" v-show="wraitPayNum">{{wraitPayNum}}</div>
+                 <div class="van-info" v-show="TabTotal.wraitTotal">{{TabTotal.wraitTotal}}</div>
                </van-image>
             <div class="box_name">待付款</div>
         </div>
           <div  @click="gourl('0/1-c')">
-            <van-image :src="require('../../assets/images/dfh.png')" class="bgImg" />
+            <van-image :src="require('../../assets/images/dfh.png')" class="bgImg" >
+                 <div class="van-info" v-show="TabTotal.wraitRentTotal">{{TabTotal.wraitRentTotal}}</div>
+            </van-image>
             <div class="box_name">待发货</div>
         </div>
          <div  @click="gourl('0/1-d')">
-            <van-image :src="require('../../assets/images/dsh.png')" class="bgImg" />
+            <van-image :src="require('../../assets/images/dsh.png')" class="bgImg" >
+                 <div class="van-info" v-show="TabTotal.receiveTotal">{{TabTotal.receiveTotal}}</div>
+            </van-image>
             <div class="box_name">待收货</div>
         </div>
          <div  @click="gourl('1/b')">
-            <van-image :src="require('../../assets/images/dgh.png')" class="bgImg" />
+            <van-image :src="require('../../assets/images/dgh.png')" class="bgImg" >
+                 <div class="van-info" v-show="TabTotal.receiveTotal">{{TabTotal.returnTotal}}</div>
+            </van-image>
             <div class="box_name">待归还</div>
         </div>
          <div  @click="gourl('0/1-e')">
             <van-image :src="require('../../assets/images/dpj.png')" class="bgImg" />
             <div class="box_name">待评价</div>
         </div>
-          
+           <!-- // TabTotal: {
+        //     wraitTotal: 0,
+        //     wraitRentTotal: 0,
+        //     receiveTotal: 0
+        // } -->
       </div>
       <!-- <div class="box" v-for="(item,index) in user_group" :key="index" @click="gourl(item)">
            <van-image :src="item.bgImg" class="bgImg">
@@ -48,10 +62,10 @@
      <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="userInfo.memberFlag!=0?'/zVip':'/vip'"  class="vip" />
      <!-- <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="memberInfo!=null?'/zVip':'/vip'"  class="vip" /> -->
     <div class="setting_group">
-      <van-cell  value="帮助中心"   is-link  :icon="require('../../assets/images/help.png')" to="/help" size="large" />
       <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" size="large" />
       <van-cell  value="优惠券"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" size="large" />
       <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" size="large"  />
+      <van-cell  value="关于"   is-link  :icon="require('../../assets/images/help.png')" to="/help" size="large" />
     </div>
     <!-- <button @click="test">测试{{userInfo.memberFlag}}</button> -->
   <navigate/>
@@ -68,7 +82,7 @@ export default {
   },
   computed:{
      ...mapState(['userInfo','memberInfo']),
-     ...mapGetters({wraitPayNum:'wraitPayTotal'})
+     ...mapGetters({TabTotal:'TabTotal'})
   },
   components:{
   },
@@ -76,8 +90,8 @@ export default {
    
   },
   created(){
-     let op={curPage:1,orderType:0,pageRows:1,status:0}
-     this.wraitPayTotal(op)
+    //  let op={curPage:1,orderType:0,pageRows:1,status:0}
+     this.wraitPayTotal()
   },
   methods:{
     ...mapActions(['wraitPayTotal']),

@@ -124,7 +124,7 @@ export default {
         getCouponHistory(op).then(res=>{
             this.total=res.data.total
             this.rows=res.data.rows
-            console.log(this.rows)
+            // console.log(this.rows)
             if(that.curPage==1){
                 this.getCouponList=res.data.rows
             }else{ 
@@ -151,6 +151,7 @@ export default {
        //刷新
      onRefresh() {
             this.curPage=0
+            this.getCouponList=[]
             // 清空列表数据
             this.finished = false;
             // 重新加载数据

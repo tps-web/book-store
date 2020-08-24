@@ -166,11 +166,11 @@ export default {
               this.$toast('有订单未归还，请归还后再借')
             }else{
             //不存在待归还  可以借书
-             if(this.checkedNum&&this.checkedNum<5){
+             if(this.checkedNum&&this.checkedNum<=5){
                   this.$toast('需要租5本起')
                 }else if(!this.checkedNum){
                   this.$toast('没有勾选商品')
-                }else if(this.checkedNum&&this.checkedNum>8){
+                }else if(this.checkedNum&&this.checkedNum>=8){
                   this.$toast('租借不能超过8本')
                 }else{
                   this.$router.push('/rentOrder')
@@ -185,7 +185,6 @@ export default {
     //点击购买按钮
      goBug(){
       if(this.checkedNum){
-        //  this.$toast('买书')
          this.$router.push('/order')
       }else{
          this.$toast('没有勾选')

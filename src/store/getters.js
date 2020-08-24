@@ -13,7 +13,7 @@ export default {
         })
     },
     getCouponTotal: state => state.couponTotal,
-    wraitPayTotal: state => state.wraitPayTotal,
+    TabTotal: state => state.TabTotal,
     SELECTED_GOODS_PRICE(state) {
         let totalPrice = 0;
         Object.values(state.shopCart).forEach((goods, index) => {

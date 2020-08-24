@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="contentBox">
       <van-cell  v-for="(item,index) in list" :value="item.dataType" :key="index" @click="goDesc(item)"/>
   </div>
 </template>
@@ -28,5 +28,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.contentBox{
+  padding: 8px;
+}
 </style>

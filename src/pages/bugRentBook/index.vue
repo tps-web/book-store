@@ -28,6 +28,7 @@ import goodList from './goodList'
 import Coupon from './coupon'
 import pay from '@/components/pay/index'
 import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
+import {formatBugGoods} from '@/utils'
 export default {
    components:{
      goodList,
@@ -58,7 +59,7 @@ export default {
             return totalNum
         }
     },
-    //应付金额  减去优惠券
+    //应付金额  减去优惠券 
     payAmount(){
          if(this.newList){
             var paytotalNum=0
@@ -100,6 +101,7 @@ export default {
       this.isShow=!this.isShow
     },
     bayBug(){
+      console.log(formatBugGoods(this.newList))
       this.isShow=true
     },
     //选择优惠券

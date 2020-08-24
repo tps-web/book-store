@@ -52,7 +52,7 @@
                   </van-radio>
               </div> -->
             </van-radio-group>
-             <van-button type="primary" size="large" round class="payBtn" @click="payBtn">确定</van-button>
+             <van-button type="primary" size="large" round class="payBtn" @click="payBtn" :disabled="isDisable">确定</van-button>
              <van-button type="danger" size="large" round class="payBtn" @click="payCancel">取消</van-button>
          </van-popup>
   </div>
@@ -93,9 +93,8 @@ export default {
        radio:'wxpay',
        newList:'',  //格式商品对象格式
        payList:'', // 提交数据
+       isDisable:false
     }
-  },
-  created(){
   },
   mounted(){
     // window.onresize监听页面高度的变化
@@ -126,6 +125,7 @@ export default {
     ...mapActions(['getCartList']),
     //取消支付
     payCancel(){
+      this.payShow=false
       this.payList.payType=0  //支付方式：0->未支付；1->支付宝；2->微信
       this.payList.status=0,   //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单
       // console.log(this.payList)
@@ -141,21 +141,24 @@ export default {
     //支付
     payBtn(){
       if(this.radio=='wxpay'){
-        //  this.$toast('微信支付')  
+          // this.$toast('微信支付')
          this.payList.payType=2
          this.payList.status=0 
           postOrder(this.payList).then(res=>{
+               this.payShow=false
               // console.log(res.data.item.orderSn)
               sessionStorage.setItem('orderId',res.data.item.id)
+              sessionStorage.setItem('orderType',res.data.item.orderType)
               wxPay(res.data.item.orderSn).then(res=>{ 
+              var op =JSON.stringify(res.data.item)
                 window.android.androidToPay(op);
-                this.payShow=false
+                // this.getCartList()
               })
           })
       }else{
         //  this.$toast('支付宝支付')
          this.payList.payType=1
-         console.log(this.payList)
+        //  console.log(this.payList)
       }
       // this.$router.replace('/success')
     },
@@ -246,6 +249,7 @@ export default {
   },
   created(){
     that=this
+    // console.log(this.goods)
     // var couponList=formatCoupon(this.coupon)
     // console.log(this.clearedNum)
     // this.usableArr=couponList.usableArr

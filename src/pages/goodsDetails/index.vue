@@ -40,17 +40,17 @@
       <div class="desTitle">商品简介</div>
        <!-- 简介 -->
        <Introduce  :introduction="introduction" v-if="introduction.introduction"/>
-        <div class="descBox">
+        <!-- <div class="descBox">
           <div class="p">纸张:{{goodsInfo.usingPaper}}</div>
           <div class="p">格式：{{goodsInfo.format}}</div>
           <div class="p">包装：{{goodsInfo.packing}}</div>
           <div class="p">页数：{{goodsInfo.pageCount}}</div>
-          <div class="p">出版社：{{goodsInfo.press}}</div>
+          <div class="p1">出版社：{{goodsInfo.press}}</div>
           <div class="p">出版时间：{{goodsInfo.publicationTime}}</div>
-          <!-- <div class="p">国际标准书号:{{goodsInfo.originalIsbn}}</div> -->
           <div class="p">语言：{{goodsInfo.textLanguage}}</div>
           <div class="p">重量：{{goodsInfo.weight}}</div>
-       </div>
+       </div> -->
+          <!-- <div class="p">国际标准书号:{{goodsInfo.originalIsbn}}</div> -->
        <!-- 评论 -->
        <Comment :commentList="commentList" :bookId="bookId"  v-if="commentList"/>
        <!-- 推荐 -->
@@ -279,16 +279,24 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  border-top: 1px solid #000;
-  border-left: 1px solid #000;
+  /* border-top: 1px solid #000; */
+  /* border-left: 1px solid #000; */
   /* border-bottom: 1px solid #000; */
+  overflow: hidden;
+}
+.p1{
+   width: 100%;
+   text-align: left;
+   padding: 4px 0;
+   /* border-right: 1px solid #000; */
+   /* border-bottom: 1px solid #000; */
 }
 .p{
   width: 49.5%;
   text-align: left;
   padding: 4px 0;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  /* border-right: 1px solid #000; */
+  /* border-bottom: 1px solid #000; */
 }
 .desTitle{
     width:94%;

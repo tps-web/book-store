@@ -134,6 +134,28 @@ export function formatGoods(list) {
     return newData
 }
 
+// 过滤买断的商品  修改key 值
+export function formatBugGoods(list) {
+    // console.log(list)
+    var newData = []
+    list.map((ele) => {
+        newData.push({
+            bookId: ele.id, //书籍编号
+            // cartItemId: ele.cartId, //购物车的记录编号
+            bookIsbn: ele.bookIsbn, //书籍的ISBN  
+            bookName: ele.name, //书籍名称
+            bookPic: ele.smallImage, //书籍封面图
+            bookPrice: ele.price, //销售价格
+            bookQuantity: ele.bookQuantity, //	购买数量
+            promotionAmount: 0, // 数据促销分解金额
+            realAmount: ele.price, //该商品经过优惠后的分解金额
+            couponAmount: 0, //优惠券优惠分解金额
+        })
+    })
+    return newData
+}
+
+
 //订单状态  借书
 export function rentStatus(val) {
     var obj = {

@@ -14,7 +14,7 @@
            <div class="yuan">
              <span class="font">正</span>
            </div>
-           <div style="margin-top:6px;font-size:12px">正片保证</div>
+           <div style="margin-top:6px;font-size:12px">正版保证</div>
          </van-grid-item>
           <van-grid-item  >
            <div class="yuan">
@@ -30,9 +30,9 @@
          </van-grid-item>
           <van-grid-item  >
            <div class="yuan">
-             <span class="font">正</span>
+             <span class="font">限</span>
            </div>
-           <div style="margin-top:6px;font-size:12px">正片保证</div>
+           <div style="margin-top:6px;font-size:12px">限时免押金</div>
          </van-grid-item>
         </van-grid>
      </div>

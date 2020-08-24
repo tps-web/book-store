@@ -11,8 +11,8 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'https://huisn.com.cn/bk/', // 需要跨域请求的地址或者IP
-                // target: 'http://192.168.1.109:8110/book', // 需要跨域请求的地址或者IP
+                // target: 'https://huisn.com.cn/bk/', // 需要跨域请求的地址或者IP
+                target: 'http://192.168.1.109:8110/book', // 需要跨域请求的地址或者IP
                 changeOrigin: true, //  表示是否跨域
                 pathRewrite: {
                     '^/api': '' // 表示需要rewrite重写的
@@ -20,9 +20,9 @@ module.exports = {
             }
         },
 
-        host: '192.168.1.112', // can be overwritten by process.env.HOST
+        // host: '192.168.1.112', // can be overwritten by process.env.HOST
         // Various Dev Server settings
-        // host: '192.168.1.213', // can be overwritten by process.env.HOST
+        host: '192.168.1.213', // can be overwritten by process.env.HOST
         // host: 'localhost', // can be overwritten by process.env.HOST
         port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,

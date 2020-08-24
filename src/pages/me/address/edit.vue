@@ -121,7 +121,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  scoped>
- .van-button--danger{
+ /deep/ .van-button--danger{
+   /* position:absolute;
+   bottom: 0;
+   left: 0; */
     color: #000;
     background-color: rgba(255,205,1,1)!important;
     border: 1px solid rgba(255,205,1,1)!important;

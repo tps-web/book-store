@@ -34,7 +34,7 @@
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-if="item.status==3">续  约</van-button> -->
-       <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button>
+       <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getOrderType, updateOrder, removeOrder } from '@/api'
+import { getOrderType, updateOrder, removeOrder,updateStatusById } from '@/api'
 import {orderMixin} from '../../mixins/mixins'
 var that
 export default {
@@ -76,7 +76,7 @@ export default {
                     showCancelButton: true //展示取水按钮
                 })
                 .then(() => { //点击确认按钮后的调用
-                    updateOrder(op).then(res => {
+                    updateStatusById(op).then(res => {
                         item.status = 5
                         this.$toast('取消成功')
                     })
@@ -185,6 +185,7 @@ export default {
       },
      // 上拉刷新
       onRefresh() {
+            that.list=[]
             that.curPage=0
             // 清空列表数据
             this.finished = false;

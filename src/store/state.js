@@ -28,5 +28,11 @@ export default {
     //会员信息
     memberInfo: '',
     isRendOrder: '',
-    wraitPayTotal: 0 //待支付数码
+    // wraitPayTotal: 0 //待支付数码
+    TabTotal: {
+        wraitTotal: 0,
+        wraitRentTotal: 0,
+        receiveTotal: 0,
+        returnTotal: 0
+    }
 }

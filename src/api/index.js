@@ -220,6 +220,15 @@ export function updateOrder(data) {
     })
 }
 
+//  修改订单状态 /order/updateStatusById/{id}/{status}
+export function updateStatusById(data) {
+    return request({
+        url: `/order/updateStatusById/${data.id}/${data.status}`,
+        method: 'put',
+    })
+}
+
+
 //  删除订单  /order/removeById/{ids}
 export function removeOrder(ids) {
     return request({

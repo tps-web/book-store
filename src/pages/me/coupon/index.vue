@@ -73,25 +73,25 @@ export default {
   created(){
      that=this
       // this.couponList=formatCoupon(this.coupon)
-       this.getFollowPage()
+       that.getFollowPage()
   },
   mounted(){
   },
   methods:{
     goBug(useStatus){
       if(useStatus==0){
-          this.$router.push('/')
+          that.$router.push('/')
        }
     },
     getFollowPage(){
           let op={curPage:that.curPage,pageRows:that.pageRows}
         getCouponHistory(op).then(res=>{
-            this.total=res.data.total
-            this.rows=res.data.rows
+            that.total=res.data.total
+            that.rows=res.data.rows
             if(that.curPage==1){
-                this.getCouponList=res.data.rows
+                that.getCouponList=res.data.rows
             }else{ 
-                that.getCouponList = this.getCouponList.concat(res.data.rows)
+                that.getCouponList = that.getCouponList.concat(res.data.rows)
             }
         })
         // let op={
@@ -102,29 +102,30 @@ export default {
      },
     onLoad() {
         setTimeout(() => {
-            if (this.isLoading) {
-                 this.isLoading = false;
+            if (that.isLoading) {
+                 that.isLoading = false;
             }
-            this.curPage++
-            this.getFollowPage()
-            this.loading = false;
-             if (this.rows.length===0) {
-               this.finished = true;
+            that.curPage++
+            that.getFollowPage()
+            that.loading = false;
+             if (this.rows.length==0) {
+               that.finished = true;
             }
             // if (this.list.length >= this.total) {
             //    this.finished = true;
             // }
-        }, 500);
+        }, 800);
        },
        //刷新
      onRefresh() {
-         this.curPage=0
+            that.curPage=0
+            that.getCouponList=[]
             // 清空列表数据
-            this.finished = false;
+            that.finished = false;
             // 重新加载数据
             // 将 loading 设置为 true，表示处于加载状态
-            this.loading = true;
-            this.onLoad();
+            that.loading = true;
+            that.onLoad();
      },
   },
   filters:{

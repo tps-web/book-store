@@ -16,7 +16,7 @@
 
 <script>
 import {getChildCategoryBookList} from '@/api'
-import goods from '@/components/goodsItem/item'
+import goods from './itemGoods'
 var that 
 export default {
     components:{
@@ -53,6 +53,7 @@ export default {
       },
       onRefresh(){
         that.curPage=0
+        this.list=[]
         // 清空列表数据
         this.finished = false;
         // 重新加载数据

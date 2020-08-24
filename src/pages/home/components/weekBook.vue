@@ -4,7 +4,7 @@
     	<span class="tit_left">{{weekItem.indexName}}</span>
     	<span class="tit_move" @click="goMove">更多</span>
     </div>
-    <van-swipe :loop="false"  :show-indicators='false' class="box">
+    <van-swipe :loop="false"  :show-indicators='false' class="box" :width="375">
         <van-swipe-item v-for="(item,index) in weekItem.data.records" :key="index" @click="goGoodsDesc(item.id)" class="swipeBox">
             <div class="item">
               <div class="boxImg">
@@ -72,16 +72,17 @@ export default {
 	color:rgba(153,153,153,1);
 }
 .box{
-  /* width: 95%; */
+  width: 95%;
   width: 100%;
   margin: 6px auto;
   overflow: hidden;
 }
 .item{
+    width: 88%;
     padding: 6px;
     display:flex;
     /* box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1); */
-    margin: 0 5px;
+    margin: 0 2px;
     border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.1);
     /* border: 1px solid red; */
@@ -146,8 +147,5 @@ export default {
   margin-left : auto;
   margin-right : auto;
   margin: auto;
-}
-.swipeBox{
-  width: 360px!important;
 }
 </style>

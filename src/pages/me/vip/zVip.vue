@@ -71,7 +71,6 @@ export default {
     border-radius: 14px;
 }
 .c{
-    width: 120px;
     margin: 0px auto;
 }
 .btn{
@@ -88,6 +87,7 @@ export default {
     width: 78px;
     height: 78px;
     margin-top: 30px;
+    border: 1px solid rgba(255,255,255,1);
 }
 .msg{
     margin-top: 5px;
@@ -96,7 +96,7 @@ export default {
     font-weight:500;
 }
 .date{
-    margin-top: 5px;
+    margin-top: 4px;
     font-size: 12px;
 }
 .xuzhi{

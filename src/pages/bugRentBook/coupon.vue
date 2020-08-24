@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="closeBox">
-          <span v-show="total" style="color:#ccc">点击关闭不使用优惠券{{goodsTotal}}</span>
+          <span v-show="total" style="color:#ccc">点击关闭不使用优惠券</span>
          <van-icon name="close" size="24" class="close" @click="closeBtn"/>
     </div>
      <!-- <headerNav title="优惠券"/> -->

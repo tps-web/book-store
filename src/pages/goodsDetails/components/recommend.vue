@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-      <headline headline="商品推荐" />
+      <headline headline="商品推荐" class="tit"/>
       <goodsItem  :list="6" :listItem="recommendlist" />
   </div>
 </template>
@@ -26,5 +26,8 @@ export default {
 <style scoped>
 .content{
   margin-top: 20px;
+}
+.tit{
+  margin-bottom: 10px;
 }
 </style>

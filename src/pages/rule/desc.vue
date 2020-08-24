@@ -29,5 +29,6 @@ export default {
 .box{
   text-align: left;
   text-indent:24px;
+  padding: 10px;
 }
 </style>
