@@ -205,7 +205,7 @@ destroyed(){
     goPay(item){
         //去付款
         this.item=item
-        console.log(item)
+        // console.log(item)
         this.show=true
         //  window.android.androidToPay(JSON.stringify(item));  //js 调用android
     },

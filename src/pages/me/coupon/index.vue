@@ -10,7 +10,7 @@
        >
       <div class="noData" v-show="finished&&total==0">
         <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
-        <div style="margin-left: 10px;color:#999">暂无优惠券~</div>
+        <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
       <div>
       <div class="box" v-for="(item,index) in getCouponList" :key="index">

@@ -71,12 +71,12 @@ export const orderMixin = {
                 .then(() => { //点击确认按钮后的调用
                     removeOrder(item.id).then(res => {
                         this.$toast('删除成功')
-                            // this.reload();
-                        this.list.forEach((ele, index, array) => {
-                            if (ele.id == item.id) {
-                                array.splice(ele, 1)
-                            }
-                        })
+                        this.reload();
+                        // this.list.forEach((ele, index, array) => {
+                        //     if (ele.id == item.id) {
+                        //         array.splice(ele, 1)
+                        //     }
+                        // })
                     })
                 })
                 .catch(() => { //点击取消按钮后的调用
