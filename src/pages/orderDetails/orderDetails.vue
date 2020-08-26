@@ -93,7 +93,7 @@ export default {
   },
   created(){
       getOrderDesc(this.$route.params.id).then(res=>{
-          console.log(res.data.item)
+        //   console.log(res.data.item)
           this.goodsList=res.data.item.list
           this.listItem=res.data.item
              var statusText=this.getStatus(this.listItem.status)
@@ -147,7 +147,7 @@ destroyed(){
       confirm(){
         let op={id:this.item.id,payType:this.radio}
         updateOrder(op).then(res=>{
-            console.log(res)
+            // console.log(res)
         })
         wxPay(this.listItem.orderSn).then(res=>{
             var op =JSON.stringify(res.data.item)

@@ -22,7 +22,8 @@ import {
     COUPON_TOTAL,
     FREIGHT,
     GETMEMBERINFO,
-    ISRENDORDER
+    ISRENDORDER,
+    ISPOPPASS
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -209,5 +210,9 @@ export default {
     //是否存在待归还
     [ISRENDORDER](state, total) {
         state.isRendOrder = total
+    },
+    //修改首页弹出框
+    [ISPOPPASS](state, isTrue) {
+        state.isPopPass = isTrue
     }
 }

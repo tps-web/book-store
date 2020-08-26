@@ -9,7 +9,7 @@
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
 export default {
    props:{
     bannerItem:{
@@ -24,14 +24,25 @@ export default {
   created(){
     this.bannerList=this.bannerItem.data
   },
+  computed:{
+    ...mapState(['userInfo'])
+  },
   methods:{
-    gourl(item){
+    gourl(item){ 
       // console.log(item)
       if(item.targetType==0){
         //故事
         this.$router.push(`/goodsDetails/${item.target}`)
+      }else if(item.targetType==1){
+        //活动  
+        this.$router.push(item.target)
+        //  if(item.target=='/vip'){
+        //      var strRouter=this.userInfo.memberFlag==0?'/vip':'/zVip'
+        //      this.$router.push(`strRouter`)
+        //  }
       }else{
-        //活动
+        // 外部链接
+         window.location.href=item.target
       }
     }
   }

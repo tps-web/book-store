@@ -16,22 +16,29 @@
            v-show="isShowEmptyCart">
         <div class="" v-for="(item,index) in getShopCart" :key="index">
        <section>
-         <div class="shopCartListCon">
+         <div class="shopCartListCon" >
             <div class="left">
                 <a href="javaScript:;"
                   :checked="item.checked"
                    class="cartCheckBox"
                    @click.stop="single(item.id)"></a>
             </div>
-            <div class="center" @click="godesc(item)">
+            <div class="center" @click="godesc(item)" >
                 <img  :src="item.smallImage" class="goodsImg">
             </div>
-            <div class="right" @click="godesc(item)">
+            <div class="right" >
                 <div class="bookName">{{item.name}}</div>
                  <div style="display:inline-block;color:red;margin-top:8px" v-show="item.price"><span>￥</span><span class="num">{{item.price|decimals}}</span></div>
                    <div :class="[item.rebatePrice?'show_decoration':'noshow']"  v-show="item.rebatePrice">
                       <span>￥{{item.allPrice|decimals}}</span>
-                   </div>
+                 </div>
+                 <!-- <div class="shopDeal">
+                     <span @click="reduceGoods(item)">-</span>
+                       <input type="number"
+                           disabled
+                           v-model="item.bookQuantity">
+                     <span @click="addGoods(item)">+</span>
+                 </div> -->
                 <!-- <div class="bookPrice">
                   <div style="display:inline-block;text-decoration: line-through;margin-right:4px;font-size:14px" v-show="item.rebatePrice">
                     <span style="font-size:12px;margin-right:2px;">￥</span>{{item.allPrice}}</div>
@@ -140,6 +147,12 @@ export default {
   methods:{
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
    ...mapActions(['deleteGoods']),
+   reduceGoods(item){
+      console.log(item)
+   },
+   addGoods(item){
+      console.log(item)
+   },
     godesc(item){
       // console.log(item)
       this.$router.push(`/goodsDetails/${item.id}`)
@@ -162,7 +175,7 @@ export default {
         //不等于0 为会员
         // 判断是否存在待归还
            if(this.getRentOrder>0){
-           //存在
+           //存在    
               this.$toast('有订单未归还，请归还后再借')
             }else{
             //不存在待归还  可以借书
@@ -364,5 +377,26 @@ section {
 }
 .noshow{
   font-size: 14px;
+}
+.shopDeal{
+  display: flex;
+  position: absolute;
+  right: 10px;
+}
+ .shopDeal span {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+.shopDeal input {
+    float: left;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-size: 12px;
+    background-color: #f5f5f5;
+    border: 0;
 }
 </style>

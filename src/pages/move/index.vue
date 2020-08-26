@@ -6,6 +6,7 @@
 
 <script>
 import Tab from '@/components/tab/index'
+// import Tab from '../category/components/contentView'
 import {listByParentId} from '@/api'
 export default {
   components:{

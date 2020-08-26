@@ -29,11 +29,12 @@
           </div>
        </div>
     </div>
+    <div class="expireTime" v-show="item.receiveTime!=null&&item.status===3">借阅时间为：{{item.beginTime}} 至 {{item.expireTime}}</div>
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
-       <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  约</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
@@ -45,10 +46,11 @@
 </template>
 
 <script>
-import { getOrderType, updateOrder, removeOrder,updateStatusById } from '@/api'
+import { getOrderType, updateOrder, removeOrder,updateStatusById,saveTerm } from '@/api'
 import {orderMixin} from '../../mixins/mixins'
 var that
 export default {
+   inject: ["reload"], //注入reload方法
     props:['status'],
     mixins: [orderMixin],
     data () {
@@ -60,6 +62,23 @@ export default {
        this.getItem()
   },
   methods:{
+    confim(item) {
+            let op = { id: item.id, status: 3}
+            this.$dialog.alert({
+                    message: "是否确定收货？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    updateStatusById(op).then(res => {
+                        item.status = 3
+                          this.reload()
+                        this.$toast('确定成功')
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+        },
       //买断
       goBug(item){
         // console.log(item)
@@ -67,7 +86,22 @@ export default {
       },
       //续约
       goterm(item){
-          console.log(item)
+          // console.log(item.orderSn)
+           this.$dialog.alert({
+                    message: "是否要续约多30天？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    let op={orderSn:item.orderSn,termType:0}
+                    saveTerm(op).then(res=>{
+                      //  console.log(res)
+                      this.$toast('续约成功')
+                      this.reload()
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
       },
       cancel(item) {
             let op = { id: item.id, status: 5 }
@@ -303,5 +337,10 @@ export default {
 .right_icon{
   position: relative;
   top: 2px;
+}
+.expireTime{
+  text-align: left;
+  font-size: 12px;
+  margin-left: 10px;
 }
 </style>

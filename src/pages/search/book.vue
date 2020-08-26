@@ -28,6 +28,7 @@ export default {
     }
   },
   created(){
+    // console.log(this.list)
   },
   methods:{
     // ...mapMutations(['ADD_TO_CART']),

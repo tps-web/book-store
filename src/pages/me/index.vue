@@ -38,7 +38,7 @@
         </div>
          <div  @click="gourl('1/b')">
             <van-image :src="require('../../assets/images/dgh.png')" class="bgImg" >
-                 <div class="van-info" v-show="TabTotal.receiveTotal">{{TabTotal.returnTotal}}</div>
+                 <div class="van-info" v-show="TabTotal.returnTotal">{{TabTotal.returnTotal}}</div>
             </van-image>
             <div class="box_name">待归还</div>
         </div>
@@ -65,7 +65,7 @@
       <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" size="large" />
       <van-cell  value="优惠券"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" size="large" />
       <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" size="large"  />
-      <van-cell  value="关于"   is-link  :icon="require('../../assets/images/help.png')" to="/help" size="large" />
+      <van-cell  value="关于"   is-link  :icon="require('../../assets/images/help.png')"    :to="'/dataDesc/'+dataId" size="large" />
     </div>
     <!-- <button @click="test">测试{{userInfo.memberFlag}}</button> -->
   <navigate/>
@@ -74,10 +74,12 @@
 
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex'
+import {getAllDataByType} from '@/api'
 export default {
   name: 'Me',
   data () {
     return {
+      dataId:''
     }
   },
   computed:{
@@ -90,6 +92,11 @@ export default {
    
   },
   created(){
+    getAllDataByType('关于').then(res=>{
+        // console.log(res.data.rows[0].id)
+        this.dataId=res.data.rows[0].id
+    })
+    // console.log(this.TabTotal)
     //  let op={curPage:1,orderType:0,pageRows:1,status:0}
      this.wraitPayTotal()
   },

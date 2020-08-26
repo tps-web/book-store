@@ -33,7 +33,8 @@
 
 <script>
 import {getChildCategoryBookList} from '@/api'
-import goods from '@/components/goodsItem/item'
+// import goods from '@/components/goodsItem/item'
+import  goods from '@/components/RgoodsItem'
 
 var that
 export default {

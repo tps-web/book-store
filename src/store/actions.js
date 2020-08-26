@@ -172,25 +172,29 @@ export default {
             //     receiveTotal: 0
             //      returnTotal:0
             // }
+            //待支付
         let op = { curPage: 1, orderType: 0, pageRows: 1, status: 0 }
         getOrderType(op).then(res => {
-            // console.log(res.data.total)
-            state.TabTotal.wraitTotal = res.data.total
-        })
+                // console.log(res.data.total)
+                state.TabTotal.wraitTotal = res.data.total
+            })
+            //待发货
         let op1 = { curPage: 1, orderType: 0, pageRows: 1, status: 1 }
         getOrderType(op1).then(res => {
-            // console.log(res.data.total)
-            state.TabTotal.wraitRentTotal = res.data.total
-        })
+                // console.log(res.data.total)
+                state.TabTotal.wraitRentTotal = res.data.total
+            })
+            //待收货
         let op2 = { curPage: 1, orderType: 0, pageRows: 1, status: 2 }
         getOrderType(op2).then(res => {
-            // console.log(res.data.total)
-            state.TabTotal.receiveTotal = res.data.total
-        })
+                // console.log(res.data.total)
+                state.TabTotal.receiveTotal = res.data.total
+            })
+            //待归还
         let op3 = { curPage: 1, orderType: 1, pageRows: 1, status: 3 }
-        getOrderType(op2).then(res => {
+        getOrderType(op3).then(res => {
             // console.log(res.data.total)
             state.TabTotal.returnTotal = res.data.total
         })
-    }
+    },
 }

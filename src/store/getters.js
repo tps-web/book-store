@@ -4,6 +4,7 @@ export default {
     getShopCart(state) {
         return state.shopCart
     },
+    isPopPass: state => state.isPopPass,
     // 是否存在待归还
     getRentOrder: state => state.isRendOrder,
     // getCouponList: state => state.coupon,

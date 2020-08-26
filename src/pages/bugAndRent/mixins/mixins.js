@@ -84,23 +84,23 @@ export const orderMixin = {
                 })
         },
         //确定收货
-        confim(item) {
-            console.log(item)
-            let op = { id: item.id, status: 4, confirmStatus: 1 }
-            this.$dialog.alert({
-                    message: "是否确定收货？", //改变弹出框的内容
-                    showCancelButton: true //展示取水按钮
-                })
-                .then(() => { //点击确认按钮后的调用
-                    updateOrder(op).then(res => {
-                        item.status = 4
-                        this.$toast('确定成功')
-                    })
-                })
-                .catch(() => { //点击取消按钮后的调用
-                    // console.log("点击了取消按钮")
-                })
-        },
+        // confim(item) {
+        //     console.log(item)
+        //     let op = { id: item.id, status: 4, confirmStatus: 1 }
+        //     this.$dialog.alert({
+        //             message: "是否确定收货？", //改变弹出框的内容
+        //             showCancelButton: true //展示取水按钮
+        //         })
+        //         .then(() => { //点击确认按钮后的调用
+        //             updateOrder(op).then(res => {
+        //                 item.status = 4
+        //                 this.$toast('确定成功')
+        //             })
+        //         })
+        //         .catch(() => { //点击取消按钮后的调用
+        //             // console.log("点击了取消按钮")
+        //         })
+        // },
         goDetails(item) {
             if (item.status === 6) {
                 this.$router.replace(`/ReturnOrderDesc/${item.orderSn}`)

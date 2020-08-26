@@ -416,6 +416,24 @@ const router = new Router({
                 title: "商品列表"
             }
         },
+        {
+            path: '/ghxz',
+            name: 'ghxz',
+            component: () =>
+                import ('@/pages/rule/ghxz'),
+            meta: {
+                title: "归还须知"
+            }
+        },
+        {
+            path: '/goVip/',
+            name: 'goVip',
+            component: () =>
+                import ('@/components/goVip/index'),
+            meta: {
+                title: "vip"
+            }
+        },
     ]
 })
 

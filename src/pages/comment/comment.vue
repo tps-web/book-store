@@ -42,10 +42,11 @@ export default {
                 this.list=res.data.commentList.records
             }else{
              this.list = this.list.concat(res.data.commentList.records)
-            }
+            } 
         })
     },
     onRefresh(){
+        this.curPage=0
         // 清空列表数据
         this.finished = false;
         // 重新加载数据

@@ -25,8 +25,8 @@
           <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
     </div>
      <div class="btn"  v-show="orderType==2">
-          <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button>
-          <van-button type="default" style="margin-left:30px" @click="gozVip">返回我的会员</van-button>
+          <!-- <van-button type="default" style="margin-left:30px" @click="goHome">返回首页</van-button> -->
+          <!-- <van-button type="default" style="margin-left:30px" @click="gozVip">返回会员中心</van-button> -->
      </div>
   </div>
 </template>

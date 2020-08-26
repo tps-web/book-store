@@ -20,6 +20,7 @@
            </div>
        </div>
         <van-cell value="会员须知" is-link class="xuzhi" size="large" @click="goDesc('会员须知')"/>
+        <van-cell value="会员权益" is-link class="quanyi" size="large" @click="goDesc('会员权益')"/>
     </div>
   </div>
 </template>
@@ -102,6 +103,12 @@ export default {
 .xuzhi{
     width: 86%;
     margin: 20px auto 0;
+    border-radius: 6px;
+    box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+.quanyi{
+    width: 86%;
+    margin: 0px auto;
     border-radius: 6px;
     box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
 }

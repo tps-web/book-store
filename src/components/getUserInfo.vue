@@ -17,7 +17,7 @@ import axios from 'axios'
       message: "成功",
       data: {
       item: {
-      userId: 169,
+      userId: 211,   
       userCode: "",
       userTelphone: "18813580769",
       userPassword: "",
@@ -55,7 +55,7 @@ import axios from 'axios'
       qqUserHead: "",
       worksCount: 0,
       type: 0,
-      memberFlag:4
+      memberFlag:0
       }
   }
 }

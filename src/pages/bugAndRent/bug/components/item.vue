@@ -15,7 +15,7 @@
           <div v-show="false">{{test}}</div>
           <span v-show="item.lastTime">{{item.lastTime|formatTime}}</span>
             <span >{{item.status|orderStatus}}</span> 
-            <span v-show="item.returnStatus">-{{item.returnStatus|returnStatusText}}</span> 
+            <span v-show="item.status==6">{{item.returnStatus|returnStatusText}}</span> 
         </div>
     </div>
     <div class="content">
@@ -115,6 +115,22 @@ export default {
       this.text()
   },
   methods:{  
+     confim(item) {
+            let op = { id: item.id, status: 4}
+            this.$dialog.alert({
+                    message: "是否确定收货？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    updateStatusById(op).then(res => {
+                        item.status = 4
+                        this.$toast('确定成功')
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+        },
     // 退款
     returnId(item){
       // console.log(item)

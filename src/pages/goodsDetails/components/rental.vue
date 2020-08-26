@@ -24,9 +24,9 @@
        </div>
         <div class="top"  style="margin: 20px auto 10px">
        	 <div class="tit">归还须知</div>
-       	 <div class="more"  @click="goMore">更多</div>
+       	 <div class="more"  @click="goghxz">更多</div>
        </div>
-       <div class="bigBox" @click="goMore">
+       <div class="bigBox" @click="goghxz">
         <div class="box" >
        	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yykd.png')" />
        	 	  <div class="boxText">预约快递</div>
@@ -57,7 +57,10 @@ export default {
   methods:{
   	goMore(){
 	  this.$router.push(`/rule`)
-  	}
+	  },
+	  goghxz(){
+	    this.$router.push(`/ghxz`)
+	  }
   }
 }
 </script>

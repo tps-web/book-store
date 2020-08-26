@@ -15,7 +15,8 @@
           <span class="bookName">{{item.title}}</span></div>
         </div>
     </div>
-     <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-show="total>0">
+     <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-show="total>0"> -->
+        <nodata  v-show="total==0&&!isShow&&finished" style="margin-top:100px"/>
        <van-list
         v-model="loading"
         :finished="finished"
@@ -24,8 +25,8 @@
        >
      <bookItem :list='list' v-if="total>0"/>
       </van-list>
-    </van-pull-refresh>
-     <nodata desc='暂无数据' v-show="total==0&&!isShow" style="margin-top:100px"/>
+    <!-- </van-pull-refresh> -->
+    
   </div>
 </template>
 
@@ -48,9 +49,10 @@ export default {
        finished:false, //是否加载完
        loading:false,  //下拉
        curPage:1, //当前页面
-       pageRows:10, //请求一页有多少数据
-       list:[],  
-       total:''
+       pageRows:6, //请求一页有多少数据
+       list:'',  
+       total:'',
+       resList:''
     }
   },
   watch:{
@@ -79,6 +81,9 @@ export default {
     },
     //上拉
     onRefresh(){
+        this.curPage=0
+        this.list=[]
+        that.resList=""
       //  清空列表数据
         this.finished = false;
         // 重新加载数据
@@ -95,12 +100,19 @@ export default {
             this.curPage++
             this.getSearch()
             this.loading = false;
-            if (this.list.length >= this.total) {
-               this.finished = true;
+            // if (this.list.length >= that.total) {
+            //    this.finished = true;
+            // }
+            if(that.resList.length===0){
+              this.finished = true;
             }
         }, 1000);
      },
     onSearch(val) {
+      this.list=""
+      that.resList=""
+      this.curPage=1
+      this.finished = false;
       // this.$toast(val);
       this.getSearch()
     },
@@ -112,20 +124,21 @@ export default {
     },
     //搜索
     getSearch(){
-      if(this.value){
-        this.isShow=false
-            let op={curPage:that.curPage,pageRows:that.pageRows,keyWord:this.value}
+      if(that.value){
+        that.isShow=false
+            let op={curPage:that.curPage,pageRows:that.pageRows,keyWord:that.value}
             getHotBook(op).then(res=>{
-              console.log(res.data)
+              // console.log(res.data)
+              that.resList=res.data.rows
               that.total=res.data.total 
-              if(this.curPage==1){
-                      this.list=res.data.rows
+              if(that.curPage==1){
+                      that.list=res.data.rows
               }else{
-                  this.list.concat(res.data.rows)
+                  that.list=that.list.concat(res.data.rows)
               }
             })
       }else{
-        this.$toast('搜索内容不能为空')
+        that.$toast('搜索内容不能为空')
       }
     
     }

@@ -1,6 +1,6 @@
 <template>
-  <div class="box">
-    {{list}}
+  <div class="box" v-html="list">
+    <!-- {{list}} -->
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
 <style scoped>
 .box{
   text-align: left;
-  text-indent:24px;
+  /* text-indent:24px; */
   padding: 10px;
 }
 </style>

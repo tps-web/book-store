@@ -5,11 +5,11 @@ import { getToken } from '@/utils/authcookie'
 
 //得到用户信息
 
-//首页   http://192.168.1.109:8110/app/book/index/list/169
-export function index() {
+//首页   http://192.168.1.109:8110/app/book/index/list/169   /app/book/index/list/{curPage}/{pageRows}/{userId}
+export function index(data) {
     var info = JSON.parse(getToken())
     return request({
-        url: `/app/book/index/list/${info.userId}`,
+        url: `/app/book/index/list/${data.curPage}/${data.pageRows}/${info.userId}`,
         method: 'get'
     })
 }
@@ -422,5 +422,13 @@ export function getUserMemberLevel(isDefault) {
     return request({
         url: `/app/user/getUserMemberLevel/${isDefault}`,
         method: 'get',
+    })
+}
+
+//  /order/order-term/save/{orderSn}/{termType}  续约
+export function saveTerm(data) {
+    return request({
+        url: `/order/order-term/save/${data.orderSn}/${data.termType}`,
+        method: 'post',
     })
 }

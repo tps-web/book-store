@@ -29,3 +29,5 @@ export const FREIGHT = 'FREIGHT';
 export const GETMEMBERINFO = 'GETMEMBERINFO';
 
 export const ISRENDORDER = 'ISRENDORDER';
+
+export const ISPOPPASS = 'ISPOPPASS'

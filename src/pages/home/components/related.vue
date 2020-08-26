@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-   <headline :headline="listItem.indexName" class="tit"/>
-     <goodsItem :listItem="listItem.data" />
+   <headline headline="猜你喜欢" class="tit"/>
+     <goodsItem :listItem="listItem" />
     <!-- <van-grid :column-num="2" :border="false">
       <van-grid-item v-for="(item,index) in listItem.data" :key="index" class="grid_item">
          <van-image :src="item.squareImage" radius="6px"  @click="goToGoodsDetail(item)" class="img"/>
@@ -25,16 +25,20 @@
 
 <script>
 import {mapMutations} from 'vuex'
-import  goodsItem from './goods'
+// import  goodsItem from './goods'
+import  goodsItem from '@/components/RgoodsItem'
+
+
 export default {
   components:{
     goodsItem
   },
-  props:{
-    listItem:{
-      type:Object,
-    }
-  },
+  props:['listItem'],
+  // props:{
+  //   listItem:{
+  //     type:Object,
+  //   }
+  // },
   data () {
     return {
     	color:[{bg:'rgba(0,114,255,1)'},{bg:'rgba(255,205,1,1)'}]
@@ -62,7 +66,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .content{
-  margin-top: 20px;
+  /* margin-top: 10px; */
 }
 .tit{
   margin-bottom: 4px;
