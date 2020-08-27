@@ -8,7 +8,7 @@
           <!-- <div class="estimatedDate">预计送达：{{logisticsData.EstimatedDeliveryTime}}</div> -->
         </div>
          <div class="content">
-        <van-steps direction="vertical" :active="0" style="width:86%;margin:0 auto; text-align: left;" >
+         <van-steps direction="vertical" :active="0" style="width:86%;margin:0 auto; text-align: left;" >
             <van-step v-for="(item,index) in logisticsData" :key="index">
                  <div class="address">{{item.context}}</div>
                  <div class="date">{{item.ftime}}</div>
@@ -40,7 +40,7 @@ export default {
   },
   created(){
     getLogistics(this.$route.params.id).then(res=>{
-      console.log(res.data)
+      // console.log(res.data)
       this.getLogisticsSent(res.data.sent.address,res.data.receiver.address)
       // this.getLogisticsReceiver(res.data.receiver.Address)
       this.deliveryCompany=res.data.order.deliveryCompany

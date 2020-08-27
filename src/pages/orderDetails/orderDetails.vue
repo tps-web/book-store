@@ -31,7 +31,7 @@
          <van-cell title="商品金额" :value="formatTwo(listItem.totalAmount)" size="large" title-style="text-align: left;font-size: 14px;" />
          <van-cell title="商品优惠" :value="jian(listItem.totalAmount,listItem.payAmount,listItem.couponAmount)" size="large" title-style="text-align: left;font-size: 14px;"/>
          <van-cell title="优惠券" :value="formatTwo(listItem.couponAmount)" size="large" title-style="text-align: left;font-size: 14px;"/>
-         <div class="total">支付金额：<span style="color:red">￥{{listItem.payAmount}}</span></div>
+         <div class="total">支付金额：<span style="color:red">￥{{listItem.payAmount|decimals}}</span></div>
      </div>
       <!-- 订单号信息 -->
       <div class="orderBox">
@@ -52,11 +52,12 @@
             <van-button plain type="default" round size="small" class="btn" @click="goPay(listItem)" v-show="listItem.status==0" >去付款</van-button>
             <van-button plain type="default" round size="small" class="btn" @click="goExpress(listItem)" v-show="listItem.status==2" >查看物流</van-button>
             <van-button plain type="default" round size="small" class="btn" @click="goComment(listItem)" v-show="listItem.status==4" >去评价</van-button>
+            <van-button plain type="default" round size="small" class="btn" @click="goCancel(listItem)" v-show="listItem.status==1||listItem.status==0" >取消订单</van-button>
             <van-button plain type="danger" round size="small" class="btn"  @click="goDelete(listItem)" v-show="listItem.status==5||listItem.status==6">删除订单</van-button>
       </div>
     <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
       <van-icon name="close" size="24" class="close" @click="closeBtn"/>
-         <div class="payNum">￥{{item.payAmount}}</div>
+         <div class="payNum">￥{{item.payAmount|decimals}}</div>
          <van-radio-group v-model="radio" class="radioBox">
             <van-radio name="2"  class="payBtn">
                 <van-image :src="require('../../assets/images/wxpay.png')" class="payImg"/>
@@ -77,6 +78,7 @@ import {getOrderDesc,updateOrder,removeOrder,wxPay,updateStatusById} from '@/api
 import { mapState } from 'vuex'
 
 export default {
+    inject: ["reload"], //注入reload方法
   components:{
       selectGoods
   },
@@ -117,25 +119,44 @@ destroyed(){
   window.removeEventListener('popstate', this.goBack, false);
 },
   methods:{
-   //安卓调用支付结果
-    // androidPayResult(result){
-    //         //0 成功  非0 失败
-    //         if(result==0){
-    //         this.$router.replace({
-    //             path: '/success',
-    //             query:{
-    //                 id:this.item.id
-    //             }
-    //         })
-    //         }else{
-    //         this.$router.replace({
-    //             path: '/fail',
-    //             query:{
-    //                 id:this.item.id
-    //             }
-    //         })
-    //         }
-    //     },
+      goCancel(item){
+        if(item.status==0){
+            let op = { id: item.id, status: 5 }
+            this.$dialog.alert({
+                    message: "是否确定取消订单？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                    updateStatusById(op).then(res => {
+                        // item.status = 5
+                        // this.lastPayTime=''
+                        this.reload()
+                        this.$toast('取消成功')
+                    })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+          }else{
+            //代发货
+            this.$dialog.alert({
+                    message: "是否确定取消订单？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+              })
+             .then(() => { //点击确认按钮后的调用
+                     this.$router.replace({
+                      path: '/refund',
+                      query:{
+                        item
+                      }
+                    })
+                })
+             .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+              })
+          }
+      },
+
       onBeforeClose(action, done){
        if (action === "confirm") {
             return done(false);
@@ -152,7 +173,16 @@ destroyed(){
         wxPay(this.listItem.orderSn).then(res=>{
             var op =JSON.stringify(res.data.item)
              sessionStorage.setItem('orderId',this.item.id)
-            window.android.androidToPay(op);
+            const u = navigator.userAgent;
+               // 这里根据移动端原生的 userAgent 来判断当前是 Android 还是 ios
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if(isIOS){
+                // window.iOS.iOSToPay(op);
+                window.webkit.messageHandlers.iOSToPay.postMessage(op)
+            }else if(isAndroid){
+                window.android.androidToPay(op);    //js 调用android
+            }
             this.show=false
          })
       },
@@ -309,28 +339,7 @@ destroyed(){
                     default:
                         break;
                 }
-        //   }else{
-        //       //借书
-        //     switch (order.status) {
-        //         case 0:
-        //             return '待付款'
-        //         break;
-        //         case 1:
-        //             return '待发货'
-        //         break;
-        //         case 2:
-        //             return '待收货'
-        //         break;
-        //         case 3:
-        //             return '待评价'
-        //         break;
-        //         case 4:
-        //             return '已关闭'
-        //         break;
-        //         default:
-        //             break;
-        //     }
-        //   }
+       
       }
   }
 }

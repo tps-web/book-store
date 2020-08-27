@@ -18,7 +18,7 @@
                 <van-step  class="boxItem">已拒绝</van-step>
                 </div>
                 <div v-show="active==4">
-                <van-step  class="boxItem">已关闭</van-step>
+                <van-step  class="boxItem">已取消</van-step>
                 </div>
         </van-steps>
        <selectGoods :goodsList='orderDesc.list' />

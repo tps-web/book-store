@@ -17,7 +17,7 @@ import axios from 'axios'
       message: "成功",
       data: {
       item: {
-      userId: 211,   
+      userId: 169,   
       userCode: "",
       userTelphone: "18813580769",
       userPassword: "",
@@ -71,11 +71,12 @@ export default {
   created(){
      window.androidCallJs = this.androidCallJs;
      window.iOSCallJs =this.iOSCallJs
+     window.isTrue = false
   },
   mounted(){
      window.androidCallJs = this.androidCallJs;
      window.isTrue = false
-     androidCallJs()
+     androidCallJs() 
   },
  methods:{
    iOSCallJs(id){
@@ -90,9 +91,9 @@ export default {
                   store.commit('GETMEMBERINFO',UserMember.data.item.data)
                   this.$router.replace('/')
             }))
-               return "用户得到"
+              //  return "用户得到"
          }else{
-                return "请求过了"
+                // return "请求过了"
          }
    },
     androidCallJs(id){
@@ -103,16 +104,18 @@ export default {
                     // alert(UserInfo.data.item.userId)
                   setToken(UserInfo.data)
                   store.dispatch('getUserInfo')
-                  isTrue=true
+                  // isTrue=true
                   //  alert(UserMember.data.item.data.userId)
                   store.commit('GETMEMBERINFO',UserMember.data.item.data)
                   this.$router.replace('/')
+                  // this.$router.push('/')
               }))
                return "用户得到"
             }else{
                 return "请求过了"
             }
-      }else{
+      }
+      else{
           setToken(info.data)
           getUserMemberById(info.data.item.userId).then(res=>{
               store.commit('GETMEMBERINFO',res.data.item.data)

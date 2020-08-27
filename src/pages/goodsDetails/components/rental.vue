@@ -9,14 +9,17 @@
        	 	  <van-image  width="36"  :src="require('../../../assets/images/xzsp.png')" />
        	 	  <div class="boxText">选择商品</div>
        	 </div>
+       	  <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image class="boxImg"  :src="require('../../../assets/images/zfzyj.png')" />
        	 	  <div class="boxText">提交订单</div>
        	 </div>
+			 <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image class="boxImg" :src="require('../../../assets/images/shty.png')" />
        	 	  <div class="boxText">收货体验</div>
        	 </div>
+			 <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yygh.png')" />
        	 	  <div class="boxText">预约归还</div>
@@ -31,14 +34,17 @@
        	 	  <van-image class="boxImg"  :src="require('../../../assets/images/yykd.png')" />
        	 	  <div class="boxText">预约快递</div>
        	 </div>
+			 <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image class="boxImg" :src="require('../../../assets/images/mfqj.png')" />
        	 	  <div class="boxText">免费取件</div>
        	 </div>
+			 <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image width="32"  :src="require('../../../assets/images/ckjs.png')" />
        	 	  <div class="boxText">平台确认</div>
        	 </div>
+			 <van-image  :src="require('../../../assets/images/sjx.png')" class="sjx"/>
        	  <div class="box">
        	 	  <van-image class="boxImg" :src="require('../../../assets/images/ddwc.png')" />
        	 	  <div class="boxText">订单完成</div>
@@ -106,5 +112,10 @@ export default {
 	font-size: 12px;
 	margin-top: 2px;
 	text-align: center;
+}
+.sjx{
+	width: 10px;
+	height: 10px;
+	margin: auto 0;
 }
 </style>

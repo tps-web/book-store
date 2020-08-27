@@ -22,7 +22,7 @@
               <div class="price">
                 <span class="fh" style="margin-left: 8px;"  v-show="goodsInfo.promotionAmount">￥</span> <span class="promotionAmount" v-show="goodsInfo.promotionAmount">{{goodsInfo.promotionAmount}}</span>
                 <div class="priceF" style="display:inline-block;margin-left:8px">
-                    <span   :class="[goodsInfo.promotionAmount==null ? 'periceC':'priceNum']" >￥{{goodsInfo.price}}</span>
+                    <span :class="[goodsInfo.promotionAmount==null ? 'periceC':'priceNum']" >￥{{goodsInfo.price|decimals}}</span>
                     <!-- <span class="priceNum"  v-bind:style="{'text-decoration':goodsInfo.promotionAmount ? 'line-through':'none'}" >￥{{goodsInfo.price}}</span> -->
                 </div>
                 <!-- <div class="vip">会员免费借书看</div> -->
@@ -202,18 +202,19 @@ export default {
 }
 .type{
     display:flex;
-    overflow-x:auto;
-    overflow-y:hidden;
+    flex-wrap:wrap;
+    /* overflow-x:auto; */
+    /* overflow-y:hidden; */
     /* justify-self: start; */
 }
 .desc{
     display:flex;
     justify-self: start;
 	  font-size: 10px;
-    /* flex-wrap: wrap; */
+    flex-wrap:wrap;
 }
 .box{
-    width: 50px;
+    /* width: 80px; */
 	  margin: 4px 8px 0 0;
     text-align: center;
     background:rgba(245,245,245,1);

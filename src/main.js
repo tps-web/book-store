@@ -43,6 +43,7 @@ Vue.filter('returnStatusText', function(id) {
         '1': '退货中',
         '2': '已完成',
         '3': '已拒绝',
+        '4': '已取消'
     }
     for (var key in obj) {
         if (key == id) {

@@ -90,6 +90,7 @@ export default {
     }
   },
   created(){
+    // console.log(this.userInfo)
     if(this.userInfo.memberFlag!=0){
       // 是会员 不显示pop
       this.isPop=false

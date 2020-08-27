@@ -30,7 +30,7 @@
                <div>{{item.name}}</div>
         	 </div>
         	</div>
-        	<div class="useBtn" @click="goBug(item.useStatus)">
+        	<div class="useBtn" @click="goBug(item)">
         		<div :class="[item.useStatus==0 ?'btn_content':'invalid_btn_content']"><span class="use_font" v-html="$options.filters.format(item.useStatus)"></span></div>
         	</div>
         </div>
@@ -78,11 +78,14 @@ export default {
   mounted(){
   },
   methods:{
-    goBug(useStatus){
-      if(useStatus==0){
+    goBug(item){
+      if(item.type===3&&item.useStatus===0){
+          that.$router.push('/vip')
+      }
+      else if(item.type===0&&item.useStatus===0){
           that.$router.push('/')
        }
-    },
+      },
     getFollowPage(){
           let op={curPage:that.curPage,pageRows:that.pageRows}
         getCouponHistory(op).then(res=>{

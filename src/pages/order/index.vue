@@ -151,7 +151,15 @@ export default {
               sessionStorage.setItem('orderType',res.data.item.orderType)
               wxPay(res.data.item.orderSn).then(res=>{ 
               var op =JSON.stringify(res.data.item)
-                window.android.androidToPay(op);
+                const u = navigator.userAgent;
+                const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+                const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+                if(isIOS){
+                  //  window.iOS.iOSToPay();
+                  window.webkit.messageHandlers.iOSToPay.postMessage(op)
+                }else if(isAndroid){
+                  window.android.androidToPay(op);
+                }
                 // this.getCartList()
               })
           })

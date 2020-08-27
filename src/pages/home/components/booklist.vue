@@ -6,7 +6,7 @@
     </div>
     <van-grid :border="false" :column-num="3" class="box" >
      <van-grid-item v-for="(item,index) in bookItem.data"  :key="index" @click="goUrl(item)" 
-     style="border-radius:6px;">
+     style="border-radius:6px; ">
        <!-- <div class="small_box"> -->
           <van-image :src="item.listImage" class="listImage"/>
        <!-- </div> -->
@@ -67,7 +67,7 @@ export default {
 .name{
   width: 100%;
 	margin: 6px 0;
-  text-align: left;
+  text-align: center;
 }
 .desc{
 	font-size: 10px;

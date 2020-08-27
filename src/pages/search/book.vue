@@ -1,14 +1,16 @@
 <template>
   <div class="">
        <div class="content_box">
-          <div class="store_box" v-for="(item,index) in list" :key="index">
-            <van-image class="store_boxImg" radius="4px" :src="item.squareImage" @click="goGoods(item.id)" />
+          <div class="store_box" v-for="(item,index) in list" :key="index"> 
+            <div class="img_box">
+                <van-image class="store_boxImg" radius="4px" :src="item.squareImage" @click="goGoods(item.id)" />
+            </div>
             <div class="store_box_content" @click="goGoods(item.id)">
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>
                 <div class="price">
-                     <span  class="promotionAmount" v-show="item.promotionAmount">￥{{item.promotionAmount}}</span>
-                     <span  :class="[item.promotionAmount==null ? 'periceZ':'priceNumT']" >￥{{item.price}}</span>
+                     <span  class="promotionAmount" v-show="item.promotionAmount">￥{{item.promotionAmount|decimals}}</span>
+                     <span  :class="[item.promotionAmount==null ? 'periceZ':'priceNumT']" >￥{{item.price|decimals}}</span>
                 </div>
             </div>
             <div class="store_box_right" @click="goCart(item)">
@@ -59,12 +61,23 @@ export default {
   margin: 12px auto 10px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.1);
-  padding: 12px 10px;
+  padding: 6px 12px;
   border-radius:8px;
 }
+.img_box{
+     width: 80px;
+     /* flex:3; */
+    height: 120px;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-flow : column nowrap;
+    flex-flow : column nowrap;
+}
 .store_boxImg{
-    width: 70px;
-    height: 90px;
+    width: 100%;
+    margin-left : auto;
+    margin-right : auto;
+    margin: auto;
 }
 .store_box_content{
     flex: 6;
@@ -92,7 +105,7 @@ export default {
   font-size: 16px;
 }
 .store_box_right{
-    flex: 4;
+    flex: 2;
     margin: auto 0;
     color: #999;
     font-size: 10px;

@@ -142,7 +142,8 @@ export default {
   color: #333333;
 }
 .rightWrapper{
-  width: 82%;
+  /* width: 100%; */
+  width: 290px;
 }
 .box{
   width: 33%;

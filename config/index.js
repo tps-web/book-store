@@ -12,7 +12,7 @@ module.exports = {
         proxyTable: {
             '/api': {
                 // target: 'https://huisn.com.cn/bk/', // 需要跨域请求的地址或者IP
-                target: 'http://192.168.1.109:8110/book', // 需要跨域请求的地址或者IP
+                target: 'http://192.168.1.130:8110/book', // 需要跨域请求的地址或者IP
                 changeOrigin: true, //  表示是否跨域
                 pathRewrite: {
                     '^/api': '' // 表示需要rewrite重写的

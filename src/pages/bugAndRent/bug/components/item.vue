@@ -37,7 +37,7 @@
       <!-- <div class="returnId">退款</div> -->
        <van-button color="#FC5650" size="small" plain round @click="returnId(item)" v-if="item.status==4">退货</van-button>
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-       <span class="pay" v-show="item.status==0">￥{{item.payAmount}}</span>
+       <span class="pay" v-show="item.status==0">￥{{item.payAmount|decimals}}</span>
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==0||item.status==1">取消订单</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5&&item.status!=6">取消订单</van-button> -->
@@ -46,7 +46,7 @@
     </div>
     <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
       <van-icon name="close" size="24" class="close" @click="closeBtn"/>
-         <div class="payNum">￥{{payItem.payAmount}}</div>
+         <div class="payNum">￥{{payItem.payAmount|decimals}}</div>
          <van-radio-group v-model="radio" class="radioBox">
             <van-radio name="2"  class="payBtn">
                 <van-image :src="require('../../../../assets/images/wxpay.png')" class="payImg"/>
@@ -161,7 +161,16 @@ export default {
            var op =JSON.stringify(res.data.item)
            sessionStorage.setItem('orderId',this.payItem.id)
            sessionStorage.setItem('orderType',0)
-           window.android.androidToPay(op);    //js 调用android
+              const u = navigator.userAgent;
+               // 这里根据移动端原生的 userAgent 来判断当前是 Android 还是 ios
+              const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+              const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+              if(isIOS){
+                  // window.iOS.iOSToPay(op);
+                window.webkit.messageHandlers.iOSToPay.postMessage(op)
+              }else if(isAndroid){
+                window.android.androidToPay(op);    //js 调用android
+              }
         })
     },
     closeBtn(){

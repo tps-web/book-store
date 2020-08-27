@@ -16,7 +16,8 @@
 
 <script>
 import {getChildCategoryBookList} from '@/api'
-import goods from './itemGoods'
+// import goods from './itemGoods'
+import goods from '@/components/itemGoods.vue'
 var that 
 export default {
     components:{

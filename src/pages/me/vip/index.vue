@@ -4,7 +4,7 @@
      <div class="top">
        <van-image
         width="100%"
-        height="200" :src="require('../../../assets/images/bg.png')" />
+        :src="require('../../../assets/images/bg.png')" />
      </div>
      <div class="box">
       <van-image
@@ -37,8 +37,20 @@
         </van-grid>
      </div>
      <div class="vipBug">
-        <van-cell title="荟声VIP年卡"   :value="'￥'+payPerice" title-style="text-align: left" value-class="textClass" />
+       <!-- '￥'+payPerice" -->
+        <!-- <van-cell title="荟声VIP年卡"   :value="'￥'+ [discountFees?discountFees:payPerice]" title-style="text-align: left" value-class="textClass" /> -->
+        <van-cell title="荟声VIP年卡" title-style="text-align: left" >
+          <template slot="default">
+            <span class="textClass" v-show="discountFees">￥{{discountFees}}</span>
+            <span :class="[discountFees===0 ? 'yuanjia':'discount']"  >￥{{payPerice}}</span>
+          </template>
+        </van-cell>
         <van-cell title="会员卡有效期"  :value="yearNum+'个月'" title-style="text-align: left" size="large"  />
+         <van-cell title="优惠券" is-link :value="useCouponText"  title-style="text-align: left;" @click="showCoupon = true"/>
+           <van-popup v-model="showCoupon"  position="bottom"  :style="{ height: '40%' }" round >
+             <!-- <Coupon  :coupon='getCouponList' @selectCoupon="selectCoupon" />  -->
+             <Coupon  @selectCoupon="selectCoupon" :perice="discountFees||payPerice" />
+          </van-popup>
          <!-- <van-popup v-model="showExpress"  position="bottom" >  @click="showExpress=true"
           <van-picker   
             title="选择开通月数"
@@ -50,11 +62,12 @@
             @cancel="onCancel"
         />
         </van-popup> -->
+        
      </div>
      <!-- 支付 -->
       <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">
       <van-icon name="close" size="24" class="close" @click="closeBtn"/>
-         <div class="payNum">￥{{payPerice}}</div>
+         <div class="payNum">￥{{payAmount}}</div>
          <van-radio-group v-model="radio" class="radioBox">
             <van-radio name="2"  class="payBtn">
                 <van-image :src="require('../../../assets/images/wxpay.png')" class="payImg"/>
@@ -70,41 +83,75 @@
      <van-cell value="会员须知" is-link class="xuzhi" size="large" @click="goDesc('会员须知')"/>
      <van-cell value="会员权益" is-link class="quanyi" size="large" @click="goDesc('会员权益')"/>
 
-     <div class="btn" @click="goPay">{{userInfo.memberFlag==0?'立即开通':'立即续费'}}</div>
+     <div class="btn" @click="goPay"><span style="color:red">￥{{payAmount}}</span>  {{userInfo.memberFlag==0?'立即开通':'立即续费'}}</div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
-import {getNowFormatDate} from '@/utils'
+import {getNowFormatDate,jian} from '@/utils'
 import { getAllDataByType,postOrder,wxPay,getUserMemberLevel } from "@/api";
+import Coupon from './coupon/coupon'
 export default {
+  components:{
+    Coupon
+  },
   data () {
     return {
+      showCoupon:false,
       show:false,
       yearNum:'',
       showExpress:false,
       columns:[12,24,36,48],
-      payPerice:'',
-      memberLevelId:4,
-      radio:'2'
+      payPerice:'',     //原价
+      discountFees:'',  //折扣
+      memberLevelId:4,  //会员等级
+      radio:'2',   //支付方式
+      useCouponText:'', //优惠券文案
+      useCoupon:'',  //优惠券
+      couponNum:'' //优惠券价额
     }
   },
    computed:{
-     ...mapState(['userInfo','memberInfo'])
+     ...mapState(['userInfo','memberInfo']),
+    //应付金额  减去优惠券 
+      payAmount(){
+          var paytotalNum=0
+          var total=this.discountFees||this.payPerice
+         if(this.couponNum){
+           //优惠券
+          //  total-=this.couponNum
+          total=jian(total,this.couponNum)
+           return total
+         }
+          //  没有优惠券
+          return total
+      },
   },
   created(){
-    // getAllDataByType('年卡费用').then(res=>{
-    //   // console.log(res.data.rows[0].dataContent)
-    //   this.payPerice=res.data.rows[0].dataContent
-    // }),
     getUserMemberLevel(1).then(res=>{
+      // console.log(res)
       this.payPerice=res.data.item.data.memberFees
+      this.discountFees=res.data.item.data.discountFees
       this.yearNum=res.data.item.data.memberYear*12
       // console.log(this.yearNum)
     })
   },
   methods:{
+    selectCoupon(couponItem){
+       if(couponItem){
+          this.useCoupon=couponItem   //优惠券
+          var couponTest='减'+couponItem.amount
+          this.useCouponText=couponTest //优惠券文案
+          this.couponNum=couponItem.amount  //优惠券价额
+           this.showCoupon=false
+      }else{
+          this.useCouponText='' //优惠券文案
+          this.couponNum='' //优惠券价额
+          this.showCoupon=false
+          this.useCoupon=''  
+      }
+    },
     closeBtn(){
       this.show=false
     },
@@ -120,8 +167,10 @@ export default {
        let op={
           userId:this.userInfo.userId,
           userNickName:this.userInfo.userNickName,
-          payAmount:this.payPerice,
-          orderType:2,
+          payAmount:this.payAmount,
+          orderType:this.radio,
+          couponAmount:this.couponNum,
+          couponSn:this.useCoupon.couponHistoryId,
           payType:this.radio,
           status:0,
           totalAmount:this.payPerice,
@@ -134,7 +183,16 @@ export default {
             wxPay(res.data.item.orderSn).then(res=>{
               // console.log(res)
               var op =JSON.stringify(res.data.item)
-              window.android.androidToPay(op);
+            const u = navigator.userAgent;
+            // 这里根据移动端原生的 userAgent 来判断当前是 Android 还是 ios
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if(isIOS){
+                // window.iOS.iOSToPay(op);
+                window.webkit.messageHandlers.iOSToPay.postMessage(op)
+            }else if(isAndroid){
+                window.android.androidToPay(op);    //js 调用android
+            }
               this.show=false
            })
        })
@@ -251,5 +309,11 @@ export default {
   width: 96%;
   margin: 6px auto;
   height: 44px;
+}
+.discount{
+    text-decoration:line-through
+}
+.yuanjia{
+  color: red;
 }
 </style>

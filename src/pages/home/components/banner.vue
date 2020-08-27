@@ -40,9 +40,13 @@ export default {
         //      var strRouter=this.userInfo.memberFlag==0?'/vip':'/zVip'
         //      this.$router.push(`strRouter`)
         //  }
-      }else{
+      }else if(item.targetType==2){
         // 外部链接
-         window.location.href=item.target
+        //  window.location.href=item.target
+        // window.open(item.target)
+      }else{
+        //书单
+        this.$router.push(item.target)
       }
     }
   }

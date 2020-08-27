@@ -426,10 +426,19 @@ const router = new Router({
             }
         },
         {
-            path: '/goVip/',
+            path: '/goVip',
             name: 'goVip',
             component: () =>
                 import ('@/components/goVip/index'),
+            meta: {
+                title: "vip"
+            }
+        },
+        {
+            path: '/test',
+            name: 'test',
+            component: () =>
+                import ('@/components/test.vue'),
             meta: {
                 title: "vip"
             }
@@ -440,6 +449,10 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
+    }
+    if (to.path == '/goVip') {
+        next()
+        return
     }
     if (to.path == '/getUserInfo') {
         next()
@@ -453,6 +466,5 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
-
 
 export default router

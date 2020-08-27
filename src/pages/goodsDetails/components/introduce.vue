@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-    <div class="desc">
-      {{introduction.introduction}}
+    <div class="desc" v-html="introduction.introduction">
+      <!-- {{introduction.introduction}} -->
     </div>
     <van-image :src="introduction.squareImage" />
   </div>

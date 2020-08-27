@@ -191,7 +191,17 @@ export default {
            }
       }else{
         // 非会员
-        this.$toast('只对会员开放')
+        // this.$toast('只对会员开放')
+        this.$dialog.alert({
+                    message: "租书只对会员开发，是否开通会员？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+                  this.$router.push(`/vip`)
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
       }
      
     },

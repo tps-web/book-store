@@ -113,7 +113,7 @@ export default {
          this.couponNum=couponItem.amount  //优惠券价额
         this.showCoupon=false
       }else{
-         this.useCouponText='' //优惠券文案
+         this.useCouponText='' //优惠券文案 
          this.couponNum=0 //优惠券价额
         this.showCoupon=false
       }

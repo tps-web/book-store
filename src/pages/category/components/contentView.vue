@@ -2,7 +2,7 @@
   <div class="warp" ref="warp">
     <div class="warp_box">
      <div class="box" v-for="(item,index) in data" :key="index" ref="good" @click="goUrl(item)">
-           <!-- <van-image
+            <!-- <van-image
              class="img"
              :src="item.image"
            /> -->
@@ -66,7 +66,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .warp{
-  width: 99%;
+  width: 100%;
   /* height: 100%; */
   overflow: hidden;
 }
@@ -82,7 +82,7 @@ export default {
   justify-self: start;
 }
 .box{
-  width: 24%;
+  /* width: 24%; */
   border-radius: 5px;
   box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);
   margin:  10px 4px;

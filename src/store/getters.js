@@ -23,7 +23,7 @@ export default {
                 }
             })
             // state.allTotal = totalPrice / 100
-        return totalPrice / 100
+        return (totalPrice / 100).toFixed(2)
     },
     //选中的商品
     SELECTED_GOODS(state) {

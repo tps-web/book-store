@@ -93,7 +93,7 @@ export default {
        let op={curPage:that.curPage,pageRows:that.pageRows,id:this.$route.params.id}
         getListItem(op).then(res=>{
             this.total=res.data.item.listCount
-            this.topBg.listImage=res.data.item.listImage
+            this.topBg.listImage=res.data.item.remark
             this.topBg.listName=res.data.item.listName
             this.topBg.listDescribe=res.data.item.listDescribe
             if(this.curPage==1){
@@ -137,7 +137,7 @@ export default {
 <style scoped>
 .topImg{
     width: 100%;
-    height: 240px;
+    /* height: 240px; */
     background:rgba(0,0,0,1);
     opacity:0.85;
 }

@@ -14,13 +14,13 @@
         @load="onLoad"
        >
        <div class="noData" v-show="finished&&total==0">
-        <van-image width="120"  :src="require('../../../assets/images/nodata.png')" />
+        <van-image width="120"  :src="require('../../../../assets/images/nodata.png')" />
         <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
       <div>
       <div class="box" v-for="(item,index) in formatCoupon" :key="index" @click="selectItem(item)">
-        <van-image  :src="require('../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
-         <van-image  :src="require('../../../assets/images/bg-used.png')" class="bg" v-else/>
+        <van-image  :src="require('../../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
+         <van-image  :src="require('../../../../assets/images/bg-used.png')" class="bg" v-else/>
         <div class="pos"> 
         <div :class="[item.useStatus==0 ? 'content':'invalid_content']">
         	<div class="num" >
@@ -58,7 +58,7 @@ import {mapState,mapActions, mapGetters} from 'vuex'
 import {getCouponHistory } from '@/api'
 var that
 export default { 
-  // props:['coupon'],
+  props:['perice'],
   data () {
     return {
        isLoading:false, //上拉
@@ -73,35 +73,19 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['SELECTED_GOODS_PRICE']),
     formatCoupon(){
        var newData = []
       this.getCouponList.map(function(ele,index,array){
-            if(ele.minPoint<=that.SELECTED_GOODS_PRICE&&ele.type!=3){
+            if(ele.minPoint<=that.perice&&ele.type===3){   //300     328
                newData.push(ele)
-            }else if(ele.type!=3){
+            }else if(ele.minPoint>that.perice&&ele.type===3){
                ele.useStatus=3
                newData.push(ele)
             }
       })
-       newData.sort((a,b)=>{return (a.useStatus-b.useStatus)})
+      newData.sort((a,b)=>{return (a.useStatus-b.useStatus)})
       return newData
     },
-//    formatGoods(list) {
-//     var newData = []
-//     list.map((ele) => {
-//         newData.push({
-//             bookId: ele.id,
-//             cartItemId: ele.cartId,
-//             bookIsbn: ele.bookIsbn,
-//             bookName: ele.name,
-//             bookPic: ele.smallImage,
-//             bookPrice: ele.price,
-//             bookQuantity: ele.bookQuantity
-//         })
-//     })
-//     return newData
-// }
   },
   created(){
      that=this

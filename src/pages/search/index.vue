@@ -18,6 +18,7 @@
      <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-show="total>0"> -->
         <nodata  v-show="total==0&&!isShow&&finished" style="margin-top:100px"/>
        <van-list
+        v-if="value&&!isShow"
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
@@ -61,12 +62,12 @@ export default {
     //      this.isShow=false
     //    }
     //  },
-    //  value(newVal){
-    //    if(!newVal){
-    //       this.isShow=true
-    //       this.total=0
-    //    }
-    //  }
+     value(newVal){
+       if(!newVal){
+          this.isShow=true
+          // this.total=0
+       }
+     }
   },
   created(){
     getHotBookItem().then(res=>{
