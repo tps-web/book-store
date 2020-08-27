@@ -36,6 +36,7 @@
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
+       <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==3">预约归还</van-button>
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -62,6 +63,10 @@ export default {
        this.getItem()
   },
   methods:{
+    ReturnBook(item){
+      //预约归还
+       this.$router.push(`/makeExpress`)
+    },
     confim(item) {
             let op = { id: item.id, status: 3}
             this.$dialog.alert({

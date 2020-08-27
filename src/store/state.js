@@ -36,5 +36,6 @@ export default {
         returnTotal: 0
     },
     timeData: 0, //自动关闭订单时间
-    isPopPass: false //首页弹出框  是否弹出过 
+    isPopPass: false, //首页弹出框  是否弹出过 
+    addressExpess: '' // 预约快递地址
 }

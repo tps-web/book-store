@@ -432,3 +432,11 @@ export function saveTerm(data) {
         method: 'post',
     })
 }
+
+// /order/company-address/getDefault
+export function getDefaultCompany() {
+    return request({
+        url: `/order/company-address/getDefault`,
+        method: 'get'
+    })
+}

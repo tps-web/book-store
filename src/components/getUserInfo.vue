@@ -55,7 +55,7 @@ import axios from 'axios'
       qqUserHead: "",
       worksCount: 0,
       type: 0,
-      memberFlag:0
+      memberFlag:4
       }
   }
 }

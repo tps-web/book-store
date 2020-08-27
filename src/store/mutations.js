@@ -23,7 +23,8 @@ import {
     FREIGHT,
     GETMEMBERINFO,
     ISRENDORDER,
-    ISPOPPASS
+    ISPOPPASS,
+    SENDEXPESSADDRESS
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -144,6 +145,10 @@ export default {
     //换地址
     [CHANGE_ADDRESS](state, address) {
         state.currentAddress = address
+    },
+    // 发件人地址
+    [SENDEXPESSADDRESS](state, address) {
+        state.addressExpess = address
     },
     //过滤默认地址
     [DEFAULT_ADDRESS](state, addresss) {

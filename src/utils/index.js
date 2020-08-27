@@ -4,7 +4,12 @@ export function formatDate(date) {
     var year = date.getFullYear();
     var Month = date.getMonth() + 1;
     var day = date.getDate();
-    return year + '-' + Month + '-' + day
+    var h = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('1' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return year + '-' + Month + '-' + day + ' ' + h + ':' + minute
 }
 //当前时间
 export function currentDate() {

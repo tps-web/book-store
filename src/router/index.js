@@ -443,6 +443,25 @@ const router = new Router({
                 title: "vip"
             }
         },
+        {
+            path: '/makeExpress',
+            name: 'makeExpress',
+            component: () =>
+                import ('@/pages/makeExpress/makeExpress'),
+            meta: {
+                title: "预约快递"
+            }
+        },
+        //选择发件人接收快递地址 selectAddress.vue
+        {
+            path: '/selectAddress',
+            name: 'selectAddress',
+            component: () =>
+                import ('@/pages/makeExpress/selectAddress'),
+            meta: {
+                title: "选择地址"
+            }
+        },
     ]
 })
 
