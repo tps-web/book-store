@@ -84,7 +84,8 @@ export default {
         this.selectDate='明天'
         var itemList=[
           {
-          text:'明天'+(new Date().getMonth()+1) +'月'+(new Date().getDate()+1)+'日',
+          // text:'明天'+(new Date().getMonth()+1) +'月'+(new Date().getDate()+1)+'日',
+          text:'明天'+ getafterDay(new Date())+'日',
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
@@ -98,7 +99,7 @@ export default {
           ]
           },
           {
-          text:'后天'+(new Date().getMonth()+1) +'月'+(new Date().getDate()+2)+'日',
+          text:'后天'+getafterTwoDay(new Date())+'日',
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
@@ -120,7 +121,7 @@ export default {
             children: []
           },
           {
-          text:'明天'+(new Date().getMonth()+1) +'月'+(new Date().getDate()+1)+'日',
+          text:'明天'+getafterDay(new Date())+'日',
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
