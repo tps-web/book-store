@@ -444,7 +444,7 @@ const router = new Router({
             }
         },
         {
-            path: '/makeExpress',
+            path: '/makeExpress/:id',
             name: 'makeExpress',
             component: () =>
                 import ('@/pages/makeExpress/makeExpress'),

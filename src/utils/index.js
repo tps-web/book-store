@@ -1,5 +1,5 @@
 import store from '@/store'
-//格式化时间
+//格式化时间 预约时间
 export function formatDate(date) {
     var year = date.getFullYear();
     var Month = date.getMonth() + 1;
@@ -9,7 +9,21 @@ export function formatDate(date) {
     var second = date.getSeconds();
     minute = minute < 10 ? ('1' + minute) : minute;
     second = second < 10 ? ('0' + second) : second;
-    return year + '-' + Month + '-' + day + ' ' + h + ':' + minute
+    var afterHours = parseInt(h) + 1
+        // return year + '-' + Month + '-' + day + ' ' + h + '点' + '至' + afterHours + '点'
+    return Month + '-' + day + ' ' + h + '点' + '至' + afterHours + '点'
+
+}
+export function getformatDate(date) {
+    var year = date.getFullYear();
+    var Month = date.getMonth() + 1;
+    var day = date.getDate();
+    var h = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('1' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return year + '-' + Month + '-' + day + ' ' + h + ':' + minute + ':' + second
 }
 //当前时间
 export function currentDate() {
@@ -27,6 +41,7 @@ export function currentDate() {
     second = second < 10 ? ('0' + second) : second;
     return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 }
+
 // 当前时间 加一年
 export function currentDateLater() {
     var date = new Date();
@@ -269,12 +284,39 @@ export function getNowFormatDate(date) {
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
     var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
+    // if (month >= 1 && month <= 9) {
+    //     month = "0" + month;
+    // }
+    // if (strDate >= 0 && strDate <= 9) {
+    //     strDate = "0" + strDate;
+    // }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     return currentdate;
-};
+}
+export function getafterDay(startDate) {
+    // var seperator1 = "-";
+    // var year = date.getFullYear();
+    // var month = date.getMonth() + 1;
+    // var strDate = date.getDate() + 1;
+    // // if (month >= 1 && month <= 9) {
+    // //     month = "0" + month;
+    // // }
+    // // if (strDate >= 0 && strDate <= 9) {
+    // //     strDate = "0" + strDate;
+    // // }
+    // var currentdate = year + seperator1 + month + seperator1 + strDate;
+    // return currentdate;
+    startDate = new Date(startDate);
+    startDate = +startDate + 1000 * 60 * 60 * 24;
+    startDate = new Date(startDate);
+    var nextStartDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
+    return nextStartDate;
+}
+
+export function getafterTwoDay(startDate) {
+    startDate = new Date(startDate);
+    startDate = +startDate + 1000 * 60 * 60 * 48;
+    startDate = new Date(startDate);
+    var nextStartDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
+    return nextStartDate;
+}

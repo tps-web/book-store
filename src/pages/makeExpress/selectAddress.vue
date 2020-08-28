@@ -52,4 +52,9 @@ export default {
 .noDataPlaceHold{
     margin-top: 100px;
 }
+ /deep/ .van-button--danger{
+    color: #000;
+    background-color: rgba(255,205,1,1)!important;
+    border: 1px solid rgba(255,205,1,1)!important;
+}
 </style>

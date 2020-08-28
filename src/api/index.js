@@ -433,10 +433,26 @@ export function saveTerm(data) {
     })
 }
 
-// /order/company-address/getDefault
+// /order/company-address/getDefault 公司默认地址（收件）
 export function getDefaultCompany() {
     return request({
         url: `/order/company-address/getDefault`,
+        method: 'get'
+    })
+}
+
+// /order/express/listOrder  查询支持预约快递快递公司的列表
+export function listOrder() {
+    return request({
+        url: `/order/express/listOrder`,
+        method: 'get'
+    })
+}
+
+// /order/orderOnline/{orderSn}/{addressId}/{takeStartTime}/{takeEndTime}/{expressId}/{receiverId} 在线预约快递
+export function orderOnline(data) {
+    return request({
+        url: `/order/orderOnline/${data.orderSn}/${data.addressId}/${data.takeStartTime}/${data.takeEndTime}/${data.expressId}/${data.receiverId}`,
         method: 'get'
     })
 }

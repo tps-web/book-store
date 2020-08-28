@@ -37,6 +37,7 @@
        <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==3">预约归还</van-button>
+       <!-- <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==7">取消预约取件</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -65,7 +66,7 @@ export default {
   methods:{
     ReturnBook(item){
       //预约归还
-       this.$router.push(`/makeExpress`)
+       this.$router.push(`/makeExpress/${item.orderSn}`)
     },
     confim(item) {
             let op = { id: item.id, status: 3}
@@ -242,15 +243,6 @@ export default {
    },
   filters:{
     rentStatus(val){
-    //   var obj = {
-    //     '-1': '全部订单',
-    //     '0': '待付款',
-    //     '1': '待发货',
-    //     '2': '待收货',
-    //     '3': '待评价',
-    //     '4': '已关闭',
-    //     '5': '无效订单'
-    // }
      var obj = {
         '-1': '全部订单',
         '0': '待付款',
@@ -259,7 +251,9 @@ export default {
         '3': '待归还',
         '4': '待评价',
         '5': '已关闭',
-        '6':'无效订单'
+        '6':'退款',
+        '7':'预约取件成功',
+        '8':'取消预约取件'
     }
     for (var key in obj) {
         if (key == val) {

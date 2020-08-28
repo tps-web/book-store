@@ -4,7 +4,11 @@ export default {
     getShopCart(state) {
         return state.shopCart
     },
+    // expressCompany: undefined, //预约快递快递公司
+    // expressDateTime: undefined //预约快递时间
     isPopPass: state => state.isPopPass,
+    expressCompany: state => state.expressCompany,
+    expressDateTime: state => state.expressDateTime,
     // 是否存在待归还
     getRentOrder: state => state.isRendOrder,
     // getCouponList: state => state.coupon,

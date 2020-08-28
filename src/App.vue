@@ -224,4 +224,5 @@ export default {
   position: absolute!important;
     right: 10px!important;
 }  */
+
 </style>

@@ -24,7 +24,9 @@ import {
     GETMEMBERINFO,
     ISRENDORDER,
     ISPOPPASS,
-    SENDEXPESSADDRESS
+    SENDEXPESSADDRESS,
+    EXPRESSCOMPANY,
+    EXPRESSDATETIME //预约快递信息
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -219,5 +221,13 @@ export default {
     //修改首页弹出框
     [ISPOPPASS](state, isTrue) {
         state.isPopPass = isTrue
+    },
+    //SETEXPRESSDESC  预约快递时间
+    [EXPRESSDATETIME](state, data) {
+        state.expressDateTime = data
+    },
+    // 预约快递公司
+    [EXPRESSCOMPANY](state, data) {
+        state.expressCompany = data //预约快递快递公司
     }
 }

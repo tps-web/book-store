@@ -37,5 +37,7 @@ export default {
     },
     timeData: 0, //自动关闭订单时间
     isPopPass: false, //首页弹出框  是否弹出过 
-    addressExpess: '' // 预约快递地址
+    addressExpess: '', // 预约快递地址
+    expressCompany: undefined, //预约快递快递公司
+    expressDateTime: undefined //预约快递时间
 }

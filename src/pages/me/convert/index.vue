@@ -6,15 +6,15 @@
       	     	<div class="smBox">
       	     		  <van-field
       	     		   class="inp"
-                       v-model="code"
-                       placeholder="请输入领劵码兑换"
-                       :rules="[{ required: true, message: '请输入领劵码兑换' }]"
+                  v-model="code"
+                  placeholder="请输入领劵码兑换"
+                  :rules="[{ required: true, message: '请输入领劵码兑换' }]"
                        />
                 </div>
       	     </div>
       </div>
      <div class="convent" @click="onConvent">兑换</div>
-
+     <div class="btn" @click="goConpon">查看优惠券</div>
   </div>
 </template>
 
@@ -27,6 +27,9 @@ export default {
     }
   },
   methods:{
+    goConpon(){
+      this.$router.push(`/coupon`)
+    },
   	onConvent(){
       if(!this.code){
         this.$toast('请输入领劵码')
@@ -34,6 +37,16 @@ export default {
          getCouponByCode(this.code).then(res=>{
            this.$toast('兑换成功！')
            this.code=""
+          // this.$dialog.alert({
+          //           message: "兑换成功！查看优惠券", //改变弹出框的内容
+          //           showCancelButton: true //展示取水按钮
+          //       })
+          //       .then(() => { //点击确认按钮后的调用
+                    
+          //       })
+          //       .catch(() => { //点击取消按钮后的调用
+          //           // console.log("点击了取消按钮")
+          //       })
          })
       }
   	}
@@ -45,7 +58,7 @@ export default {
 <style scoped>
 .content{
 	width: 100%;
-    overflow: hidden;
+  overflow: hidden;
 }
 .box { position: relative; width: 100%; height: 160px; text-align: center; line-height: 50px;}
 .box:after { width: 120%; height: 160px; position: absolute; left: -10%; top: 0; z-index: -2; content: ''; border-radius: 0 0 100% 100%;
@@ -57,7 +70,7 @@ export default {
 	position: relative;
 	top: 42px;
 	width: 100%;
-	height:120px;
+	height:150px;
 	margin: 0 auto;
 	overflow: hidden;
 	border-radius: 10px 10px 0 0;
@@ -74,16 +87,24 @@ export default {
 }
 .convent{
 	width: 80%;
-	margin: 40px auto;
-    border-radius: 50px;
-    height: 44px;
-    line-height: 44px;
-    background: rgba(255,205,1,1);
-    font-weight: 500;
-    color: rgba(34,34,34,1);
-    font-size: 16px;
-    font-weight:600;
+	margin: 50px auto;
+  border-radius: 50px;
+  height: 44px;
+  line-height: 44px;
+  background: rgba(255,205,1,1);
+  font-weight: 500;
+  color: rgba(34,34,34,1);
+  font-size: 16px;
+  font-weight:600;
 }
+.btn{
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  position: absolute;
+  bottom: 0;
+  background: rgba(255,205,1,1)
+  }
 </style>
 
 
