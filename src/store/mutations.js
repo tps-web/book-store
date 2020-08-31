@@ -26,7 +26,10 @@ import {
     ISPOPPASS,
     SENDEXPESSADDRESS,
     EXPRESSCOMPANY,
-    EXPRESSDATETIME //预约快递信息
+    EXPRESSDATETIME, //预约快递信息
+    BUGRENTBOOKLIST,
+    SELETE_GOODS_RENT,
+    ALL_SELECT_RENT
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -125,7 +128,7 @@ export default {
             } else {
                 Vue.set(goods, 'checked', !isCheckedAll);
             }
-            // goods.checked = !isCheckedAll;
+
             // 5.2 同步state数据
             state.shopCart = {
                 ...shopCart
@@ -229,5 +232,26 @@ export default {
     // 预约快递公司
     [EXPRESSCOMPANY](state, data) {
         state.expressCompany = data //预约快递快递公司
-    }
+    },
+    //买断书籍
+    [BUGRENTBOOKLIST](state, data) {
+        state.bugRentBookList = data
+    },
+    //选择单个
+    [SELETE_GOODS_RENT](state, index) {
+        // console.log(state.bugRentBookList[index])
+        state.bugRentBookList[index].checked = !state.bugRentBookList[index].checked
+    },
+    [ALL_SELECT_RENT](state, { isCheckedAll }) {
+        let bugRentBookList = state.bugRentBookList
+        bugRentBookList.forEach((goods, index) => {
+            if (goods.checked) { // 存在该属性
+                goods.checked = !isCheckedAll;
+            } else {
+                Vue.set(goods, 'checked', !isCheckedAll);
+            }
+            // 5.2 同步state数据
+            state.bugRentBookList = bugRentBookList
+        });
+    },
 }

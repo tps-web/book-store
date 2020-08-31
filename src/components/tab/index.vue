@@ -53,7 +53,7 @@ export default {
 		curPage:0, //当前页面
 		pageRows:6, //请求一页有多少数据
 		list:[],  
-		total:0,
+		total:'',
 		itemId:''
     }
   },
@@ -76,7 +76,7 @@ export default {
 		// console.log(that.activeName)
        let op={curPage:that.curPage,pageRows:that.pageRows,categoryId:that.activeName}
         getChildCategoryBookList(op).then(res=>{
-			 this.total=res.data.total
+			  this.total=res.data.total
             if(this.curPage==1){
                 this.list=res.data.rows
             }else{ 

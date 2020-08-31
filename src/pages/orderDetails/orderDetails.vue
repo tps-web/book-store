@@ -43,6 +43,7 @@
               <van-button plain type="info" round size="small" class="copeBtn" @click="cope(202007083451452)">复制</van-button>
           </div>
       </div>
+    <!-- <div class="expireTime" v-show="listItem.receiveTime!=null&&listItem.status===3">借阅时间为：{{item.beginTime}} 至 {{item.expireTime}}</div> -->
       <!-- 物流信息 -->
       <!-- <div class="expressBox">
             <div class="expessName">发货物流公司：{{listItem.deliveryCompany}}</div>

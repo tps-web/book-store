@@ -32,10 +32,10 @@
     <div class="expireTime" v-show="item.receiveTime!=null&&item.status===3">借阅时间为：{{item.beginTime}} 至 {{item.expireTime}}</div>
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3">{{item.status|btnText}}</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3&&item.status!=7&&item.status!=8">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
-       <!-- <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3">买  断</van-button> -->
+       <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3" style="position: absolute;left:10px">买  断</van-button>
        <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==3">预约归还</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==7">取消预约取件</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
@@ -88,7 +88,8 @@ export default {
       //买断
       goBug(item){
         // console.log(item)
-        this.$router.push(`/bugRentBook/${item.id}`)
+        // this.$router.push(`/bugRentBook/${item.id}`)
+        this.$router.push(`/bugBookRent/${item.id}`)
       },
       //续约
       goterm(item){
@@ -253,7 +254,8 @@ export default {
         '5': '已关闭',
         '6':'退款',
         '7':'预约取件成功',
-        '8':'取消预约取件'
+        // '8':'取消预约取件'
+        '8':'已完成'
     }
     for (var key in obj) {
         if (key == val) {
@@ -292,7 +294,8 @@ export default {
  justify-content: flex-end;
 }
 .btn button{
-    margin-left:8px;
+    margin-left:10px;
+    height: 28px;
 }
 
 .goods{

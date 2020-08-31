@@ -85,7 +85,7 @@ export default {
         var itemList=[
           {
           // text:'明天'+(new Date().getMonth()+1) +'月'+(new Date().getDate()+1)+'日',
-          text:'明天'+ getafterDay(new Date())+'日',
+          text:'明天'+ getafterDay(new Date()),
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
@@ -99,7 +99,7 @@ export default {
           ]
           },
           {
-          text:'后天'+getafterTwoDay(new Date())+'日',
+          text:'后天'+getafterTwoDay(new Date()),
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
@@ -117,11 +117,12 @@ export default {
     }else{
         this.selectDate='今天'
         var itemList=[{
-            text: '今天'+(new Date().getMonth()+1) +'月'+new Date().getDate()+'日',
+            // text: '今天'+(new Date().getMonth()+1) +'月'+new Date().getDate()+'日',
+            text:'今天'+ getNowFormatDate(new Date()),
             children: []
           },
           {
-          text:'明天'+getafterDay(new Date())+'日',
+          text:'明天'+getafterDay(new Date()),
           children:[
             {text:'9:00 -10:00',id:9},
             {text:'10:00 -11:00',id:10},
@@ -247,6 +248,7 @@ export default {
             console.log(op)
             orderOnline(op).then(res=>{
               console.log(res)
+              this.$toast('预约成功')
               this.$router.go(-1)
             })
           }

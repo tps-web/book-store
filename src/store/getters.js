@@ -7,6 +7,7 @@ export default {
     // expressCompany: undefined, //预约快递快递公司
     // expressDateTime: undefined //预约快递时间
     isPopPass: state => state.isPopPass,
+    bugRentBookList: state => state.bugRentBookList,
     expressCompany: state => state.expressCompany,
     expressDateTime: state => state.expressDateTime,
     // 是否存在待归还
@@ -142,5 +143,26 @@ export default {
             }
         });
         return (tatal / 100).toFixed(2);
+    },
+    //结算买断商品
+    RENT_BOOK_TOTAL(state) {
+        let tatal = 0
+        Object.values(state.bugRentBookList).forEach((good, index) => {
+            if (good.checked) {
+                tatal += good.bookPrice * 100
+            }
+        });
+        return (tatal / 100).toFixed(2);
+    },
+    //买断选中
+    CheckGoods(state) {
+        let rentBugBookArr = [];
+        let rentBook = state.bugRentBookList
+        Object.values(rentBook).forEach((good, index) => {
+            if (good.checked) {
+                rentBugBookArr.push(good);
+            }
+        });
+        return rentBugBookArr;
     },
 }

@@ -23,6 +23,7 @@ export default {
   },
   methods:{
     androidSentUserIdToJs(id){
+        alert(id) 
         axios.all([getUserInfoById(id),getUserMemberById(id)])
               .then(axios.spread((UserInfo,UserMember)=>{
                   // console.log(UserInfo)

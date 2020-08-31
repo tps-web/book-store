@@ -155,6 +155,29 @@ export function formatGoods(list) {
     return newData
 }
 
+//买断  修改书单信息
+export function bugFormatGoods(list) {
+    var newData = []
+    list.map((ele) => {
+        newData.push({
+            bookId: ele.bookId, //书籍编号
+            bookIsbn: ele.bookIsbn, //书籍的ISBN  
+            bookName: ele.bookName, //书籍名称
+            bookPic: ele.bookPic, //书籍封面图
+            bookPrice: ele.bookPrice, //销售价格
+            bookQuantity: ele.bookQuantity, //	购买数量
+            promotionAmount: ele.promotionAmount, // 数据促销分解金额
+            realAmount: ele.realAmount, //该商品经过优惠后的分解金额
+            couponAmount: ele.couponAmount, //优惠券优惠分解金额
+            bookPress: ele.bookPress, //出版社
+            bookshelfLayer: ele.bookshelfLayer, //书架层数
+            bookshelfNo: ele.bookshelfNo, //书架编码
+            checked: false
+        })
+    })
+    return newData
+}
+
 // 过滤买断的商品  修改key 值
 export function formatBugGoods(list) {
     // console.log(list)
@@ -277,7 +300,7 @@ export function formatList(data) {
 }
 
 /**
- * 格式化时间
+ * 格式化时间 现在时间
  */
 export function getNowFormatDate(date) {
     var seperator1 = "-";
@@ -293,6 +316,9 @@ export function getNowFormatDate(date) {
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     return currentdate;
 }
+/**
+ * 格式化时间 一天后的时间
+ */
 export function getafterDay(startDate) {
     // var seperator1 = "-";
     // var year = date.getFullYear();
@@ -312,7 +338,9 @@ export function getafterDay(startDate) {
     var nextStartDate = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
     return nextStartDate;
 }
-
+/**
+ * 格式化时间 两天后的时间
+ */
 export function getafterTwoDay(startDate) {
     startDate = new Date(startDate);
     startDate = +startDate + 1000 * 60 * 60 * 48;

@@ -411,7 +411,7 @@ const router = new Router({
             path: '/goodListDesc',
             name: 'goodListDesc',
             component: () =>
-                import ('@/pages/bugRentBook/goodDesc'),
+                import ('@/pages/bugBookRent/goodDesc'),
             meta: {
                 title: "商品列表"
             }
@@ -462,6 +462,26 @@ const router = new Router({
                 title: "选择地址"
             }
         },
+        //买断
+        {
+            path: '/bugBookRent/:id',
+            name: 'bugBookRent',
+            component: () =>
+                import ('@/pages/bugBookRent/index'),
+            meta: {
+                title: "买断"
+            }
+        },
+        {
+            path: '/bugRentOrder',
+            name: 'bugRentOrder',
+            component: () =>
+                import ('@/pages/bugBookRent/bugRentOrder'),
+            meta: {
+                title: "买断订单"
+            }
+        },
+
     ]
 })
 

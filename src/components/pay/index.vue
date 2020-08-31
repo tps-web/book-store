@@ -39,7 +39,7 @@ export default {
        }
     },
     confirm(){
-       this.$emit('confirmData')
+       this.$emit('confirmData',this.radionum)
     },
     closeBtn(){
        this.$emit('closepop')
