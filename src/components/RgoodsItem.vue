@@ -13,14 +13,18 @@
          <div style="height:23px" v-else>
          </div>
          <div class="price">
-           <div class="left">
-              <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
+            <div class="left">
+              <div style="display:inline-block" v-show="item.promotionAmount">
+                <span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span>
+              </div>
                <div :class="[item.promotionAmount?'show_decoration':'noshow']">
                  <span>￥{{item.price|decimals}}</span>
              </div>
            </div>
            <div class="right">
-              <van-image :src="require('../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/>
+              <!-- <van-image :src="require('../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/> -->
+              <div class="btn" style="background:#000;color:#ff1" @click="goCart(item)">租书</div>
+              <div class="btn" style=" background: #FFC01C;color:red" @click="goCart(item)">购买</div>
            </div>
          </div>
       </van-grid-item>
@@ -53,7 +57,6 @@ export default {
     //  ...mapMutations(['ADD_TO_CART']),
      ...mapActions(['addCart']),
     goCart(item){
-      console.log(item)
       if(item.total-item.remainder>0){
          this.addCart(item);
        }else{
@@ -91,10 +94,9 @@ export default {
 }
 .price{
   margin-top: 4px;
-  padding: 6px;
-  width: 94%;
-  height: 18px;
-  line-height: 18px;
+  padding: 8px 6px;
+  width: 100%;
+  height: 24px;
   font-size: 12px;
   text-align: left;
   color: rgba(252,86,80,1);
@@ -122,7 +124,7 @@ export default {
   height: 18px;
 }
 .num{
-  font-size: 16px;
+  font-size: 14px;
 }
 .grid_item{
   margin: 4px 0;
@@ -136,11 +138,24 @@ export default {
 .show_decoration{
   color: #ccc;
   font-size: 10px!important;
-  display:inline-block;
+  /* display:inline-block; */
   text-decoration:line-through;
+  margin-left: 8px;
 }
 .noshow{
+  margin-top: 8px;
   font-size: 14px;
+}
+.right{
+  margin-right: 2px;
+}
+.btn{
+  display: inline-block;
+  color: #000;
+  padding: 2px 4px;
+  text-align: center;
+  border-radius: 4px;
+  margin-top: 8px;
 }
 /deep/ .van-grid-item__content{
   box-shadow: 0 0 4px 0  rgba(0,0,0,0.1);

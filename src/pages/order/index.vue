@@ -149,7 +149,7 @@ export default {
               // console.log(res.data.item.orderSn)
               sessionStorage.setItem('orderId',res.data.item.id)
               sessionStorage.setItem('orderType',res.data.item.orderType)
-              wxPay(res.data.item.orderSn).then(res=>{ 
+              wxPay(res.data.item.orderSn).then(res=>{  
               var op =JSON.stringify(res.data.item)
                 const u = navigator.userAgent;
                 const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);

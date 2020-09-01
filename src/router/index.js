@@ -481,7 +481,15 @@ const router = new Router({
                 title: "买断订单"
             }
         },
-
+        {
+            path: '/rentGoodsList/:id',
+            name: 'rentGoodsList',
+            component: () =>
+                import ('@/components/orderList/rentGoodsList'),
+            meta: {
+                title: "商品列表"
+            }
+        },
     ]
 })
 
@@ -497,13 +505,14 @@ router.beforeEach((to, from, next) => {
         next()
         return
     }
-    // 判断微信是否已授权 
-    if (!(getToken())) {
-        // 存储userID
-        next('/getUserInfo')
-    } else {
-        next()
-    }
+    next()
+        // 判断微信是否已授权 
+        // if (!(getToken())) {
+        //     // 存储userID
+        //     next('/getUserInfo')
+        // } else {
+        //     next()
+        // }
 })
 
 export default router

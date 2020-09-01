@@ -65,7 +65,8 @@ Vue.filter('orderStatus', function(id) {
             '6': '退款',
             '7': '预约取件成功',
             // '8':'取消预约取件'
-            '8': '已完成'
+            '8': '买断订单未完成',
+            '10': '买断完成'
         }
         for (var key in obj) {
             if (key == id) {

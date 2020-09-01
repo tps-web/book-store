@@ -1,5 +1,10 @@
 <template>
   <div class="" >
+    <div class="login" v-if="!userLogin" @click="login">
+       <van-image :src="require('../../assets/images/login.png')" class="loginImg"/>
+        您还没有登录，点击 <span class="color:blue">登陆</span>
+    </div>
+    <div class="" v-else>
     <!-- 头部 -->
   	<van-nav-bar
       title=""
@@ -76,17 +81,19 @@
          <div class="del" @click="del()">移除</div>
        </div>
     </div>
+    </div>
     <navigate/>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState, mapGetters, mapActions } from 'vuex'
-
+import { getToken } from '@/utils/authcookie'
 export default {
   name: 'cart',
   data () {
     return {
+      userLogin:null,
       editor:false,
       isCheckedAllEditor:false
     }
@@ -143,8 +150,20 @@ export default {
     
   },
   created(){
+    this.userLogin=getToken()
+    // this.$toast(this.userLogin)
   },
   methods:{
+    login(){
+      const u = navigator.userAgent;
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if (isIOS) {
+                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+            } else if (isAndroid) {
+                window.android.jsCallAndroidGetUserId();
+         }
+    },
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
    ...mapActions(['deleteGoods']),
    reduceGoods(item){
@@ -408,5 +427,14 @@ section {
     font-size: 12px;
     background-color: #f5f5f5;
     border: 0;
+}
+.login{
+  margin: 240px auto;
+}
+.loginImg{
+  margin: 0px auto 10px;
+  width: 66px;
+  height: 66px;
+  display: block;
 }
 </style>

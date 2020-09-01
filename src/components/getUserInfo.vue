@@ -76,7 +76,7 @@ export default {
   mounted(){
      window.androidCallJs = this.androidCallJs;
      window.isTrue = false
-     androidCallJs() 
+    //  androidCallJs(169)  
   },
  methods:{
    iOSCallJs(id){
@@ -116,11 +116,11 @@ export default {
             }
       }
       else{
-          setToken(info.data)
-          getUserMemberById(info.data.item.userId).then(res=>{
-              store.commit('GETMEMBERINFO',res.data.item.data)
-          })
-          store.dispatch('getUserInfo')
+          // setToken(info.data)
+          // getUserMemberById(info.data.item.userId).then(res=>{
+          //     store.commit('GETMEMBERINFO',res.data.item.data)
+          // })
+          // store.dispatch('getUserInfo')
           this.$router.replace('/')
       }
   },

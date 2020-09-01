@@ -172,6 +172,7 @@ export function bugFormatGoods(list) {
             bookPress: ele.bookPress, //出版社
             bookshelfLayer: ele.bookshelfLayer, //书架层数
             bookshelfNo: ele.bookshelfNo, //书架编码
+            orderId: ele.orderId,
             checked: false
         })
     })

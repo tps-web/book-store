@@ -10,7 +10,7 @@ import { mapActions,mapState} from 'vuex'
 // import './assets/css/common.css';
 import { getToken,setToken } from '@/utils/authcookie'
 import {currentDate,currentDateLater,expireTimeDateLater} from '@/utils'
-import {getUserMemberById, getOrderDesc,saveMember,updateMember,getUserInfoById} from '@/api'
+import {getUserMemberById, getOrderDesc,saveMember,updateMember,getUserInfoById,updateStatusById} from '@/api'
 import store from '@/store'
 import axios from 'axios'
 export default {
@@ -74,10 +74,6 @@ export default {
                                   this.reload()
                                   store.commit('GETMEMBERINFO',UserMember.data.item.data)
                               }))
-                      // getUserInfoById(this.userInfo.userId).then(res=>{
-                      //       setToken(res.data)
-                      //       this.getUserInfo()
-                      // })
                    })
                 })
              }else{ //是会员
@@ -88,12 +84,6 @@ export default {
                     memberData.expireTime =newExpireTime
                     // memberData.memberLevelId=4
                     updateMember(memberData).then(res=>{
-                      // alert('续费成功')
-                      // getUserInfoById(this.userInfo.userId).then(res=>{
-                      //       setToken(res.data)
-                      //       this.getUserInfo()
-                      //       this.reload()
-                      // })
                        axios.all([getUserInfoById(this.userInfo.userId),getUserMemberById(this.userInfo.userId)])
                         .then(axios.spread((UserInfo,UserMember)=>{
                             setToken(UserInfo.data)
@@ -104,6 +94,14 @@ export default {
                  })
              }
           }
+          else if(sessionStorage.getItem('orderType')==3){
+            //买断订单
+             let data={id:sessionStorage.getItem('orderId'),status:10}
+            updateStatusById(data).then(res=>{
+              console.log(res)
+            })
+          }
+          //支付失败
          }else{
            this.$router.replace({
               path: '/fail',
@@ -188,10 +186,14 @@ export default {
  },
   mounted(){
       // 关闭浏览器窗口的时候清空浏览器缓存在localStorage的数据
-      window.onbeforeunload = function (e) {
-          var storage = window.localStorage;
-          storage.clear()
-      }
+      // window.onbeforeunload = function (e) {
+      //     var storage = window.localStorage;
+      //     storage.clear()
+      // }
+       window.addEventListener('beforeunload',()=>{
+           var storage = window.localStorage;
+            storage.clear()
+        });
   }
 }
 </script>

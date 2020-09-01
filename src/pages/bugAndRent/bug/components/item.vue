@@ -38,7 +38,7 @@
        <van-button color="#FC5650" size="small" plain round @click="returnId(item)" v-if="item.status==4">退货</van-button>
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
        <span class="pay" v-show="item.status==0">￥{{item.payAmount|decimals}}</span>
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=7&&item.status!=8">{{item.status|btnText}}</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=7&&item.status!=8&&item.status!=9&&item.status!=10">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==0||item.status==1">取消订单</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5&&item.status!=6">取消订单</van-button> -->
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5" >删除订单</van-button>

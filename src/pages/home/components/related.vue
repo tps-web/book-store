@@ -65,9 +65,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.content{
-  /* margin-top: 10px; */
-}
 .tit{
   margin-bottom: 4px;
 }

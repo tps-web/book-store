@@ -28,7 +28,7 @@ import Coupon  from './coupon'
 import {jian} from '@/utils'
 import pay from '@/components/pay/index'
 import {getToken} from '@/utils/authcookie'
-import {postOrder} from '@/api'
+import {postOrder,wxPay} from '@/api'
 export default {
   components:{
       goodList,
@@ -70,16 +70,32 @@ export default {
           list:this.CheckGoods,
           orderType:0,
           payAmount:this.payAmount,
-          payType:0,
+          payType:payType,
           sourceType:1,
-          status:5,
+          status:8,
           totalAmount: this.RENT_BOOK_TOTAL,
           userId:info.userId,
-          userNickName:info.userNickName
+          userNickName:info.userNickName,
+          oldOrderId:this.CheckGoods[0].orderId,
       }
-      console.log(op)
+       if(this.couponItem){
+          op.couponAmount=this.couponItem.amount   //优惠券抵扣金额
+          op.couponSn=this.couponItem.couponHistoryId
+       }
+      sessionStorage.setItem('orderType',3)
       postOrder(op).then(res=>{
-          this.$toast('保存成功')
+        sessionStorage.setItem('orderId',res.data.item.id)
+        wxPay(res.data.item.orderSn).then(res=>{ 
+          var op =JSON.stringify(res.data.item)
+          const u = navigator.userAgent;
+          const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+          const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+          if(isIOS){
+            window.webkit.messageHandlers.iOSToPay.postMessage(op)
+          }else if(isAndroid){
+            window.android.androidToPay(op);
+          }
+        })
       })
     },
     closepop(){
@@ -93,9 +109,10 @@ export default {
          this.couponNum=couponItem.amount  //优惠券价额
         this.showCoupon=false
       }else{
+         this.couponItem=""
          this.useCouponText='' //优惠券文案 
          this.couponNum=0 //优惠券价额
-        this.showCoupon=false
+         this.showCoupon=false
       }
    },
   },

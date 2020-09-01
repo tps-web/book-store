@@ -16,7 +16,7 @@
           <van-icon name="arrow" class="expess_right" size="20" />
        </div> -->
        <!-- 联系人 -->
-       <div class="expess">
+       <div class="expess" v-if="listItem.status!=10&&listItem.status!=8">
           <van-image :src="require('../../assets/images/posi.png')" class="expess_img"/>
           <div class="content">
               <div class="content_top">
@@ -26,7 +26,7 @@
               <div class="content_botton">{{listItem.receiverDetailAddress}}</div>
           </div>
        </div>
-     <selectGoods :goodsList='goodsList' />
+     <selectGoods :goodsList='goodsList' :orderType="orderType"/>
      <div v-show="listItem.orderType===0">
          <van-cell title="商品金额" :value="formatTwo(listItem.totalAmount)" size="large" title-style="text-align: left;font-size: 14px;" />
          <van-cell title="商品优惠" :value="jian(listItem.totalAmount,listItem.payAmount,listItem.couponAmount)" size="large" title-style="text-align: left;font-size: 14px;"/>
@@ -92,14 +92,15 @@ export default {
         createdTime:'',
         lastPayTime:'',
         item:'',
+        orderType:''
     }
   },
   created(){
       getOrderDesc(this.$route.params.id).then(res=>{
-        //   console.log(res.data.item)
           this.goodsList=res.data.item.list
+          this.orderType=res.data.item.orderType
           this.listItem=res.data.item
-             var statusText=this.getStatus(this.listItem.status)
+            var statusText=this.getStatus(this.listItem.status)
              document.title=statusText
           if(this.listItem.status===0){
                this.createdTime=res.data.item.createTime
@@ -213,28 +214,41 @@ destroyed(){
           },1000)
       },
       getStatus(orderType){
-            switch (orderType) {
-                                 case 0:
-                                   return '待付款'
-                                break;
-                                case 1:
-                                    return '待发货'
-                                break;
-                                case 2:
-                                    return '待收货'
-                                break;
-                                case 3:
-                                    return '待归还'
-                                break;
-                                case 4:
-                                    return '待评价'
-                                break;
-                                case 5:
-                                    return '已关闭'
-                                break;
-                                default:
-                                    break;
-                            }
+           switch (orderType) {
+                    case 0:
+                        return '待付款'
+                    break;
+                    case 1:
+                        return '待发货'
+                    break;
+                    case 2:
+                        return '待收货'
+                    break;
+                    case 3:
+                        return '待归还'
+                    break;
+                    case 4:
+                        return '待评价'
+                    break;
+                      case 5:
+                        return '已关闭'
+                    break;
+                     case 6:
+                        return '退款订单'
+                    break;
+                     case 7:
+                        return '预约取件成功'
+                    break;
+                     case 8:
+                        return '买断'
+                    break;
+                     case 9:
+                        return '归还后确认订单'
+                    break;
+                    default:
+                        return '支付买断成功'
+                        break;
+                }
       },
     goPay(item){
         //去付款
@@ -315,7 +329,7 @@ destroyed(){
       }
   },
   filters:{
-        //订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待评价；4->已关闭；5->无效订单  
+// 订单状态：-1->全部订单；0->待付款；1->待发货；2->待收货；3->待归还；4->待评价；5->已关闭；6->退款订单,7->预约取件成功，8-买断订单，9->归还后确认订单，10->支付买断订单 
       formatStatus(order){
         //   if(order.orderType==0){
             switch (order.status) {
@@ -337,7 +351,20 @@ destroyed(){
                       case 5:
                         return '已关闭'
                     break;
+                     case 6:
+                        return '退款订单'
+                    break;
+                     case 7:
+                        return '预约取件成功'
+                    break;
+                     case 8:
+                        return '买断'
+                    break;
+                     case 9:
+                        return '归还后确认订单'
+                    break;
                     default:
+                        return '支付买断成功'
                         break;
                 }
        

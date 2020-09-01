@@ -32,7 +32,7 @@
     <div class="expireTime" v-show="item.receiveTime!=null&&item.status===3">借阅时间为：{{item.beginTime}} 至 {{item.expireTime}}</div>
     <div class="btn">
         <!-- 提醒发货  确定收货  删除订单  待评论 -->
-       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3&&item.status!=7&&item.status!=8">{{item.status|btnText}}</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=3&&item.status!=7&&item.status!=8&&item.status!=9&&item.status!=10">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==1||item.status==0">取消订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
        <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3" style="position: absolute;left:10px">买  断</van-button>

@@ -2,6 +2,7 @@
   <div>
      <!-- <Skeleton v-show="isShowLoading" /> -->
     <div class="content">
+      <!-- 会员广告 -->
       <div class="popcontent" v-show="isPop">
             <div class="popBox">
                 <van-image :src="require('../../assets/images/pop.png')" class="popImg" @click="goVip" />
@@ -51,6 +52,7 @@ import Skeleton from './components/skeleton.vue'
 import WeekBook from './components/weekBook.vue'
 import bannervoice from './components/bannervoice.vue'
 
+import {getToken} from '@/utils/authcookie'
 
 var that
 import {getBookList,index} from '@/api'
@@ -103,6 +105,7 @@ export default {
     that.getItem()
   },
   mounted(){
+    
   },
    computed:{
     ...mapState(['userInfo']),

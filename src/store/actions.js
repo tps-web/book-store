@@ -9,14 +9,14 @@ import {
     getCouponHistory,
     isRendOrder,
     getOrderType,
-    getAllDataByType
+    getAllDataByType,
+    isExpressOreder
 } from '@/api'
 // var info = JSON.parse(getToken())
 import { formatAddress } from '@/utils'
 import {
     Toast
 } from 'vant'
-
 export default {
     //得到用户信息
     getUserInfo({ dispatch, state, commit }) {
@@ -26,9 +26,14 @@ export default {
             // getInfo().then(res => {
             //     commit('USER_INFO', res.data)
             // })
+        var total = 0
         isRendOrder().then(res => {
-            // console.log(res.data.total)
-            commit('ISRENDORDER', res.data.total)
+            isExpressOreder().then(response => {
+                var expressNum = response.data.total
+                total = res.data.total + expressNum
+                    // console.log(total)
+                commit('ISRENDORDER', total)
+            })
         })
         let addressOp = { curPage: 1, pageRows: 10 }
         getAddress(addressOp).then(res => {
@@ -102,7 +107,15 @@ export default {
                 })
             }
         } else {
-            Toast('没有用户信息')
+            // Toast('没有用户信息')
+            const u = navigator.userAgent;
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if (isIOS) {
+                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+            } else if (isAndroid) {
+                window.android.jsCallAndroidGetUserId();
+            }
         }
     },
     //删除购物车

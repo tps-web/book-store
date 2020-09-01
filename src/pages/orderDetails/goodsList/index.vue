@@ -17,9 +17,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 export default {
-  props:['goodsList'],
+  props:['goodsList',"orderType"],
   data () {
     return {
     }
@@ -33,7 +32,11 @@ export default {
   methods:{
       goDetails(item){
           // console.log(item[0].orderSn)
-          this.$router.push(`/orderList/goodsList/${item[0].orderSn}`)
+          if(this.orderType==1){
+             this.$router.push(`/rentGoodsList/${item[0].orderSn}`)
+          }else{
+             this.$router.push(`/orderList/goodsList/${item[0].orderSn}`)
+          }
       }
   }
 }

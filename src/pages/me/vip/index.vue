@@ -84,7 +84,7 @@
      <van-cell value="会员权益" is-link class="quanyi" size="large" @click="goDesc('会员权益')"/>
 
      <div class="btn" @click="goPay">
-       <!-- <span style="color:red">￥{{payAmount}}</span> -->
+       <span style="color:red">￥{{payAmount}}</span>
       {{userInfo.memberFlag==0?'立即开通':'立即续费'}}</div>
   </div>
 </template>

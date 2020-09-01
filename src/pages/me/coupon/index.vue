@@ -13,7 +13,7 @@
         <!-- <div style="margin-left: 10px;color:#999">暂无优惠券~</div> -->
        </div>
       <div>
-      <div class="box" v-for="(item,index) in getCouponList" :key="index">
+      <div class="box" v-for="(item,index) in formatCoupon" :key="index">
         <van-image  :src="require('../../../assets/images/bg-use.png')" class="bg" v-if="item.useStatus==0"/>
          <van-image  :src="require('../../../assets/images/bg-used.png')" class="bg" v-else/>
         <div class="pos"> 
@@ -69,6 +69,13 @@ export default {
   computed:{
     // ...mapState(['coupon']),
     // ...mapGetters(['getCouponList','getCouponTotal']),
+    formatCoupon(){
+      if(this.getCouponList){
+         var newData =this.getCouponList
+         newData.sort((a,b)=>{return (a.useStatus-b.useStatus)})
+         return newData
+      }
+    },
   },
   created(){
      that=this
@@ -179,7 +186,7 @@ export default {
 }
 .boxNum{
 	width: 45%;
-  margin-left: 6px;
+  margin-left: 8px;
 }
 .canNum{
 	width: 78%;

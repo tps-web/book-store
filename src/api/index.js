@@ -8,8 +8,9 @@ import { getToken } from '@/utils/authcookie'
 //首页   http://192.168.1.109:8110/app/book/index/list/169   /app/book/index/list/{curPage}/{pageRows}/{userId}
 export function index(data) {
     var info = JSON.parse(getToken())
+    var userId = info ? info.userId : 0
     return request({
-        url: `/app/book/index/list/${data.curPage}/${data.pageRows}/${info.userId}`,
+        url: `/app/book/index/list/${data.curPage}/${data.pageRows}/${userId}`,
         method: 'get'
     })
 }
@@ -25,9 +26,10 @@ export function getCategory() {
 // 根据id获取图书信息 /app/book/index/get/{curPage}/{pageRows}/{id}/{userId}
 export function getBookDesc(op) {
     var info = JSON.parse(getToken())
+    var userId = info ? info.userId : 0
     op.isHotSearch = op.isHotSearch ? op.isHotSearch : '0'
     return request({
-        url: `/app/book/index/get/${op.curPage}/${op.pageRows}/${op.id}/${info.userId}/${op.isHotSearch}`,
+        url: `/app/book/index/get/${op.curPage}/${op.pageRows}/${op.id}/${userId}/${op.isHotSearch}`,
         method: 'get'
     })
 }
@@ -178,7 +180,6 @@ export function getcouponList(op) {
 
 // 提交订单 /order/save
 export function postOrder(data) {
-    var info = JSON.parse(getToken())
     return request({
         url: `/order/save`,
         method: 'post',
@@ -207,6 +208,14 @@ export function getOrderType(data) {
 export function getOrderItem(data) {
     return request({
         url: `/order/orderItem/list/${data.curPage}/${data.pageRows}/${data.orderSn}`,
+        method: 'get',
+    })
+}
+
+// /order/orderItem/listAll/{orderSn}  查询订单中的书籍列表
+export function getOrderlistAll(orderSn) {
+    return request({
+        url: `/order/orderItem/listAll/${orderSn}`,
         method: 'get',
     })
 }
@@ -371,6 +380,15 @@ export function isRendOrder() {
     var info = JSON.parse(getToken())
     return request({
         url: `/order/list/1/6/${info.userId}/3/1`,
+        method: 'get'
+    })
+}
+
+//是否存在预约快递状态
+export function isExpressOreder() {
+    var info = JSON.parse(getToken())
+    return request({
+        url: `/order/list/1/6/${info.userId}/7/1`,
         method: 'get'
     })
 }

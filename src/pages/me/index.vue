@@ -1,18 +1,19 @@
 <template>
-  <div class="me">
+  <div class="me" >
+ 
     <div class="top">
       <!-- <van-icon name="arrow-left" size="30" class="icon"/>   -->
       <div class="user_mess">
          <van-image
            round
-           :src="userInfo.userHead"
+           :src="userInfo?userInfo.userHead:'http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png'"
            class="avater"
          >
           <!-- <div class="o" style="position: absolute;bottom: 2px;right: 4px;">
             <img src="../../assets/images/isvipIcon.png" alt="" style="width:20px"/>
           </div> -->
          </van-image>
-       <div class="name">{{userInfo.userNickName}}</div>
+       <div class="name">{{userInfo.userNickName||'游客'}}</div>
       </div>
     </div>
     <div class="user_group">
@@ -59,13 +60,13 @@
            <div class="box_name">{{item.name}}</div>
       </div> -->
     </div>
-     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="userInfo.memberFlag!=0?'/zVip':'/vip'"  class="vip" />
+     <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')"  @click="goVip"  class="vip" />
      <!-- <van-cell  value="会员中心"   is-link  :icon="require('../../assets/images/vipIcon.png')" :to="memberInfo!=null?'/zVip':'/vip'"  class="vip" /> -->
     <div class="setting_group">
-      <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')" to="/address" size="large" />
-      <van-cell  value="优惠券"     is-link  :icon="require('../../assets/images/yhj.png')" to="/coupon" size="large" />
-      <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')" to="/convert" size="large"  />
-      <van-cell  value="关于"   is-link  :icon="require('../../assets/images/help.png')"    :to="'/dataDesc/'+dataId" size="large" />
+      <van-cell  value="收货地址"   is-link  :icon="require('../../assets/images/shdz.png')"  @click="goTo('/address')" size="large" />
+      <van-cell  value="优惠券"     is-link  :icon="require('../../assets/images/yhj.png')"   @click="goTo('/coupon')" size="large" />
+      <van-cell  value="兑换中心"   is-link  :icon="require('../../assets/images/yhzx.png')"  @click="goTo('/convert')" size="large"  />
+      <van-cell  value="关于"   is-link  :icon="require('../../assets/images/help.png')"    :to="'/dataDesc/'+dataId"  size="large" />
     </div>
     <!-- <button @click="test">测试{{userInfo.memberFlag}}</button> -->
   <navigate/>
@@ -75,11 +76,13 @@
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex'
 import {getAllDataByType} from '@/api'
+import { getToken } from '@/utils/authcookie'
 export default {
   name: 'Me',
   data () {
     return {
-      dataId:''
+      dataId:'',
+      userLogin:null
     }
   },
   computed:{
@@ -92,23 +95,70 @@ export default {
    
   },
   created(){
+    // this.userLogin=getToken()
     getAllDataByType('关于').then(res=>{
         // console.log(res.data.rows[0].id)
         this.dataId=res.data.rows[0].id
     })
     // console.log(this.TabTotal)
     //  let op={curPage:1,orderType:0,pageRows:1,status:0}
+    if(this.userInfo){
      this.wraitPayTotal()
+    }
   },
   methods:{
-    test(){
-      window.location.href="https://mp.weixin.qq.com/s?__biz=MzU3Mzg0NzQ5Mg==&mid=2247484693&idx=1&sn=d4999ca7142fa2e7f7fc91102d011300&chksm=fd3a27beca4daea8d3a205190072f6925b2b02ca734e4f089dffa3f02609768d332418c6d131&mpshare=1&scene=23&srcid=0826zQv4Kooxl4jf598WYMM4&sharer_sharetime=1598418172616&sharer_shareid=46a75250702065070cd0db1d78c105e2#rd"
-    },
     ...mapActions(['wraitPayTotal']),
     gourl(item){
       // console.log(item)
       // this.$router.push(`/bugAndRent/${item}`)
-      this.$router.replace(`/bugAndRent/${item}`)
+      if(this.userInfo){
+        this.$router.replace(`/bugAndRent/${item}`)
+      }else{
+        //  window.android.jsCallAndroidGetUserId();
+          const u = navigator.userAgent;
+          const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+          const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+          if (isIOS) {
+              window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+          } else if (isAndroid) {
+              window.android.jsCallAndroidGetUserId();
+          }
+      }
+    },
+    goTo(item){
+      if(this.userInfo){
+        this.$router.push(item)
+      }else{
+         const u = navigator.userAgent;
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if (isIOS) {
+                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+            } else if (isAndroid) {
+                window.android.jsCallAndroidGetUserId();
+         }
+      }
+    },
+    goVip(){
+      //:to="userInfo.memberFlag!=0?'/zVip':'/vip'"
+       if(this.userInfo){
+          if(this.userInfo.memberFlag!==0){
+            //会员
+            this.$router.push('/zVip')
+          }else{
+            //非会员
+            this.$router.push('/Vip')
+          }
+       }else{
+           const u = navigator.userAgent;
+            const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            if (isIOS) {
+                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+            } else if (isAndroid) {
+                window.android.jsCallAndroidGetUserId();
+         }
+       }
     }
   }
 }
@@ -200,5 +250,8 @@ export default {
 }
 .van-cell__value--alone{
   margin-left:8px;
+}
+.login{
+  margin: 250px auto;
 }
 </style>

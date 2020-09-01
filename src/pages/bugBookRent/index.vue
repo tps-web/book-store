@@ -49,7 +49,7 @@ export default {
   },
   computed:{
       ...mapGetters(
-      { bugRentBookList: 'bugRentBookList'}
+      { bugRentBookList: 'bugRentBookList',rentTotal:'RENT_BOOK_TOTAL'}
     ),
        // 3.计算shopCart的数量  这里选中的物品数量 不是根据checked 展示是否为空购物车使用 
     totalCount () {
@@ -91,7 +91,7 @@ export default {
   created(){
     that=this
     getOrderDesc( this.$route.params.id ).then(res=>{
-            // console.log(res.data.item.list)
+            console.log(res.data.item.list)
            this.$store.commit('BUGRENTBOOKLIST',bugFormatGoods(res.data.item.list))
         })
   },
@@ -100,7 +100,9 @@ export default {
     single(item,index){
         this.$store.commit('SELETE_GOODS_RENT',index)
     },
-    godesc(){},
+    godesc(item){
+       this.$router.push(`/goodsDetails/${item.bookId}`)
+    },
     goBug(){
         if(this.checkedNum==0){
             that.$toast('请选择买断商品')
