@@ -16,7 +16,7 @@
           <van-icon name="arrow" class="expess_right" size="20" />
        </div> -->
        <!-- 联系人 -->
-       <div class="expess" v-if="listItem.status!=10&&listItem.status!=8">
+       <div class="expess" v-if="listItem.status!=10&&listItem.status!=8&&listItem.receiverName">
           <van-image :src="require('../../assets/images/posi.png')" class="expess_img"/>
           <div class="content">
               <div class="content_top">
@@ -358,7 +358,7 @@ destroyed(){
                         return '预约取件成功'
                     break;
                      case 8:
-                        return '买断'
+                        return '买断订单未完成'
                     break;
                      case 9:
                         return '归还后确认订单'

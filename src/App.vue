@@ -96,13 +96,20 @@ export default {
           }
           else if(sessionStorage.getItem('orderType')==3){
             //买断订单
-             let data={id:sessionStorage.getItem('orderId'),status:10}
-            updateStatusById(data).then(res=>{
-              console.log(res)
+             let opacity={id:sessionStorage.getItem('orderId'),status:10}
+            updateStatusById(opacity).then(res=>{
+              // console.log(res)
             })
           }
           //支付失败
          }else{
+            if(sessionStorage.getItem('orderType')==3){
+           //买断支付失败  修改为关闭订单
+             let op ={id:sessionStorage.getItem('orderId'),status:5}
+             updateStatusById(op).then(res=>{
+              //  console.log(res)
+             })
+            }
            this.$router.replace({
               path: '/fail',
               query:{
@@ -168,13 +175,20 @@ export default {
                  })
              }
           }
-         }else{
+         }else{  //支付失败
            this.$router.replace({
               path: '/fail',
               query:{
                   id:sessionStorage.getItem('orderId')
               }
            })
+          if(sessionStorage.getItem('orderType')==3){
+           //买断支付失败  修改为关闭订单
+             let op ={id:sessionStorage.getItem('orderId'),status:5}
+             updateStatusById(op).then(res=>{
+              //  console.log(res)
+             })
+            }
          }
     },
       reload () {
@@ -206,7 +220,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-size: 14px;
-  height: 100%;
 }
 .amap-logo {
     right: 0 !important;
@@ -221,10 +234,4 @@ export default {
 .van-overlay{
   background-color:rgba(0,0,0,.1)!important
 }
-/* .van-radio__icon--round 
-{
-  position: absolute!important;
-    right: 10px!important;
-}  */
-
 </style>
