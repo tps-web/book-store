@@ -37,7 +37,7 @@
        <van-button color="#FC5650" size="small" plain round @click="goterm(item)" v-show="item.status==3&&item.isTerm!=1">续  租</van-button>
        <van-button color="#FC5650" size="small" plain round @click="goBug(item)" v-if="item.status==3" style="position: absolute;left:10px">买  断</van-button>
        <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==3">预约归还</van-button>
-       <!-- <van-button color="#FC5650" size="small" plain round @click="ReturnBook(item)" v-if="item.status==7">取消预约取件</van-button> -->
+       <van-button color="#FC5650" size="small" plain round @click="cancelOrderline(item)" v-if="item.status==7">取消预约取件</van-button>
        <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==6" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getOrderType, updateOrder, removeOrder,updateStatusById,saveTerm } from '@/api'
+import { getOrderType, updateOrder, removeOrder,updateStatusById,saveTerm,cancelOrderOnline } from '@/api'
 import {orderMixin} from '../../mixins/mixins'
 var that
 export default {
@@ -64,6 +64,14 @@ export default {
        this.getItem()
   },
   methods:{
+    //取消预约快递
+    cancelOrderline(item){
+       cancelOrderOnline(item.orderSn).then(res=>{
+         console.log(res)
+           this.reload()
+           this.$toast('取消成功')
+       })
+    },
     ReturnBook(item){
       //预约归还
        this.$router.push(`/makeExpress/${item.orderSn}`)
@@ -76,7 +84,6 @@ export default {
                 })
                 .then(() => { //点击确认按钮后的调用
                     updateStatusById(op).then(res => {
-                        item.status = 3
                           this.reload()
                         this.$toast('确定成功')
                     })

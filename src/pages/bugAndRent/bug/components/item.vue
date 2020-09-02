@@ -41,7 +41,7 @@
        <van-button color="#FC5650" size="small" plain round @click="gobtnText(item)" v-if="item.status!=1&&item.status!=5&&item.status!=6&&item.status!=7&&item.status!=8&&item.status!=9&&item.status!=10">{{item.status|btnText}}</van-button>
        <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status==0||item.status==1">取消订单</van-button>
        <!-- <van-button color="#FC5650" size="small" plain round @click="cancel(item)" v-if="item.status!=1&&item.status!=3&&item.status!=4&&item.status!=2&&item.status!=5&&item.status!=6">取消订单</van-button> -->
-       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5" >删除订单</van-button>
+       <van-button color="#FC5650" size="small" plain round @click="del(item)" v-show="item.status==5||item.status==8" >删除订单</van-button>
        <van-button color="#FC5650" size="small" plain round @click="confim(item)" v-show="item.status==2" >确定收货</van-button>
     </div>
     <van-dialog v-model="show" title="支付订单" confirmButtonText="去支付"  @confirm="confirm()" :before-close="onBeforeClose">

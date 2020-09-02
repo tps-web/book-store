@@ -191,7 +191,7 @@ export default {
 .canNum{
 	width: 78%;
 	margin-top: 26px;
-	margin-left: 10px;
+	margin-left: 18px;
   font-size: 10px;
   text-align: center;
 }

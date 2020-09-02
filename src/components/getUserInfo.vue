@@ -11,54 +11,6 @@ import store from '@/store'
 import {getUserInfoById,getUserMemberById} from '@/api'
 import axios from 'axios'
 
- var info = {
-      success: true,
-      code: 20000,
-      message: "成功",
-      data: {
-      item: {
-      userId: 169,   
-      userCode: "",
-      userTelphone: "18813580769",
-      userPassword: "",
-      userRegistDatetime: "2020-04-07 10:30:55",
-      regId: "",
-      alias: "uid_169",
-      tag: "",
-      birthday: "",
-      hasBindQq: 0,
-      hasBindWeixin: 0,
-      hasBindApple: 0,
-      isThreeLogin: 0,
-      myqrcode: "",
-      phoneDeviceCode: "",
-      phoneDeviceName: "",
-      phoneDeviceType: "android",
-      sex: 0,
-      status: 0,
-      area: "",
-      userEmail: "",
-      userHead: "http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png",
-      userNickName: "ps",
-      userSign: "",
-      longitude: 0,
-      latitude: 0,
-      loginStatus: 1,
-      updateTime: "",
-      isRealUser: 0,
-      background: "",
-      soundType: 0,
-      isFollow: 0,
-      wxNickName: "",
-      wxUserHead: "",
-      qqNickName: "",
-      qqUserHead: "",
-      worksCount: 0,
-      type: 0,
-      memberFlag:4
-      }
-  }
-}
 export default {
   components:{
     Skeleton
@@ -80,7 +32,8 @@ export default {
   },
  methods:{
    iOSCallJs(id){
-       if(!isTrue){
+     if(id){
+        if(!isTrue){
               axios.all([getUserInfoById(id),getUserMemberById(id)])
               .then(axios.spread((UserInfo,UserMember)=>{
                     // alert(UserInfo.data.item.userId)
@@ -95,6 +48,10 @@ export default {
          }else{
                 // return "请求过了"
          }
+     }else{
+       //没有id 
+        this.$router.replace('/')
+     }
    },
     androidCallJs(id){
       if(id){

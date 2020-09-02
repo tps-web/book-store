@@ -30,7 +30,8 @@
                 已选<span style="color:rgb(255, 205, 1)">{{checkedNum}}</span>本
           </div>
            <div @click="goBug" class="gobug">
-                买断
+                <span v-show="rentTotal!=0" style="color:red;font-size:14px">￥{{rentTotal}}</span>
+                <span>买断</span>  
             </div> 
       </div>
   </div>
@@ -91,7 +92,6 @@ export default {
   created(){
     that=this
     getOrderDesc( this.$route.params.id ).then(res=>{
-            console.log(res.data.item.list)
            this.$store.commit('BUGRENTBOOKLIST',bugFormatGoods(res.data.item.list))
         })
   },
@@ -212,12 +212,13 @@ section {
     left: 60px;
 }
 .gobug{
-  width: 80px;
+  width: 35%;
   height: 55px;
   position:absolute;
   right: 0px;
-  padding: 0 20px;
+  padding: 0 6px;
   background: rgba(255,205,1,1);
   color: #000;
 }
+
 </style>

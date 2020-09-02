@@ -50,7 +50,7 @@ export default {
         isHotSearch:0
       }
      getBookDesc(op).then(res=>{
-       console.log(res)
+      //  console.log(res)
        this.bookDesc=res.data.book
      })
   },

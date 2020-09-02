@@ -246,7 +246,7 @@ export function removeOrder(ids) {
     })
 }
 
-// /book/couponHistory/list/1/6/169
+// /book/couponHistory/list/1/6/169  优惠券
 export function getCouponHistory(data) {
     var info = JSON.parse(getToken())
     return request({
@@ -471,6 +471,14 @@ export function listOrder() {
 export function orderOnline(data) {
     return request({
         url: `/order/orderOnline/${data.orderSn}/${data.addressId}/${data.takeStartTime}/${data.takeEndTime}/${data.expressId}/${data.receiverId}`,
+        method: 'get'
+    })
+}
+
+// /order/cancelOrderOnline/{orderSn}  取消预约快递
+export function cancelOrderOnline(orderSn) {
+    return request({
+        url: `/order/cancelOrderOnline/${orderSn}`,
         method: 'get'
     })
 }

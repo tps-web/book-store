@@ -2,7 +2,7 @@
   <div class="" >
     <div class="login" v-if="!userLogin" @click="login">
        <van-image :src="require('../../assets/images/login.png')" class="loginImg"/>
-        您还没有登录，点击 <span class="color:blue">登陆</span>
+        您还没有登录，点击 <span style="color:#FF3C01">登陆</span>
     </div>
     <div class="" v-else>
     <!-- 头部 -->
