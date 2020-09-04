@@ -27,6 +27,9 @@ export default {
       return this.goods.length 
     },
   },
+  created(){
+    // console.log(this.goods)
+  },
   methods:{
     goDetails(item){
       // console.log(item)

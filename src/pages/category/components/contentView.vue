@@ -75,22 +75,24 @@ export default {
   height: 66px;
 }
 .warp_box{
-  /* width: 100%; */
+  width: 95%;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
-  justify-self: start;
+  justify-content: space-between;
+  /* justify-self: start; */
 }
 .box{
-  /* width: 24%; */
+  width: 40%;
   border-radius: 5px;
   box-shadow:0px 0px 4px 0px rgba(0,0,0,0.1);
   margin:  10px 4px;
   padding: 8px 8px;
 }
 .name{
-  width: 66px;
+  width: 100%;
   font-size: 12px;
   margin-top: 2px;
+  text-align: center;
 }
 </style>

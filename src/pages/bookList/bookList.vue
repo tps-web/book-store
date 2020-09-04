@@ -26,17 +26,21 @@
                 <div class="title">{{item.title}}</div>
                 <div class="author">作者：{{item.author}}</div>
                 <div class="price">
-                   <div style="display:inline-block" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
-                   <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+                   <div style="display:inline-block">
+                     <!-- <span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span> -->
+                     <span>￥</span><span class="num">{{item.promotionAmount||item.price|decimals}}</span>
+                   </div>
+                   <div class="show_decoration" v-show="!item.memberPrice&&item.promotionAmount">
                       <span>￥{{item.price|decimals}}</span>
                    </div>
+                   <div v-if="item.memberPrice"><span class="merberTit">会员价￥{{item.memberPrice|decimals}}</span></div>
                      <!-- <span class="fh">￥</span><span class="priceNum"  v-bind:style="{'text-decoration':item.promotionAmount ? 'line-through':'none'}">{{item.price}}</span> -->
                      <!-- <span class="fh" style=" margin-left: 6px;" v-show="item.promotionAmount">￥</span><span class="promotionAmount" v-show="item.promotionAmount">{{item.promotionAmount}}</span> -->
                 </div>
             </div>
-            <div class="store_box_right" @click="goCart(item)">
+            <!-- <div class="store_box_right" @click="goCart(item)">
               <van-image :src="require('../../assets/images/homeCart.png')" class="cart_img"/><span class="font">加入购物车</span>  
-            </div>
+            </div> -->
           </div>
       </div>
        </van-list>
@@ -179,7 +183,7 @@ export default {
   margin: 12px auto;
   box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.1);
   /* padding: 12px 10px; */
-  padding:10px;
+  padding:8px 10px;
   border-radius:8px;
 }
 .boxImg{
@@ -207,7 +211,7 @@ export default {
 }
 .author{
     color: #999;
-    margin: 12px 0;
+    margin: 12px 0 8px;
     font-size: 12px;
 }
 .price{
@@ -244,10 +248,21 @@ export default {
 .show_decoration{
   color: #ccc;
   font-size: 10px!important;
-  display:inline-block;
+  /* display:inline-block; */
   text-decoration:line-through;
+  margin-top: 3px;
+  margin-left: 3px;
 }
 .noshow{
   font-size: 14px;
+}
+.merberTit{
+  background: #000;
+  border-radius: 6px;
+  padding: 3px 4px;
+  color: rgb(255, 255, 17);
+  font-size: 10px;
+  display:inline-block;
+  margin: 2px auto 3px;
 }
 </style>

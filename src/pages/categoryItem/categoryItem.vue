@@ -17,7 +17,9 @@
 <script>
 import {getChildCategoryBookList} from '@/api'
 // import goods from './itemGoods'
-import goods from '@/components/itemGoods.vue'
+// import goods from '@/components/itemGoods.vue'
+import goods from '@/components/RgoodsItem.vue'
+
 var that 
 export default {
     components:{
@@ -43,7 +45,6 @@ export default {
       pageList(){
         let op={curPage:that.curPage,pageRows:that.pageRows,categoryId:that.$route.params.id}
         getChildCategoryBookList(op).then(res=>{
-            // console.log(res) 
             this.total=res.data.total
             if(this.curPage==1){
                 this.list=res.data.rows

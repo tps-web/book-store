@@ -33,10 +33,25 @@
             </div>
             <div class="right" >
                 <div class="bookName">{{item.name}}</div>
-                 <div style="display:inline-block;color:red;margin-top:8px" v-show="item.price"><span>￥</span><span class="num">{{item.price|decimals}}</span></div>
-                   <div :class="[item.rebatePrice?'show_decoration':'noshow']"  v-show="item.rebatePrice">
+                <div v-if="userInfo.memberFlag&&item.memberPrice" style="display:inline-block;color:red;margin-top:8px">
+                  ￥{{item.memberPrice|decimals}}
+                 </div>
+                 <div style="display:inline-block;color:red;margin-top:8px" v-else>
+                   <span>￥</span><span class="num">{{item.price|decimals}}</span>
+                 </div>
+                 <div class="show_decoration" v-if="item.discounts&&!userInfo.memberFlag">
                       <span>￥{{item.allPrice|decimals}}</span>
                  </div>
+                 <div class="show_decoration" v-if="item.memberDiscountsNum!='0.00'&&userInfo.memberFlag">
+                      <span>￥{{item.allPrice|decimals}}</span>
+                 </div>
+                 <!-- <div style="display:inline-block;color:red;margin-top:8px" v-show="item.price">
+                   <span>￥</span><span class="num">{{item.price|decimals}}</span>
+                 </div> -->
+                 <!-- <div :class="[item.rebatePrice?'show_decoration':'noshow']"  v-show="item.rebatePrice">
+                      <span>￥{{item.allPrice|decimals}}</span>
+                 </div> -->
+                 <!-- {{item.bookQuantity}} -->
                  <!-- <div class="shopDeal">
                      <span @click="reduceGoods(item)">-</span>
                        <input type="number"
@@ -49,7 +64,7 @@
                     <span style="font-size:12px;margin-right:2px;">￥</span>{{item.allPrice}}</div>
                   <span style="font-size:12px;margin-right:0px">￥</span>{{item.price}}
                 </div> -->
-                <div class="rebat" v-show="item.rebatePrice">优惠了 <span style="color:red">{{item.discounts}}</span> 元</div>
+                <!-- <div class="rebat" v-show="item.rebatePrice">优惠了 <span style="color:red">{{item.discounts}}</span> 元</div> -->
             </div>
          </div>
        </section>
@@ -152,6 +167,7 @@ export default {
   created(){
     this.userLogin=getToken()
     // this.$toast(this.userLogin)
+    console.log(this.getShopCart)
   },
   methods:{
     login(){
@@ -166,12 +182,12 @@ export default {
     },
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
    ...mapActions(['deleteGoods']),
-   reduceGoods(item){
-      console.log(item)
-   },
-   addGoods(item){
-      console.log(item)
-   },
+  //  reduceGoods(item){
+  //     console.log(item)
+  //  },
+  //  addGoods(item){
+  //     console.log(item)
+  //  },
     godesc(item){
       // console.log(item)
       this.$router.push(`/goodsDetails/${item.id}`)
@@ -222,7 +238,6 @@ export default {
                     // console.log("点击了取消按钮")
                 })
       }
-     
     },
     //点击购买按钮
      goBug(){
@@ -311,7 +326,7 @@ section {
      background-position: -30px 0;
 }
 .center{
-  flex: 3;
+  flex: 2.8;
   width: 86px;
   height: 86px;
   display:-webkit-flex;
@@ -330,7 +345,7 @@ section {
   margin: auto;
 }
 .right{
-  flex: 6;
+  flex: 7;
   text-align: left;
   font-weight:500;
   margin-left: 8px;

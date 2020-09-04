@@ -52,31 +52,34 @@ export default {
 		loading:false,  //下拉
 		curPage:0, //当前页面
 		pageRows:6, //请求一页有多少数据
-		list:[],  
+    list:[],  
+    rows:[],
 		total:'',
 		itemId:''
     }
+  },
+   created(){
+    that=this
   },
   watch:{
 	  tabNameList(newVal,oldVal){
 		 if(newVal){
 			that.activeName=newVal[0].id
-			// this.getItem()
+			this.getItem()
 		 }
 	  },
   },
   methods:{
 	onChange(active){
-		// console.log(active)
       this.curPage=0
       this.finished=false
 	    this.onRefresh();
 	},
 	getItem(){
-		// console.log(that.activeName)
        let op={curPage:that.curPage,pageRows:that.pageRows,categoryId:that.activeName}
         getChildCategoryBookList(op).then(res=>{
-			  this.total=res.data.total
+        this.total=res.data.total
+        that.rows=res.data.rows
             if(this.curPage==1){
                 this.list=res.data.rows
             }else{ 
@@ -103,20 +106,18 @@ export default {
             this.curPage++
             this.getItem()
             this.loading = false;
-             if (!this.total) {
-               this.finished = true;
-            }
             if (this.list.length >= this.total) {
                this.finished = true;
-            }
+             }
+            // if (that.rows.length===0) {
+            //   console.log(123)
+            //    this.finished = true;
+            // }
         }, 1000);
      }
   	// goDetails(id){
   	// 	this.$router.push('/goodsDetails')
   	// },
-  },
-  created(){
-	  that=this
   },
   mounted(){
   }

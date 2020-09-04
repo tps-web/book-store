@@ -22,21 +22,52 @@ export default {
      window.androidSentUserIdToJs = this.androidSentUserIdToJs;
   },
   methods:{
-    androidSentUserIdToJs(id){
-        alert(id) 
+    //ios
+ iosSentUserIdToJs(id){
+      if(id){
         axios.all([getUserInfoById(id),getUserMemberById(id)])
-              .then(axios.spread((UserInfo,UserMember)=>{
-                  // console.log(UserInfo)
-                  setToken(UserInfo.data)
-                  store.dispatch('getUserInfo')
-                  store.commit('GETMEMBERINFO',UserMember.data.item.data)
-                  if(UserInfo.data.item.memberFlag===0){
-                        this.$router.replace('/vip')
-                  }else{
-                        this.$router.replace('/zVip')
-                  }
+          .then(axios.spread((UserInfo,UserMember)=>{
+              // console.log(UserInfo)
+              setToken(UserInfo.data)
+              store.dispatch('getUserInfo')
+              store.commit('GETMEMBERINFO',UserMember.data.item.data)
+              if(UserInfo.data.item.memberFlag===0){
+                    this.$router.replace('/vip')
+              }else{
+                    this.$router.replace('/zVip')
+              }
           }))
-    } 
+      }else{
+            window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+      }
+    },
+    //android
+     androidSentUserIdToJs(id){
+      if(id){
+        axios.all([getUserInfoById(id),getUserMemberById(id)])
+          .then(axios.spread((UserInfo,UserMember)=>{
+              // console.log(UserInfo)
+              setToken(UserInfo.data)
+              store.dispatch('getUserInfo')
+              store.commit('GETMEMBERINFO',UserMember.data.item.data)
+              if(UserInfo.data.item.memberFlag===0){
+                    this.$router.replace('/vip')
+              }else{
+                    this.$router.replace('/zVip')
+              }
+          }))
+      }else{
+            window.android.jsCallAndroidGetUserId();
+            // const u = navigator.userAgent;
+            // const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            // const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+            // if (isIOS) {
+            //     window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+            // } else if (isAndroid) {
+            //     window.android.jsCallAndroidGetUserId();
+            // }
+      }
+    }
   }
 }
 </script>

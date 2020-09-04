@@ -35,6 +35,7 @@ import {getCategory} from '@/api'
 // 2. 引入滚动组件
 import BScroll from 'better-scroll'
 export default { 
+  　name: "category", // 设置组件name名字
    components:{
      Search,
      ContentView
@@ -88,7 +89,7 @@ export default {
         let el = menuLists[index]
         // 2.3 滚动到对应元素上
         this.leftScroll.scrollToElement(el, 300)
-      }, 900)
+      }, 800)
    }
   },
 }
@@ -102,7 +103,7 @@ export default {
   overflow: hidden;
 }
 .listWrapper {
-  /* width: 100%; */
+  width: 100%;
   display: flex;
   position: absolute;
   top: 50px;
@@ -113,11 +114,12 @@ export default {
   background-color: #f4f4f4;
   /* width: 20%; */
   flex: 0 0 95px;
-  /* height: 100%; */
+  height: 100%;
 }
 
 .categoryItem {
   padding: 8px 0;
+  /* background-color: #f4f4f4; */
   border-bottom: solid 1px #e8e9e8;
   position: relative;
 }

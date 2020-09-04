@@ -76,7 +76,7 @@ export default {
           totalAmount: this.RENT_BOOK_TOTAL,
           userId:info.userId,
           userNickName:info.userNickName,
-          oldOrderId:this.CheckGoods[0].orderId,
+          oldOrderId:this.$route.params.id,
       }
        if(this.couponItem){
           op.couponAmount=this.couponItem.amount   //优惠券抵扣金额

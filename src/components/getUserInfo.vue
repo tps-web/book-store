@@ -28,7 +28,8 @@ export default {
   mounted(){
      window.androidCallJs = this.androidCallJs;
      window.isTrue = false
-    //  androidCallJs(169)  
+     androidCallJs(169)  
+    //  androidCallJs(200)  
   },
  methods:{
    iOSCallJs(id){

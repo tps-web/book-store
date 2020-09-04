@@ -1,6 +1,6 @@
 <template>
   <div class="">
-      <!-- <headerNav title="添加地址" /> -->
+      <!-- <headerNav title="添加地址" /> --> 
       <!-- 没有数据占位图 -->
       <div class="noDataPlaceHold" v-show="shippingAddress.length<1">
           <van-image width="100" height="100" :src="require('../../../assets/images/noCart.png')" />
@@ -51,5 +51,19 @@ export default {
 <style scoped>
 .noDataPlaceHold{
     margin-top: 100px;
+}
+ /deep/ .van-button--danger{
+    color: #000;
+    background-color: rgba(255,205,1,1)!important;
+    border: 1px solid rgba(255,205,1,1)!important;
+}
+/deep/ .van-tag{
+    color: #000;
+    background-color: rgba(255,205,1,1)!important;
+    border: 1px solid rgba(255,205,1,1)!important;
+}
+/deep/ .van-address-item .van-radio__icon--checked .van-icon{
+    background-color: rgba(255,205,1,1);
+    border-color: rgba(255,205,1,1);
 }
 </style>

@@ -159,7 +159,6 @@ export default {
             this.curPage++
             this.getItem()
             this.loading = false;
-            if(that.total)
             if (that.listData.length==0) {
                this.finished = true;
             }

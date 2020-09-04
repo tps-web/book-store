@@ -3,7 +3,7 @@
  
     <div class="top">
       <!-- <van-icon name="arrow-left" size="30" class="icon"/>   -->
-      <div class="user_mess">
+      <div class="user_mess" @click="goLogin(userInfo.userNickName)">
          <van-image
            round
            :src="userInfo?userInfo.userHead:'http://img.zcool.cn/community/01786557e4a6fa0000018c1bf080ca.png'"
@@ -13,7 +13,7 @@
             <img src="../../assets/images/isvipIcon.png" alt="" style="width:20px"/>
           </div> -->
          </van-image>
-       <div class="name">{{userInfo.userNickName||'游客'}}</div>
+       <div class="name" >{{userInfo.userNickName||'未登录'}}</div>
       </div>
     </div>
     <div class="user_group">
@@ -108,6 +108,18 @@ export default {
   },
   methods:{
     ...mapActions(['wraitPayTotal']),
+    goLogin(userInfo){
+       if(!userInfo){
+          const u = navigator.userAgent;
+          const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+          const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+          if (isIOS) {
+              window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+          } else if (isAndroid) {
+              window.android.jsCallAndroidGetUserId();
+          }
+       }
+    },
     gourl(item){
       // console.log(item)
       // this.$router.push(`/bugAndRent/${item}`)

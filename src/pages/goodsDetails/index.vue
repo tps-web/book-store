@@ -20,13 +20,15 @@
                 </div>
              </div>
               <div class="price">
-                <span class="fh" style="margin-left: 8px;"  v-show="goodsInfo.promotionAmount">￥</span> <span class="promotionAmount" v-show="goodsInfo.promotionAmount">{{goodsInfo.promotionAmount}}</span>
+              <span class="fh" style="margin-left: 8px;"  v-show="goodsInfo.promotionAmount">￥</span>
+                 <span class="promotionAmount" v-show="goodsInfo.promotionAmount">{{goodsInfo.promotionAmount|decimals}}</span>
                 <div class="priceF" style="display:inline-block;margin-left:8px">
-                    <span :class="[goodsInfo.promotionAmount==null ? 'periceC':'priceNum']" >￥{{goodsInfo.price|decimals}}</span>
+                    <span :class="[goodsInfo.promotionAmount ? 'priceNum':'periceC']" >￥{{goodsInfo.price|decimals}}</span>
                     <!-- <span class="priceNum"  v-bind:style="{'text-decoration':goodsInfo.promotionAmount ? 'line-through':'none'}" >￥{{goodsInfo.price}}</span> -->
                 </div>
                 <!-- <div class="vip">会员免费借书看</div> -->
               </div>
+               <div class="" v-show="goodsInfo.memberPrice"><span class="merberTit">会员价￥{{goodsInfo.memberPrice|decimals}}</span></div>
               <div class="remark">剩余{{residue}}本</div>
               <div class="remark">已有{{goodsInfo.lendCount}}会员免费借阅</div>   
          </div>
@@ -237,27 +239,35 @@ export default {
 }
 .price{
   width: 100%; 
-  margin-top: 4px;
   color:rgba(252,86,80,1);
   text-align: left;
   display: flex;
 }
 .fh{
-  height: 32px;
-  font-size: 16px;
-  line-height: 40px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 35px;
+}
+.merberTit{
+  margin-top:3px;
+  background: #000;
+  border-radius: 6px;
+  padding: 2px 4px;
+  color: rgb(255, 255, 17);
+  font-size: 12px!important;
+  display:inline-block;
 }
 .periceC{
   display: inline-block;
   color: red;
-  height: 35px;
-  line-height: 40px;
+  height: 30px;
+  line-height: 35px;
   font-size: 14px;
 }
 .priceNum{
   display: inline-block;
-  height: 35px;
-  line-height: 40px;
+  height: 30px;
+  line-height: 35px;
   font-size: 14px;
   color: #ccc;
   text-decoration:line-through
@@ -270,9 +280,9 @@ export default {
   font-size: 12px;
 }
 .promotionAmount{
-  height: 35px;
+  height: 30px;
   font-size: 18px;
-  line-height: 38px;
+  line-height: 35px;
 }
 .descBox{
   width: 90%;
@@ -307,4 +317,5 @@ export default {
     font-weight:700;
     text-align: left;
 }
+
 </style>

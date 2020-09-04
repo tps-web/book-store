@@ -53,11 +53,20 @@ export default {
     },
     onDelete(item){
       // Toast('删除地址:' + item.id);
-      removeAddress(item.id).then(res=>{
-        console.log(res)
-        this.$toast('删除成功')
-         this.getALLAddressList()
-      })
+         this.$dialog.alert({
+                    message: "是否确定删除？", //改变弹出框的内容
+                    showCancelButton: true //展示取水按钮
+                })
+                .then(() => { //点击确认按钮后的调用
+               removeAddress(item.id).then(res=>{
+                this.$toast('删除成功')
+                this.getALLAddressList()
+                })
+                })
+                .catch(() => { //点击取消按钮后的调用
+                    // console.log("点击了取消按钮")
+                })
+   
     },
     onRefresh(){
        setTimeout(() => {

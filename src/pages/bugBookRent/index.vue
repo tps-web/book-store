@@ -22,7 +22,7 @@
        </div>
       </div>
       <div class="bugBtn">
-          <div class="checkBox">
+          <div class="checkBox"> 
                 <van-checkbox v-model="isCheckedAll" style="height:50px;line-height:50px"
                    checked-color='#629357'>全选</van-checkbox>
           </div>
@@ -45,7 +45,8 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
-        getShopCart:''
+        getShopCart:'',
+        newList:[]
     }
   },
   computed:{
@@ -94,6 +95,16 @@ export default {
     getOrderDesc( this.$route.params.id ).then(res=>{
            this.$store.commit('BUGRENTBOOKLIST',bugFormatGoods(res.data.item.list))
         })
+      // getOrderDesc( this.$route.params.id ).then(res=>{
+      //   var arr=res.data.item.list
+      //   let op={curPage :1,isHotSearch :0,pageRows :1 }
+      //   arr.forEach(ele=>{
+      //       op.id=ele.bookId
+      //      getBookDesc(op).then(res=>{
+      //          this.newList.push(res.data.book) 
+      //      })
+      //   })
+      // })
   },
   methods:{
       ...mapMutations(['ALL_SELECT_RENT']),
@@ -107,7 +118,7 @@ export default {
         if(this.checkedNum==0){
             that.$toast('请选择买断商品')
         }else{
-            this.$router.push(`/bugRentOrder`)
+            this.$router.push(`/bugRentOrder/${this.$route.params.id}`)
         }
     }
   },

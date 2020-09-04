@@ -473,7 +473,7 @@ const router = new Router({
             }
         },
         {
-            path: '/bugRentOrder',
+            path: '/bugRentOrder/:id',
             name: 'bugRentOrder',
             component: () =>
                 import ('@/pages/bugBookRent/bugRentOrder'),
@@ -497,14 +497,14 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    if (to.path == '/goVip') {
-        next()
-        return
-    }
-    if (to.path == '/getUserInfo') {
-        next()
-        return
-    }
+    // if (to.path == '/goVip') {
+    //     next()
+    //     return
+    // }
+    // if (to.path == '/getUserInfo') {
+    //     next()
+    //     return
+    // }
     next()
         // 判断微信是否已授权 
         // if (!(getToken())) {

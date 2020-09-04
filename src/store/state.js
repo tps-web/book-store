@@ -40,5 +40,6 @@ export default {
     addressExpess: '', // 预约快递地址
     expressCompany: undefined, //预约快递快递公司
     expressDateTime: undefined, //预约快递时间
-    bugRentBookList: '' //买断书籍
+    bugRentBookList: '', //买断书籍
+    remark: '' // 备注
 }

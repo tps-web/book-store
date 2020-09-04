@@ -22,7 +22,7 @@
        </div>
        <!-- 备注 -->
        <div class="remark">
-         <van-field v-model="remarkValue" label="备注留言" placeholder="选填，请先和平台协商一致" ref='field'/>
+         <van-field v-model="remarkValue" label="备注留言" placeholder="选填，请先和平台协商一致" ref='field' @blur="changeRemark"/>
        </div>
        <!-- 结算 -->
        <div class="cleared" v-show="hidshow">
@@ -112,15 +112,15 @@ export default {
         }else if(that.docmHeight == that.showHeight){
           that.hidshow=true
         }
-     }
+     },
   },
   computed:{
-    ...mapState(['currentAddress','shopCart','coupon','useCoupon','useCouponText']),
+    ...mapState(['currentAddress','shopCart','coupon','useCoupon','useCouponText','remark']),
     ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
   methods:{
-    closeBtn(){
-      
+    changeRemark(e){
+        this.$store.commit('SAVEREMARK',e.target.value)
     },
     ...mapActions(['getCartList']),
     //取消支付
@@ -186,6 +186,8 @@ export default {
             remarkValue:this.remarkValue
         }
         this.formatGoods(op.goods)
+        // console.log(op.goods)
+        // console.log(this.newList)
        if(!op.currentAddress){
            this.$toast('请填写地址')
        }else{
@@ -257,6 +259,7 @@ export default {
   },
   created(){
     that=this
+    this.remarkValue=this.remark
     // console.log(this.goods)
     // var couponList=formatCoupon(this.coupon)
     // console.log(this.clearedNum)

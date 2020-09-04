@@ -1,5 +1,8 @@
 import request from '@/utils/request'
 
+import servise from '@/utils/hsRequest'
+
+
 import { getToken } from '@/utils/authcookie'
 
 
@@ -62,8 +65,9 @@ export function getListItem(op) {
 //热门搜索 /app/book/index/getHotBook/{curPage}/{pageRows}/{keyWord}/{userId}
 export function getHotBook(op) {
     var info = JSON.parse(getToken())
+    var userId = info ? info.userId : 0
     return request({
-        url: `/app/book/index/getHotBook/${op.curPage}/${op.pageRows}/${op.keyWord}/${info.userId}`,
+        url: `/app/book/index/getHotBook/${op.curPage}/${op.pageRows}/${op.keyWord}/${userId}`,
         method: 'get'
     })
 }
@@ -480,5 +484,21 @@ export function cancelOrderOnline(orderSn) {
     return request({
         url: `/order/cancelOrderOnline/${orderSn}`,
         method: 'get'
+    })
+}
+
+//查询所有的对象列表  /book/story-type/listAll
+export function listAll() {
+    return request({
+        url: `/book/story-type/listAll`,
+        method: 'get'
+    })
+}
+
+
+export function allSeriesStory() {
+    return servise({
+        url: `/story/allSeriesStory`,
+        method: 'post'
     })
 }

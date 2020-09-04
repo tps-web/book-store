@@ -12,18 +12,22 @@
          </div>
          <div style="height:23px" v-else>
          </div>
+          <!-- <div v-else style="height:24px"></div> -->
          <div class="price">
             <div class="left">
-              <div style="display:inline-block" v-show="item.promotionAmount">
-                <span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span>
+              <div style="display:inline-block" :class="[item.memberPrice||item.promotionAmount?'':'only']">
+                <span>￥</span><span class="num">{{item.promotionAmount||item.price|decimals}}</span>
               </div>
-               <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+               <!-- <div :class="[item.promotionAmount?'show_decoration':'noshow']" v-show="!item.memberPrice&&item.promotionAmount"> -->
+               <div class="show_decoration" v-show="!item.memberPrice&&item.promotionAmount">
                  <span>￥{{item.price|decimals}}</span>
-             </div>
+               </div>
+               <!-- <div v-if="item.memberPrice" ><span style="color:#000;">￥{{item.memberPrice|decimals}}</span><span class="merberTit">会员价</span></div> -->
+               <div v-if="item.memberPrice"><span class="merberTit">会员价￥{{item.memberPrice|decimals}}</span></div>
            </div>
-           <div class="right">
+           <div class="right"> 
               <!-- <van-image :src="require('../assets/images/homeCart.png')" class="cart_img" @click="goCart(item)"/> -->
-              <div class="btn" style="background:#000;color:#ff1" @click="goCart(item)">租书</div>
+              <div class="btn" style="background:#000;color:#ff1" @click="goCart(item)">租借</div>
               <div class="btn" style=" background: #FFC01C;color:red" @click="goCart(item)">购买</div>
            </div>
          </div>
@@ -124,43 +128,54 @@ export default {
   height: 18px;
 }
 .num{
-  font-size: 14px;
+  font-size: 16px;
 }
 .grid_item{
   margin: 4px 0;
 }
-/* /deep/ .van-grid-item__content{
-  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
-  padding: 2px 6px;
-  margin: 4px;
-  border-radius: 6px;
-} */
 .show_decoration{
   color: #ccc;
-  font-size: 10px!important;
-  /* display:inline-block; */
+  font-size: 12px!important;
   text-decoration:line-through;
-  margin-left: 8px;
+  margin-left: 8 px;
+  margin-top: 2px;
 }
 .noshow{
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 14px; 
+}
+.left{
+  margin-top: 6px;
 }
 .right{
-  margin-right: 2px;
+  position: absolute;
+  bottom: 8px;
+  right: 3px;
 }
 .btn{
   display: inline-block;
   color: #000;
-  padding: 2px 4px;
+  padding: 3px 5px;
   text-align: center;
   border-radius: 4px;
   margin-top: 8px;
+  margin-right: 3px;
+}
+.merberTit{
+  background: #000;
+  border-radius: 6px;
+  padding: 3px;
+  color: rgb(255, 255, 17);
+  font-size: 10px;
+  display:inline-block;
+  margin-top: 3px;
 }
 /deep/ .van-grid-item__content{
-  box-shadow: 0 0 4px 0  rgba(0,0,0,0.1);
-  padding: 0px 4px;
-  margin: 4px;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+  margin: 2px 2px;
   border-radius: 4px;
+}
+.only{
+  margin-top: 12px;
 }
 </style>

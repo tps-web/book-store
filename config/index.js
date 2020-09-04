@@ -17,10 +17,16 @@ module.exports = {
                 pathRewrite: {
                     '^/api': '' // 表示需要rewrite重写的
                 }
+            },
+            '/baseApi': {
+                target: 'https://huisn.com.cn/hs', // 需要跨域请求的地址或者IP
+                changeOrigin: true, //  表示是否跨域
+                pathRewrite: {
+                    '^/baseApi': '' // 表示需要rewrite重写的
+                }
             }
         },
 
-        // host: '192.168.1.112', // can be overwritten by process.env.HOST
         // Various Dev Server settings
         host: '192.168.1.213', // can be overwritten by process.env.HOST
         // host: 'localhost', // can be overwritten by process.env.HOST

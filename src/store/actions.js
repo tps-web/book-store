@@ -82,7 +82,7 @@ export default {
             //用户是否为空
         if (state.userInfo) {
             if (shopCart[goods.id]) {
-                console.log('购物车已有此书')
+                // console.log('购物车已有此书')
                 Toast('购物车已有此书')
             } else {
                 let op = {
@@ -139,7 +139,7 @@ export default {
     saveAddress({ state, commit, dispatch }, data) {
         data.userId = state.userInfo.userId
         saveAddress(data).then(res => {
-            console.log(res)
+            // console.log(res)
             dispatch('getALLAddressList')
         })
     },

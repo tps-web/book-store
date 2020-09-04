@@ -5,10 +5,11 @@
     <!-- <express ref="express"/> -->
     <!-- 备注 -->
        <div class="remark">
-         <van-field v-model="remarkValue" label="备注留言" placeholder="选填，请先和平台协商一致" ref='field'/>
+         <van-field v-model="remarkValue" label="备注留言" placeholder="选填，请先和平台协商一致" ref='field' @blur="changeRemark"/>
        </div>
      <div class="btn" v-show="hidshow">
-        <van-button type="danger"  size="large" @click="godesc">提交订单</van-button>
+       <div class="danger" @click="godesc">提交订单</div>
+        <!-- <van-button  type="danger"  size="large" @click="godesc">提交订单</van-button> -->
      </div>
   </div>
 </template> 
@@ -20,7 +21,7 @@ import goods from '@/components/goods/goods'
 import { getToken } from '@/utils/authcookie'
 import {postOrder} from '@/api'
 import {formatGoods} from '@/utils'
-import {  mapActions,mapGetters } from 'vuex'
+import {  mapActions,mapGetters,mapState  } from 'vuex'
 
 export default {
   components:{
@@ -47,10 +48,12 @@ export default {
     }
   },
   created(){
+    this.remarkValue=this.remark
   },
   mounted(){
   },
   computed:{
+    ...mapState(['remark']),
     ...mapGetters({goods:'SELECTED_GOODS',clearedNum:'CLEARED_NUM',getCouponList:'getCouponList',priceTotal:'SELECTED_GOODS_PRICE',allTotal:'SELECTED_GOODS_TOTAL',all_discounts:'ALL_DISCOUNTS'}),
   },
    watch:{
@@ -63,6 +66,9 @@ export default {
      }
   },
   methods:{
+     changeRemark(e){
+        this.$store.commit('SAVEREMARK',e.target.value)
+    },
      ...mapActions(['getCartList']),
     //格式化商品
     formatGoods(list){
@@ -166,5 +172,11 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
+}
+.danger{
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background: rgba(255,205,1,1);
 }
 </style>

@@ -6,7 +6,7 @@
          :key="index"
          :icon="nav.icon"
          :text="nav.name"
-         @click="gotoCategory(nav)" to=""/>
+         @click="gotoCategory(nav)" />
     </van-grid>
   </div>
 </template>

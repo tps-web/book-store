@@ -29,7 +29,8 @@ import {
     EXPRESSDATETIME, //预约快递信息
     BUGRENTBOOKLIST,
     SELETE_GOODS_RENT,
-    ALL_SELECT_RENT
+    ALL_SELECT_RENT,
+    SAVEREMARK
 } from './mutation-type'
 
 import { setLocalStore, } from '../utils/LocalStore'
@@ -40,7 +41,7 @@ export default {
         state.userInfo = userInfo
         setLocalStore('userInfo', state.userInfo)
     },
-    [ADD_GOODS](state, { cartId, bookIsbn, goodsID, goodsName, smallImage, goodsPrice, sql, rebatePrice, price }) {
+    [ADD_GOODS](state, { cartId, bookIsbn, goodsID, goodsName, smallImage, goodsPrice, quantity, rebatePrice, price, memberPrice }) {
         let shopCart = state.shopCart
             // console.log(state.shopCart)
         if (!shopCart[goodsID]) {
@@ -53,11 +54,13 @@ export default {
                     'price': goodsPrice,
                     'smallImage': smallImage,
                     'checked': true,
-                    'bookQuantity': 1,
+                    'bookQuantity': quantity,
                     'rebatePrice': rebatePrice,
                     'allPrice': price,
                     'discounts': jian(price, rebatePrice),
-                    'discountsNum': discountsNumber(price, rebatePrice)
+                    'discountsNum': discountsNumber(price, rebatePrice),
+                    'memberDiscountsNum': discountsNumber(price, memberPrice),
+                    'memberPrice': memberPrice
                 }
                 // 1.3 给shopCart产生新对象
             state.shopCart = {
@@ -86,21 +89,21 @@ export default {
         //     }
         // }
     },
-    [ADD_TO_CART](state, goods, sql) {
-        console.log(goods)
-            //用户是否为空
-        if (state.userInfo) {
-            this.commit('ADD_GOODS', {
-                goodsID: goods.id,
-                goodsName: goods.title,
-                smallImage: goods.minImage || goods.squareImage,
-                goodsPrice: goods.price,
-                sql: sql
-            })
-        } else {
-            Toast('没有用户信息')
-        }
-    },
+    // [ADD_TO_CART](state, goods, sql) {
+    //     // console.log(goods)
+    //     //用户是否为空
+    //     if (state.userInfo) {
+    //         this.commit('ADD_GOODS', {
+    //             goodsID: goods.id,
+    //             goodsName: goods.title,
+    //             smallImage: goods.minImage || goods.squareImage,
+    //             goodsPrice: goods.price,
+    //             sql: sql
+    //         })
+    //     } else {
+    //         Toast('没有用户信息')
+    //     }
+    // },
     //选择单个
     [SINGLE_SELECT_GOODS](state, { goodsId }) {
         let shopCart = state.shopCart
@@ -203,8 +206,10 @@ export default {
                     goodsName: allCartArr[i].bookName,
                     smallImage: allCartArr[i].bookPic,
                     goodsPrice: allCartArr[i].rebatePrice || allCartArr[i].price,
-                    rebatePrice: allCartArr[i].rebatePrice,
-                    price: allCartArr[i].price
+                    quantity: allCartArr[i].quantity,
+                    rebatePrice: allCartArr[i].rebatePrice, //折扣价
+                    price: allCartArr[i].price, //原价
+                    memberPrice: allCartArr[i].memberPrice || allCartArr[i].rebatePrice || allCartArr[i].price //会员价
                 })
             }
         }
@@ -254,4 +259,7 @@ export default {
             state.bugRentBookList = bugRentBookList
         });
     },
+    [SAVEREMARK](state, data) {
+        state.remark = data
+    }
 }

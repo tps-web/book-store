@@ -18,10 +18,17 @@
                    <span v-for="(category,index1) in  item.categoryName.slice(0,2)" :key="index1">{{category}}</span>
                  </div>
                  <div class="price">
-                     <div style="display:inline-block;margin-right:4px" v-show="item.promotionAmount"><span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div>
-                     <div :class="[item.promotionAmount?'show_decoration':'noshow']">
+                     <div style="display:inline-block;margin-right:4px" >
+                       <!-- <span>￥</span><span class="num">{{item.promotionAmount|decimals}}</span></div> -->
+                       <span>￥</span><span class="num">{{item.promotionAmount||item.price|decimals}}</span></div>
+                     <div class="show_decoration" v-show="!item.memberPrice&&item.promotionAmount">
                         <span>￥{{item.price|decimals}}</span>
                      </div>
+                     <!-- <div :class="[item.promotionAmount?'show_decoration':'noshow']" >
+                        <span>￥{{item.price|decimals}}</span>
+                     </div> -->
+                     <div v-if="item.memberPrice"><span class="merberTit">会员价￥{{item.memberPrice|decimals}}</span></div>
+                     <!-- <div style="margin-top:3px" v-show="item.memberPrice"><span style="color:#000;font-size:12px;">￥{{item.memberPrice|decimals}}</span><span class="merberTit">会员价</span></div> -->
                    </div>
               </div>
             </div>
@@ -125,9 +132,10 @@ export default {
   font-size: 18px;
 }
 .show_decoration{
+  margin-top: 2px;
   color: #ccc;
   font-size: 10px!important;
-  display:inline-block;
+  /* display:inline-block; */
   text-decoration:line-through;
 }
 .noshow{
@@ -147,5 +155,13 @@ export default {
   margin-left : auto;
   margin-right : auto;
   margin: auto;
+}
+.merberTit{
+  background: #000;
+  border-radius: 6px;
+  padding: 3px;
+  color: rgb(255, 255, 17);
+  display:inline-block;
+  margin-left: 2px;
 }
 </style>

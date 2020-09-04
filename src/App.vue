@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive"/>
+    <keep-alive include="category">
+        <router-view v-if="isRouterAlive"/>
+    </keep-alive>
   </div>
 </template>
  
@@ -19,7 +21,7 @@ export default {
     return {
       reload: this.reload,
       newExpireTime:'',
-      op:''
+      op:'',
     }
   },
   data () {
@@ -198,6 +200,15 @@ export default {
         })
       }
  },
+   watch:{
+     '$route'(to,from){
+       if(to.fullPath=='/cart'){
+         this.$store.commit('SAVEREMARK','')
+       } else if(from.fullPath=='/cart'){
+         this.$store.commit('SAVEREMARK','')
+       }
+    }
+  },
   mounted(){
       // 关闭浏览器窗口的时候清空浏览器缓存在localStorage的数据
       // window.onbeforeunload = function (e) {

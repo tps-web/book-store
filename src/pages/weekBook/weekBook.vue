@@ -12,7 +12,8 @@
 import {mapMutations} from 'vuex'
 import {getNewBookList} from '@/api'
 // import  goodsItem from '@/components/goodsItem/item'
-import  goodsItem from '@/components/itemGoods.vue'
+// import  goodsItem from '@/components/itemGoods.vue'
+import  goodsItem from '@/components/RgoodsItem.vue'
 
 var that
 export default {

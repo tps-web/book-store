@@ -136,44 +136,80 @@ export function formatAddress(addresss) {
 
 // 过滤提交订单的商品  修改key 值
 export function formatGoods(list) {
-    // console.log(list)
     var newData = []
-    list.map((ele) => {
-        newData.push({
-            bookId: ele.id, //书籍编号
-            cartItemId: ele.cartId, //购物车的记录编号
-            bookIsbn: ele.bookIsbn, //书籍的ISBN  
-            bookName: ele.name, //书籍名称
-            bookPic: ele.smallImage, //书籍封面图
-            bookPrice: ele.price, //销售价格
-            bookQuantity: ele.bookQuantity, //	购买数量
-            promotionAmount: 0, // 数据促销分解金额
-            realAmount: ele.price, //该商品经过优惠后的分解金额
-            couponAmount: 0, //优惠券优惠分解金额
+    if (store.state.userInfo.memberFlag === 0) {
+        //非会员
+        list.map((ele) => {
+            newData.push({
+                bookId: ele.id, //书籍编号
+                cartItemId: ele.cartId, //购物车的记录编号
+                bookIsbn: ele.bookIsbn, //书籍的ISBN  
+                bookName: ele.name, //书籍名称
+                bookPic: ele.smallImage, //书籍封面图
+                bookPrice: ele.price, //销售价格
+                bookQuantity: ele.bookQuantity, //	购买数量
+                promotionAmount: ele.promotionAmount, // 数据促销分解金额
+                realAmount: ele.price, //该商品经过优惠后的分解金额
+                couponAmount: 0, //优惠券优惠分解金额
+            })
         })
-    })
-    return newData
+        return newData
+    } else {
+        //会员
+        list.map((ele) => {
+            newData.push({
+                bookId: ele.id, //书籍编号
+                cartItemId: ele.cartId, //购物车的记录编号
+                bookIsbn: ele.bookIsbn, //书籍的ISBN  
+                bookName: ele.name, //书籍名称
+                bookPic: ele.smallImage, //书籍封面图
+                bookPrice: ele.memberPrice, //销售价格
+                bookQuantity: ele.bookQuantity, //	购买数量
+                promotionAmount: ele.promotionAmount, // 数据促销分解金额
+                realAmount: ele.memberPrice, //该商品经过优惠后的分解金额
+                couponAmount: 0, //优惠券优惠分解金额
+            })
+        })
+        return newData
+    }
 }
 
 //买断  修改书单信息
 export function bugFormatGoods(list) {
+    console.log(list[0])
     var newData = []
     list.map((ele) => {
         newData.push({
-            bookId: ele.bookId, //书籍编号
-            bookIsbn: ele.bookIsbn, //书籍的ISBN  
-            bookName: ele.bookName, //书籍名称
-            bookPic: ele.bookPic, //书籍封面图
-            bookPrice: ele.bookPrice, //销售价格
-            bookQuantity: ele.bookQuantity, //	购买数量
-            promotionAmount: ele.promotionAmount, // 数据促销分解金额
-            realAmount: ele.realAmount, //该商品经过优惠后的分解金额
-            couponAmount: ele.couponAmount, //优惠券优惠分解金额
-            bookPress: ele.bookPress, //出版社
-            bookshelfLayer: ele.bookshelfLayer, //书架层数
-            bookshelfNo: ele.bookshelfNo, //书架编码
-            orderId: ele.orderId,
-            checked: false
+            // bookId: ele.bookId, //书籍编号
+            // bookIsbn: ele.bookIsbn, //书籍的ISBN  
+            // bookName: ele.bookName, //书籍名称
+            // bookPic: ele.bookPic, //书籍封面图
+            // bookPrice: ele.bookPrice, //销售价格
+            // bookQuantity: ele.bookQuantity, //	购买数量
+            // promotionAmount: ele.promotionAmount, // 数据促销分解金额
+            // realAmount: ele.realAmount, //该商品经过优惠后的分解金额
+            // couponAmount: ele.couponAmount, //优惠券优惠分解金额
+            // bookPress: ele.bookPress, //出版社
+            // bookshelfLayer: ele.bookshelfLayer, //书架层数
+            // bookshelfNo: ele.bookshelfNo, //书架编码
+            // orderId: ele.orderId,
+            // checked: false,
+
+            bookId: ele.id,
+            // bookIsbn: ele.isbn,
+            // bookName: ele.title,
+            // bookPic: ele.squareImage,
+            // bookQuantity: 1,
+            // bookPrice: ele.price,
+            // promotionAmount: ele.promotionAmount,
+            // realAmount: ele.promotionAmount || ele.price,
+            // couponAmount: 0,
+            // bookPress: ele.press,
+            // bookshelfLayer: ele.bookshelfLayer,
+            // bookshelfNo: ele.bookshelfNo,
+            // checked: false,
+            // memberPrice: ele.memberPrice
+
         })
     })
     return newData
@@ -248,14 +284,28 @@ export function add(arg1, arg2) {
 }
 
 export function jian(arg1, arg2) {
-    var newArg2 = arg2 == null || undefined ? 0 : arg2
-    var r1, r2, m;
-    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
-    try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
-    m = Math.pow(10, Math.max(r1, r2))
-    let num1 = Math.max(arg1, arg2)
-    let num2 = Math.min(arg1, arg2)
-    return ((num1 * m - num2 * m) / m).toFixed(2)
+    var discountsNum = 0
+    if (arg2 != null || undefined || '') {
+        var r1, r2, m;
+        try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+        try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+        m = Math.pow(10, Math.max(r1, r2))
+        let num1 = Math.max(arg1, arg2)
+        let num2 = Math.min(arg1, arg2)
+        let thatNum = (num1 * m - num2 * m) / m
+        discountsNum += thatNum
+        return discountsNum.toFixed(2)
+    } else {
+        return discountsNum
+    }
+    // var newArg2 = arg2 == null || undefined ? 0 : arg2
+    // var r1, r2, m;
+    // try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+    // try { r2 = newArg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+    // m = Math.pow(10, Math.max(r1, r2))
+    // let num1 = Math.max(arg1, arg2)
+    // let num2 = Math.min(arg1, arg2)
+    // return ((num1 * m - num2 * m) / m).toFixed(2)
 }
 
 export function discountsNumber(arg1, arg2) {
@@ -271,7 +321,7 @@ export function discountsNumber(arg1, arg2) {
         discountsNum += thatNum
         return discountsNum.toFixed(2)
     } else {
-        return discountsNum.toFixed(2)
+        return discountsNum
     }
 }
 
