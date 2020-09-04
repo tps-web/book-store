@@ -180,22 +180,21 @@ export function bugFormatGoods(list) {
     var newData = []
     list.map((ele) => {
         newData.push({
-            // bookId: ele.bookId, //书籍编号
-            // bookIsbn: ele.bookIsbn, //书籍的ISBN  
-            // bookName: ele.bookName, //书籍名称
-            // bookPic: ele.bookPic, //书籍封面图
-            // bookPrice: ele.bookPrice, //销售价格
-            // bookQuantity: ele.bookQuantity, //	购买数量
-            // promotionAmount: ele.promotionAmount, // 数据促销分解金额
-            // realAmount: ele.realAmount, //该商品经过优惠后的分解金额
-            // couponAmount: ele.couponAmount, //优惠券优惠分解金额
-            // bookPress: ele.bookPress, //出版社
-            // bookshelfLayer: ele.bookshelfLayer, //书架层数
-            // bookshelfNo: ele.bookshelfNo, //书架编码
-            // orderId: ele.orderId,
-            // checked: false,
-
-            bookId: ele.id,
+            bookId: ele.bookId, //书籍编号
+            bookIsbn: ele.bookIsbn, //书籍的ISBN  
+            bookName: ele.bookName, //书籍名称
+            bookPic: ele.bookPic, //书籍封面图
+            bookPrice: ele.bookPrice, //销售价格
+            bookQuantity: ele.bookQuantity, //	购买数量
+            promotionAmount: ele.promotionAmount, // 数据促销分解金额
+            realAmount: ele.realAmount, //该商品经过优惠后的分解金额
+            couponAmount: ele.couponAmount, //优惠券优惠分解金额
+            bookPress: ele.bookPress, //出版社
+            bookshelfLayer: ele.bookshelfLayer, //书架层数
+            bookshelfNo: ele.bookshelfNo, //书架编码
+            orderId: ele.orderId,
+            checked: false,
+            // bookId: ele.id,
             // bookIsbn: ele.isbn,
             // bookName: ele.title,
             // bookPic: ele.squareImage,
