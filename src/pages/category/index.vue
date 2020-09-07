@@ -107,7 +107,7 @@ export default {
   display: flex;
   position: absolute;
   top: 50px;
-  bottom: 50px;
+  bottom: 60px;
   overflow: hidden;
 }
 .leftWrapper {

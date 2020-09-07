@@ -53,13 +53,13 @@
                  </div> -->
                  <!-- {{item.bookQuantity}} -->
 
-                 <div class="shopDeal">
+                 <!-- <div class="shopDeal">
                      <span @click="reduceGoods(item)">-</span>
                        <input type="number"
                            disabled
                            v-model="item.bookQuantity">
                      <span @click="addGoods(item)">+</span>
-                 </div>
+                 </div> -->
                 <!-- <div class="bookPrice">
                   <div style="display:inline-block;text-decoration: line-through;margin-right:4px;font-size:14px" v-show="item.rebatePrice">
                     <span style="font-size:12px;margin-right:2px;">￥</span>{{item.allPrice}}</div>
