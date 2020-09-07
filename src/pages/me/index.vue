@@ -114,7 +114,8 @@ export default {
           const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
           const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
           if (isIOS) {
-              window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+             let op = { method: "jsCallIosGetUserId", data: { "value": "" } }
+             window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
           } else if (isAndroid) {
               window.android.jsCallAndroidGetUserId();
           }
@@ -131,7 +132,8 @@ export default {
           const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
           const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
           if (isIOS) {
-              window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+             let op = { method: "jsCallIosGetUserId", data: { "value": "" } }
+             window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
           } else if (isAndroid) {
               window.android.jsCallAndroidGetUserId();
           }
@@ -145,7 +147,8 @@ export default {
             const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if (isIOS) {
-                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+              let op = { method: "jsCallIosGetUserId", data: { "value": "" } }
+             window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
             } else if (isAndroid) {
                 window.android.jsCallAndroidGetUserId();
          }
@@ -166,7 +169,8 @@ export default {
             const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if (isIOS) {
-                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+             let op = { "method": "jsCallIosGetUserId", "data": { "value": "" } }
+             window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
             } else if (isAndroid) {
                 window.android.jsCallAndroidGetUserId();
          }

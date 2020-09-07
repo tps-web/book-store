@@ -38,7 +38,9 @@ export default {
               }
           }))
       }else{
-            window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+             let op = { method: "jsCallIosGetUserId", data: { "value": "" } }
+             window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
+            // window.webkit.messageHandlers.jsCallIosGetUserId.postMessage()
       }
     },
     //android
@@ -56,7 +58,7 @@ export default {
                     this.$router.replace('/zVip')
               }
           }))
-      }else{
+      }else{  
             window.android.jsCallAndroidGetUserId();
             // const u = navigator.userAgent;
             // const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);

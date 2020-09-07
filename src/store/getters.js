@@ -27,7 +27,7 @@ export default {
             //非会员
             Object.values(state.shopCart).forEach((goods, index) => {
                     if (goods.checked) {
-                        totalPrice += goods.price * 100
+                        totalPrice += (goods.price * goods.bookQuantity * 100)
                     }
                 })
                 // state.allTotal = totalPrice / 100
@@ -36,7 +36,7 @@ export default {
             //会员
             Object.values(state.shopCart).forEach((goods, index) => {
                     if (goods.checked) {
-                        totalPrice += goods.memberPrice * 100
+                        totalPrice += (goods.memberPrice * goods.bookQuantity * 100)
                     }
                 })
                 // state.allTotal = totalPrice / 100
@@ -63,7 +63,7 @@ export default {
                 let totalPrice = 0;
                 Object.values(state.shopCart).forEach((goods, index) => {
                         if (goods.checked) {
-                            totalPrice += goods.price * 100
+                            totalPrice += (goods.price * goods.bookQuantity * 100)
                         }
                     })
                     //减钱
@@ -83,7 +83,7 @@ export default {
                 let totalPrice = 0;
                 Object.values(state.shopCart).forEach((goods, index) => {
                     if (goods.checked) {
-                        totalPrice += goods.price * 100
+                        totalPrice += (goods.price * goods.bookQuantity * 100)
                     }
                 })
                 var total = (totalPrice / 100).toFixed(2)
@@ -98,7 +98,7 @@ export default {
                 let totalPrice = 0;
                 Object.values(state.shopCart).forEach((goods, index) => {
                         if (goods.checked) {
-                            totalPrice += goods.memberPrice * 100
+                            totalPrice += (goods.memberPrice * goods.bookQuantity * 100)
                         }
                     })
                     //减钱
@@ -118,7 +118,7 @@ export default {
                 let totalPrice = 0;
                 Object.values(state.shopCart).forEach((goods, index) => {
                     if (goods.checked) {
-                        totalPrice += goods.memberPrice * 100
+                        totalPrice += (goods.memberPrice * goods.bookQuantity * 100)
                     }
                 })
                 var total = (totalPrice / 100).toFixed(2)
@@ -182,7 +182,7 @@ export default {
         let tatal = 0;
         Object.values(state.shopCart).forEach((good, index) => {
             if (good.checked) {
-                tatal += good.allPrice * 100
+                tatal += (good.allPrice * good.bookQuantity * 100)
             }
         });
         return (tatal / 100).toFixed(2);

@@ -33,6 +33,7 @@
          <van-cell title="优惠券" :value="formatTwo(listItem.couponAmount)" size="large" title-style="text-align: left;font-size: 14px;"/>
          <div class="total">支付金额：<span style="color:red">￥{{listItem.payAmount|decimals}}</span></div>
      </div>
+     <van-cell title="备注："  :value="listItem.remark" value-class="valueClass" title-style="text-align: left;font-size: 14px;flex: 0.2;" />
       <!-- 订单号信息 -->
       <div class="orderBox">
           <div class="left">
@@ -181,7 +182,9 @@ destroyed(){
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if(isIOS){
                 // window.iOS.iOSToPay(op);
-                window.webkit.messageHandlers.iOSToPay.postMessage(op)
+            let data={method:"iOSToPay",data: res.data.item}
+            window.webkit.messageHandlers.iOSToPay.postMessage(JSON.stringify(data))
+                // window.webkit.messageHandlers.iOSToPay.postMessage(op)
             }else if(isAndroid){
                 window.android.androidToPay(op);    //js 调用android
             }
@@ -526,5 +529,8 @@ destroyed(){
   width: 96%;
   margin: 6px auto;
   height: 44px;
+}
+.valueClass{
+    text-align: left;
 }
 </style>

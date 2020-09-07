@@ -191,7 +191,9 @@ export default {
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if(isIOS){
                 // window.iOS.iOSToPay(op);
-                window.webkit.messageHandlers.iOSToPay.postMessage(op)
+                // window.webkit.messageHandlers.iOSToPay.postMessage(op)
+                 let data={method:"iOSToPay",data: res.data.item}
+                 window.webkit.messageHandlers.iOSToPay.postMessage(JSON.stringify(data))
             }else if(isAndroid){
                 window.android.androidToPay(op);    //js 调用android
             }

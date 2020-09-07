@@ -176,7 +176,6 @@ export function formatGoods(list) {
 
 //买断  修改书单信息
 export function bugFormatGoods(list) {
-    console.log(list[0])
     var newData = []
     list.map((ele) => {
         newData.push({

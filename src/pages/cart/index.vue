@@ -52,13 +52,14 @@
                       <span>￥{{item.allPrice|decimals}}</span>
                  </div> -->
                  <!-- {{item.bookQuantity}} -->
-                 <!-- <div class="shopDeal">
+
+                 <div class="shopDeal">
                      <span @click="reduceGoods(item)">-</span>
                        <input type="number"
                            disabled
                            v-model="item.bookQuantity">
                      <span @click="addGoods(item)">+</span>
-                 </div> -->
+                 </div>
                 <!-- <div class="bookPrice">
                   <div style="display:inline-block;text-decoration: line-through;margin-right:4px;font-size:14px" v-show="item.rebatePrice">
                     <span style="font-size:12px;margin-right:2px;">￥</span>{{item.allPrice}}</div>
@@ -166,8 +167,11 @@ export default {
   },
   created(){
     this.userLogin=getToken()
+    if(getToken()){
+      this.$store.dispatch('getUserInfoChange')
+    }
     // this.$toast(this.userLogin)
-    console.log(this.getShopCart)
+    // console.log(this.getShopCart)
   },
   methods:{
     login(){
@@ -175,19 +179,27 @@ export default {
             const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if (isIOS) {
-                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+               let op = { "method": "jsCallIosGetUserId", "data": { "value": "" } }
+               window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
             } else if (isAndroid) {
                 window.android.jsCallAndroidGetUserId();
          }
     },
    ...mapMutations([ 'SINGLE_SELECT_GOODS', 'ALL_SELECT_GOODS', 'DELETE_SELECT_GOODS']),
-   ...mapActions(['deleteGoods']),
-  //  reduceGoods(item){
-  //     console.log(item)
-  //  },
-  //  addGoods(item){
-  //     console.log(item)
-  //  },
+   ...mapActions(['deleteGoods','addToCart']),
+   reduceGoods(item){
+      if(item.bookQuantity===1){
+        this.$toast('该书籍不能减少了哟~')
+      }else{
+        var num= item.bookQuantity
+        let op={id:item.cartId,cartId:item.id,quantity:--num}
+        this.addToCart(op)
+      }
+   },
+   addGoods(item){
+      console.log(item)
+      item.bookQuantity++
+   },
     godesc(item){
       // console.log(item)
       this.$router.push(`/goodsDetails/${item.id}`)

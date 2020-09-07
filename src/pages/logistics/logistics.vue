@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-if="lnglat.length>=2">
+  <div class="" >
     <!-- <Map v-if="lnglat.length>=2" :lnglat="lnglat"  :sent='sent' :receiver='receiver' /> -->
     <div class="box">
         <div class="top">
@@ -40,8 +40,7 @@ export default {
   },
   created(){
     getLogistics(this.$route.params.id).then(res=>{
-      // console.log(res.data)
-      this.getLogisticsSent(res.data.sent.address,res.data.receiver.address)
+      // this.getLogisticsSent(res.data.sent.address,res.data.receiver.address)
       // this.getLogisticsReceiver(res.data.receiver.Address)
       this.deliveryCompany=res.data.order.deliveryCompany
       this.deliverySn=res.data.order.deliverySn

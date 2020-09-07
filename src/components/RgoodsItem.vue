@@ -96,17 +96,7 @@ export default {
 	border-radius: 4px;
 	margin:0 4px;
 }
-.price{
-  margin-top: 4px;
-  padding: 8px 6px;
-  width: 100%;
-  height: 24px;
-  font-size: 12px;
-  text-align: left;
-  color: rgba(252,86,80,1);
-  display: flex;
-  justify-content: space-between;
-}
+
 .imgBox{
     display:-webkit-flex;
     display:flex;
@@ -144,7 +134,20 @@ export default {
   margin-top: 8px;
   font-size: 14px; 
 }
+.price{
+  margin-top: 4px;
+  padding: 8px 6px;
+  width: 100%;
+  /* height: 24px; */
+  font-size: 12px;
+  text-align: left;
+  color: rgba(252,86,80,1);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
 .left{
+  width: 50%;
   margin-top: 6px;
 }
 .right{
@@ -159,7 +162,7 @@ export default {
   text-align: center;
   border-radius: 4px;
   margin-top: 8px;
-  margin-right: 3px;
+  /* margin-right: 3px; */
 }
 .merberTit{
   background: #000;

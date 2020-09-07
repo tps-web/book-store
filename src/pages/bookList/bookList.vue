@@ -63,7 +63,7 @@ export default {
        finished:false, //是否加载完
        loading:false,  //下拉
        curPage:1, //当前页面
-       pageRows:6, //请求一页有多少数据
+       pageRows:1, //请求一页有多少数据
        list:[],  
        total:0,
        topBg:{
@@ -131,7 +131,7 @@ export default {
             // if (this.list.length >= this.total) {
             //    this.finished = true;
             // }
-        }, 300);
+        }, 100);
      }
   }
 }

@@ -10,7 +10,8 @@ import {
     isRendOrder,
     getOrderType,
     getAllDataByType,
-    isExpressOreder
+    isExpressOreder,
+    updateCart
 } from '@/api'
 // var info = JSON.parse(getToken())
 import { formatAddress } from '@/utils'
@@ -18,6 +19,17 @@ import {
     Toast
 } from 'vant'
 export default {
+    getUserInfoChange({ dispatch, state, commit }) {
+        var total = 0
+        isRendOrder().then(res => {
+            isExpressOreder().then(response => {
+                var expressNum = response.data.total
+                total = res.data.total + expressNum
+                    // console.log(total)
+                commit('ISRENDORDER', total)
+            })
+        })
+    },
     //得到用户信息
     getUserInfo({ dispatch, state, commit }) {
         var info = JSON.parse(getToken())
@@ -82,8 +94,8 @@ export default {
             //用户是否为空
         if (state.userInfo) {
             if (shopCart[goods.id]) {
-                // console.log('购物车已有此书')
                 Toast('购物车已有此书')
+                console.log(shopCart[goods.id])
             } else {
                 let op = {
                     "bookId": goods.id,
@@ -102,7 +114,6 @@ export default {
                 saveCart(op).then(res => {
                     Toast('加入购物车成功！')
                         // console.log(res)
-                        // commit('ADD_TO_CART', goods, 1)
                     dispatch('getCartList')
                 })
             }
@@ -112,11 +123,26 @@ export default {
             const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
             const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
             if (isIOS) {
-                window.webkit.messageHandlers.ios.jsCallIosGetUserId()
+                Toast('测试')
+                let op = { "method": "jsCallIosGetUserId", "data": { "value": "" } }
+                window.webkit.messageHandlers.jsCallIosGetUserId.postMessage(JSON.stringify(op))
             } else if (isAndroid) {
                 window.android.jsCallAndroidGetUserId();
             }
         }
+    },
+    //添加购物车
+    updataCart({ state, commit, dispatch }, data) {
+        // console.log(data)
+        let op = {
+            id: data.id,
+            quantity: data.quantity,
+            userId: state.userInfo.userId,
+            userNickName: state.userInfo.userNickName
+        }
+        updateCart(op).then(res => {
+            dispatch('getCartList')
+        })
     },
     //删除购物车
     deleteGoods({ state, commit }) {

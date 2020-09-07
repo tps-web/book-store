@@ -21,6 +21,7 @@
        </section>
        </div>
       </div>
+      {{newList[0]}}
       <div class="bugBtn">
           <div class="checkBox"> 
                 <van-checkbox v-model="isCheckedAll" style="height:50px;line-height:50px"
@@ -46,7 +47,7 @@ export default {
   data () {
     return {
         getShopCart:'',
-        newList:[]
+        newList:[],
     }
   },
   computed:{
@@ -98,15 +99,34 @@ export default {
       // getOrderDesc( this.$route.params.id ).then(res=>{
       //   var arr=res.data.item.list
       //   let op={curPage :1,isHotSearch :0,pageRows :1 }
-      //   arr.forEach(ele=>{
+      //    arr.forEach(ele=>{
       //       op.id=ele.bookId
       //      getBookDesc(op).then(res=>{
-      //          this.newList.push(res.data.book) 
+      //        this.newList.push(res.data.book) 
       //      })
       //   })
+      // }).then(()=>{
+      //   if(JSON.parse(JSON.stringify(this.newList)).length>0){
+      //      console.log(JSON.parse(JSON.stringify(this.newList)))
+      //   }
       // })
+      // this.forData()
   },
   methods:{
+    // forData(){
+    //   getOrderDesc( this.$route.params.id ).then(res=>{
+    //     var arr=res.data.item.list
+    //     let op={curPage :1,isHotSearch :0,pageRows :1 }
+    //     arr.forEach(ele=>{
+    //       op.id=ele.bookId
+    //       getBookDesc(op).then(res=>{
+    //         this.newList.push(res.data.book) 
+    //       })
+    //     })
+    //   }).then(res=>{
+    //     //  console.log(JSON.parse(JSON.stringify(this.newList)))
+    //   })
+    // },
       ...mapMutations(['ALL_SELECT_RENT']),
     single(item,index){
         this.$store.commit('SELETE_GOODS_RENT',index)

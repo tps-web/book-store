@@ -495,6 +495,14 @@ export function listAll() {
     })
 }
 
+// /order/cart/update 修改购物车对象
+export function updateCart(data) {
+    return request({
+        url: `/order/cart/update`,
+        method: 'post',
+        data
+    })
+}
 
 export function allSeriesStory() {
     return servise({

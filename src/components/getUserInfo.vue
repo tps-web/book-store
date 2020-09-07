@@ -28,35 +28,36 @@ export default {
   mounted(){
      window.androidCallJs = this.androidCallJs;
      window.isTrue = false
-     androidCallJs(169)  
+    //  androidCallJs(169)  
     //  androidCallJs(200)  
   },
  methods:{
    iOSCallJs(id){
      if(id){
-        if(!isTrue){
+        // if(!isTrue){
               axios.all([getUserInfoById(id),getUserMemberById(id)])
               .then(axios.spread((UserInfo,UserMember)=>{
                     // alert(UserInfo.data.item.userId)
                   setToken(UserInfo.data)
                   store.dispatch('getUserInfo')
-                  isTrue=true
+                  // isTrue=true
                   //  alert(UserMember.data.item.data.userId)
                   store.commit('GETMEMBERINFO',UserMember.data.item.data)
                   this.$router.replace('/')
             }))
               //  return "用户得到"
-         }else{
-                // return "请求过了"
-         }
+        //  }else{
+        //         // return "请求过了"
+        //  }
      }else{
        //没有id 
         this.$router.replace('/')
      }
    },
+   //安卓
     androidCallJs(id){
       if(id){
-          if(!isTrue){
+          // if(!isTrue){
               axios.all([getUserInfoById(id),getUserMemberById(id)])
               .then(axios.spread((UserInfo,UserMember)=>{
                     // alert(UserInfo.data.item.userId)
@@ -69,9 +70,9 @@ export default {
                   // this.$router.push('/')
               }))
                return "用户得到"
-            }else{
-                return "请求过了"
-            }
+            // }else{
+            //     return "请求过了"
+            // }
       }
       else{
           // setToken(info.data)
